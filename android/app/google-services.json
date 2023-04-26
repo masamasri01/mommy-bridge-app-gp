@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "902314237344",
+    "project_id": "gp11-1b161",
+    "storage_bucket": "gp11-1b161.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902314237344:android:3d686972861b08d83158c5",
+        "android_client_info": {
+          "package_name": "com.example.chat_one_to_one"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "902314237344-mf0ijmugb8s392qep86ubca21aearibb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsQecrDmpiUMG5P3jw_j9D4lTelB1js24"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "902314237344-mf0ijmugb8s392qep86ubca21aearibb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "902314237344-d9fj9a533o17v23bl6o2ohevn0ik532s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.chatOneToOne"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902314237344:android:74f4f17862e26d7e3158c5",
+        "android_client_info": {
+          "package_name": "com.example.gp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "902314237344-mf0ijmugb8s392qep86ubca21aearibb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsQecrDmpiUMG5P3jw_j9D4lTelB1js24"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "902314237344-mf0ijmugb8s392qep86ubca21aearibb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "902314237344-d9fj9a533o17v23bl6o2ohevn0ik532s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.chatOneToOne"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
