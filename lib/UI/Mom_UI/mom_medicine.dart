@@ -7,16 +7,30 @@ import 'package:gp/UI/staff_functionalities/widgets/med_widget.dart';
 import 'package:gp/UI/widgets/custom_appBar.dart';
 import 'package:gp/UI/widgets/custum_button.dart';
 import 'package:gp/UI/widgets/dropdownbutton.dart';
-import 'package:gp/core/API/my_children.dart';
-import 'package:gp/core/Texts/text.dart';
+
 import 'package:provider/provider.dart';
 
-class MedicineDetails extends StatelessWidget {
+class MedicineDetails extends StatefulWidget {
   MedicineDetails({super.key});
 
-  String dropdownvalue = 'Item 1';
+  @override
+  State<MedicineDetails> createState() => _MedicineDetailsState();
+}
+
+class _MedicineDetailsState extends State<MedicineDetails> {
+  late List mySonsList;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Provider.of<MomProvider>(context, listen: false).getMySonsList();
+    mySonsList = Provider.of<MomProvider>(context, listen: false).mySonsList;
+  }
+
   @override
   Widget build(BuildContext context) {
+    String dropdownvalue = mySonsList[0]["fullName"];
+
     return Consumer<MomProvider>(builder: (context, provider, x) {
       return Scaffold(
         appBar: ab('Medicine'.tr()),
@@ -39,7 +53,9 @@ class MedicineDetails extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('Medicine name:'.tr()),
-                              TextField(),
+                              TextField(
+                                controller: provider.medicineNameC,
+                              ),
                               SizedBox(
                                 height: 10,
                               ),
@@ -64,6 +80,7 @@ class MedicineDetails extends StatelessWidget {
                                         Text('For how many days?'.tr()),
                                         TextField(
                                           keyboardType: TextInputType.number,
+                                          controller: provider.noDaysC,
                                         ),
                                         SizedBox(
                                           height: 10,
@@ -73,6 +90,7 @@ class MedicineDetails extends StatelessWidget {
                               Text('How many doses per days?'.tr()),
                               TextField(
                                 keyboardType: TextInputType.number,
+                                controller: provider.noDoses,
                               ),
                               SizedBox(
                                 height: 10,
@@ -82,21 +100,36 @@ class MedicineDetails extends StatelessWidget {
                                 height: 10,
                               ),
                               Align(
-                                child: myDropdownButton(
-                                    val: mychildrenList[0]['name'],
-                                    itemss: mychildrenList
-                                        .map((e) => e['name'].toString())
-                                        .toList()),
+                                child: MyDropdownButton(
+                                  value: dropdownvalue,
+                                  items: mySonsList
+                                      .map((e) => e['fullName'].toString())
+                                      .toList(),
+                                  onChanged: (String newValue) {
+                                    dropdownvalue = newValue;
+                                    for (var element in mySonsList) {
+                                      if (element["fullName"] == newValue) {
+                                        provider
+                                            .setChildChosenId(element["_id"]);
+                                      }
+                                    }
+                                  },
+                                ),
                               ),
                               SizedBox(
                                 height: 10,
                               ),
                               Text('More details?'.tr()),
-                              TextField(),
+                              TextField(
+                                controller: provider.details,
+                              ),
                               Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 0),
                                   child: elevatedButon(
-                                      text: 'Add'.tr(), onPressed: () {})),
+                                      text: 'Add'.tr(),
+                                      onPressed: () {
+                                        provider.addMedicine();
+                                      })),
                               Divider()
                             ],
                           ),

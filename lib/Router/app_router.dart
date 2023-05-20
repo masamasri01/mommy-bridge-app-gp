@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gp/Providers/App_provider.dart';
 import 'package:gp/core/Colors/colors.dart';
 import 'package:gp/core/Texts/text.dart';
 import 'package:gp/UI/staff_functionalities/meals.dart';
 import 'package:gp/UI/widgets/custum_button.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:provider/provider.dart';
 
 class AppRouter {
   AppRouter._();
@@ -62,12 +64,15 @@ class AppRouter {
     }));
   }
 
-  TextEditingController controller = new TextEditingController();
   String announcement = '';
-  showAddAnnouncement() {
+  showAddAnnouncement(token) {
     return showDialog(
         context: navigatorKey.currentContext!,
         builder: (BuildContext context) {
+          Provider.of<AppProvider>(context, listen: false).setUserToken(token);
+          TextEditingController controller =
+              Provider.of<AppProvider>(context, listen: false)
+                  .announceController;
           return AlertDialog(
             title: Center(child: pinkText('Add Announcement'.tr())),
             insetPadding: const EdgeInsets.symmetric(
@@ -75,7 +80,7 @@ class AppRouter {
               vertical: 30.0,
             ),
             content: SizedBox(
-              height: 225,
+              height: 235,
               width: 280,
               child: Padding(
                 padding: const EdgeInsets.all(1.0),
@@ -113,7 +118,9 @@ class AppRouter {
                           elevatedButon(
                               text: ('Announce'.tr()),
                               onPressed: () {
-                                // Navigator.pop(context);
+                                Provider.of<AppProvider>(context, listen: false)
+                                    .createAnnouncement();
+                                Navigator.pop(context);
                               }),
                         ],
                       ),

@@ -17,6 +17,7 @@ class TextArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    f() {}
     return Container(
       margin: EdgeInsets.all(12),
       child: TextField(
@@ -29,7 +30,7 @@ class TextArea extends StatelessWidget {
             hintText: this.hint,
             filled: true),
         controller: controller,
-        maxLines: 5,
+        maxLines: 4,
         // onChanged: (v) {
         //   setState(() {
         //     announcement = v;

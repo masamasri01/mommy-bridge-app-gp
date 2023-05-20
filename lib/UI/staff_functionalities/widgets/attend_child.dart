@@ -1,12 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:gp/Providers/App_provider.dart';
 import 'package:gp/UI/staff_functionalities/widgets/childtile_2.dart';
 import 'package:gp/UI/widgets/custom_ceckbox.dart';
+import 'package:provider/provider.dart';
 
 class AttendanceChildtile extends StatefulWidget {
-  String name;
-  String image;
+  String? name;
+  String? image;
   int index;
   bool? checked;
   bool? attendance;
@@ -26,6 +28,8 @@ class AttendanceChildtile extends StatefulWidget {
 class _AttendanceChildtileState extends State<AttendanceChildtile> {
   @override
   Widget build(BuildContext context) {
+    Provider.of<AppProvider>(context)
+        .setattendance(widget.index, widget.checked!);
     return Column(
       children: [
         Row(
@@ -36,6 +40,8 @@ class _AttendanceChildtileState extends State<AttendanceChildtile> {
                   setState(() {
                     widget.checked = value;
                   });
+                  // Provider.of<AppProvider>(context)
+                  //     .setattendance(widget.index, widget.checked!);
                 }),
             ChildTile2(
               index: this.widget.index,

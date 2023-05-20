@@ -1,67 +1,159 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+
 import 'package:gp/Providers/App_provider.dart';
 import 'package:gp/Providers/Mom_provider.dart';
 import 'package:gp/Providers/Teacher_provider.dart';
 import 'package:gp/UI/widgets/custum_button.dart';
 import 'package:gp/UI/widgets/text_area.dart';
-
 import 'package:gp/core/API/children.dart';
 import 'package:gp/core/Colors/colors.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 
-class childProfileForMom extends StatelessWidget {
+class childProfileForMom extends StatefulWidget {
+  String childId;
+  bool forMom = true;
+  childProfileForMom({Key? key, required this.childId, this.forMom = true})
+      : super(key: key);
+
+  @override
+  State<childProfileForMom> createState() => _childProfileForMomState();
+}
+
+class _childProfileForMomState extends State<childProfileForMom> {
+  var res;
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Provider.of<MomProvider>(context, listen: false)
+        .getMyChildData(widget.childId);
+    res = Provider.of<MomProvider>(context, listen: false).childData;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          const StackContainer(),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+    return (widget.forMom == true)
+        ? Consumer<MomProvider>(builder: (context, prov, x) {
+            Provider.of<MomProvider>(context, listen: false)
+                .getMyChildData(widget.childId);
+            return Scaffold(
+                body: SingleChildScrollView(
               child: Column(
-                children: [
-                  CardItem(
-                    label: "Class".tr(),
-                    text: "ABC",
-                    ss: "",
-                  ),
-                  CardItem(
-                      label: "Birth Of Date".tr(),
-                      text: "16/7/2019",
-                      edit: true,
-                      ss: "date"),
-                  CardItem(
-                      label: "Address".tr(),
-                      text: "Rafidia Street",
-                      edit: true,
-                      ss: "address"),
-                  CardItem(
-                    label: "Hobbies & Preferences".tr(),
-                    text: "masa.masri@gmail.com",
-                    islist: true,
-                    list: ["Pasta", "football", "Hide & Seek"],
-                    edit: true,
-                    add: true,
-                    ss: "hobby",
-                  ),
-                  CardItem(
-                    label: "Food Allergies from".tr(),
-                    text: "059484744",
-                    islist: true,
-                    list: ["Eggs", "milk"],
-                    ss: "allergy",
-                    edit: true,
-                    add: true,
-                  ),
+                children: <Widget>[
+                  StackContainer(name: prov.childData["fullName"]),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Column(
+                        children: [
+                          CardItem(
+                            label: "Class".tr(),
+                            text: prov.childData["classId"]["className"] ??
+                                "not entered",
+                            ss: "",
+                          ),
+                          CardItem(
+                              label: "Birth Of Date".tr(),
+                              text:
+                                  prov.childData["birthDate"] ?? "not entered",
+                              edit: false,
+                              ss: "date"),
+                          CardItem(
+                            label: "Address".tr(),
+                            text: prov.childData["address"] ?? "not entered",
+                            edit: true,
+                            ss: "address",
+                            childId: widget.childId,
+                          ),
+                          CardItem(
+                            label: "Hobbies & Preferences".tr(),
+                            text: "masa.masri@gmail.com",
+                            islist: true,
+                            list: prov.childData["hobbies"] ?? [],
+                            edit: true,
+                            add: true,
+                            ss: "hobby",
+                            childId: widget.childId,
+                          ),
+                          CardItem(
+                            label: "Food Allergies from".tr(),
+                            text: "059484744",
+                            islist: true,
+                            list: prov.childData["allergies"] ?? [],
+                            ss: "allergy",
+                            edit: true,
+                            add: true,
+                            childId: widget.childId,
+                          ),
+                        ],
+                      )),
                 ],
-              )),
-        ],
-      ),
-    ));
+              ),
+            ));
+          })
+        : Consumer<TeacherProvider>(builder: (context, prov, x) {
+            Provider.of<TeacherProvider>(context, listen: false)
+                .getMyChildData(widget.childId);
+            return Scaffold(
+                body: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  StackContainer(name: prov.childData["fullName"]),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Column(
+                        children: [
+                          CardItem(
+                            label: "Class".tr(),
+                            text: prov.childData["classId"]["className"] ??
+                                "not entered",
+                            ss: "",
+                          ),
+                          CardItem(
+                              label: "Birth Of Date".tr(),
+                              text:
+                                  prov.childData["birthDate"] ?? "not entered",
+                              edit: false,
+                              ss: "date"),
+                          CardItem(
+                            label: "Address".tr(),
+                            text: prov.childData["address"] ?? "not entered",
+                            edit: false,
+                            ss: "address",
+                            childId: widget.childId,
+                          ),
+                          CardItem(
+                            label: "Hobbies & Preferences".tr(),
+                            text: "masa.masri@gmail.com",
+                            islist: true,
+                            list: prov.childData["hobbies"] ?? [],
+                            edit: false,
+                            add: true,
+                            ss: "hobby",
+                            childId: widget.childId,
+                          ),
+                          CardItem(
+                            label: "Food Allergies from".tr(),
+                            text: "059484744",
+                            islist: true,
+                            list: prov.childData["allergies"] ?? [],
+                            ss: "allergy",
+                            edit: false,
+                            add: true,
+                            childId: widget.childId,
+                          ),
+                        ],
+                      )),
+                ],
+              ),
+            ));
+          });
   }
 }
 
@@ -91,7 +183,7 @@ class TopBar extends StatelessWidget {
   }
 }
 
-List<String> s = [];
+//List<String> s = [];
 
 class CardItem extends StatelessWidget {
   String label;
@@ -100,7 +192,8 @@ class CardItem extends StatelessWidget {
   bool edit;
   String ss;
   bool add;
-  List<String> list;
+  List list;
+  String? childId;
   CardItem(
       {Key? key,
       required this.label,
@@ -109,6 +202,7 @@ class CardItem extends StatelessWidget {
       this.islist = false,
       this.edit = false,
       this.add = false,
+      this.childId,
       this.list = const ["x"]})
       : super(key: key);
 
@@ -163,11 +257,11 @@ class CardItem extends StatelessWidget {
                     onPressed: () {
                       if (ss == "date")
                         date(context);
-                      else if (ss == "address")
+                      else if (ss == "address") {
                         address(context);
-                      else if (ss == "allergy")
+                      } else if (ss == "allergy") {
                         allergy(context);
-                      else if (ss == "hobby") hobby(context);
+                      } else if (ss == "hobby") hobby(context);
                     },
                     icon: Icon(
                       add ? Icons.add : Icons.edit,
@@ -215,9 +309,7 @@ class CardItem extends StatelessWidget {
               height: 150,
               child: Column(
                 children: [
-                  TextField(
-                    keyboardType: TextInputType.number,
-                  ),
+                  TextField(),
                   SizedBox(
                     height: 30,
                   ),
@@ -246,7 +338,28 @@ class CardItem extends StatelessWidget {
                           Provider.of<MomProvider>(context, listen: false)
                               .allergyNameController),
                   Divider(),
-                  elevatedButon(text: 'Add'.tr(), onPressed: () {}),
+                  elevatedButon(
+                      text: 'Add'.tr(),
+                      onPressed: () {
+                        print("adding allergy, allergy controller text:" +
+                            Provider.of<MomProvider>(context, listen: false)
+                                .allergyNameController
+                                .text +
+                            "child id = " +
+                            childId!);
+                        Provider.of<MomProvider>(context, listen: false)
+                            .addAllergy(
+                                childId!,
+                                Provider.of<MomProvider>(context, listen: false)
+                                    .allergyNameController
+                                    .text);
+                        Provider.of<MomProvider>(context, listen: false)
+                            .allergyNameController
+                            .clear();
+                        Provider.of<MomProvider>(context, listen: false)
+                            .getMyChildData(childId!);
+                        Navigator.pop(context);
+                      }),
                   Divider(),
                 ]),
               ));
@@ -270,7 +383,28 @@ class CardItem extends StatelessWidget {
                           Provider.of<MomProvider>(context, listen: false)
                               .preferenceNameController),
                   Divider(),
-                  elevatedButon(text: 'Add'.tr(), onPressed: () {}),
+                  elevatedButon(
+                      text: 'Add'.tr(),
+                      onPressed: () {
+                        print("adding hobby, allergy controller text:" +
+                            Provider.of<MomProvider>(context, listen: false)
+                                .preferenceNameController
+                                .text +
+                            "child id = " +
+                            childId!);
+                        Provider.of<MomProvider>(context, listen: false)
+                            .addHobby(
+                                childId!,
+                                Provider.of<MomProvider>(context, listen: false)
+                                    .preferenceNameController
+                                    .text);
+                        Provider.of<MomProvider>(context, listen: false)
+                            .preferenceNameController
+                            .clear();
+                        Provider.of<MomProvider>(context, listen: false)
+                            .getMyChildData(childId!);
+                        Navigator.pop(context);
+                      }),
                   Divider(),
                 ]),
               ));
@@ -295,7 +429,11 @@ class MyCustomClipper extends CustomClipper<Path> {
 }
 
 class StackContainer extends StatelessWidget {
-  const StackContainer({super.key});
+  String name;
+  StackContainer({
+    Key? key,
+    required this.name,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -375,8 +513,8 @@ class StackContainer extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4.0),
-                const Text(
-                  "Eleen Masri",
+                Text(
+                  this.name,
                   style: TextStyle(
                     fontSize: 21.0,
                     fontWeight: FontWeight.bold,

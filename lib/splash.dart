@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gp/Router/app_router.dart';
 import 'package:gp/UI/Landing_page/landing_page.dart';
+import 'package:gp/UI/sign_in_page.dart';
 import 'package:gp/UI/widgets/appbar_widget.dart';
 import 'package:gp/settings_controller.dart/settingscontroller.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +24,7 @@ class SplashPage extends StatelessWidget {
     setTheme(context);
 
     Future.delayed(Duration(seconds: 2)).then(
-      (value) => AppRouter.appRouter.goToWidgetAndReplace(LandingPage()),
+      (value) => AppRouter.appRouter.goToWidgetAndReplace(SignInPage1()),
     );
 
     return Scaffold(

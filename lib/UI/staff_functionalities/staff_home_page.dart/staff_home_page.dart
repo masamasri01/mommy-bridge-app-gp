@@ -10,7 +10,6 @@ import 'package:gp/UI/widgets/appbar_widget.dart';
 import 'package:gp/UI/staff_functionalities/accident.dart';
 import 'package:gp/UI/staff_functionalities/activities.dart';
 import 'package:gp/UI/staff_functionalities/attendance.dart';
-import 'package:gp/UI/staff_functionalities/chat.dart';
 import 'package:gp/UI/staff_functionalities/meals.dart';
 import 'package:gp/UI/staff_functionalities/med.dart';
 import 'package:gp/UI/staff_functionalities/naps.dart';
@@ -19,7 +18,58 @@ import 'package:gp/UI/widgets/gridtile.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class StaffHomePage extends StatelessWidget {
-  StaffHomePage({super.key});
+  final token;
+  StaffHomePage({super.key, required this.token});
+  routMeals() {
+    AppRouter.appRouter.goToWidget(Meals());
+  }
+
+  routMom() {
+    AppRouter.appRouter.goToWidget(Moms());
+  }
+
+  routAnalysis() {
+    AppRouter.appRouter.goToWidget(LeaderGraph());
+  }
+
+  routMaterial() {
+    AppRouter.appRouter.goToWidget(const AddMatrial());
+  }
+
+  routHomework() {
+    AppRouter.appRouter.goToWidget(Homework());
+  }
+
+  routNaps() {
+    AppRouter.appRouter.goToWidget(Naps(
+      token: token,
+    ));
+  }
+
+  void routAct() {
+    AppRouter.appRouter.goToWidget(const Activities());
+  }
+
+  void routAcc() {
+    AppRouter.appRouter.goToWidget(Accident());
+  }
+
+  void routAnn() {
+    // AppRouter.appRouter.goToWidget(Announcements());
+    AppRouter.appRouter.showAddAnnouncement(token);
+  }
+
+  void routAtt() {
+    AppRouter.appRouter.goToWidget(const Attendance());
+  }
+
+  void routMed() {
+    AppRouter.appRouter.goToWidget(const Medicine());
+  }
+
+  void routFeed() {
+    AppRouter.appRouter.goToWidget(Feed());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,58 +139,5 @@ class StaffHomePage extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  routMom() {
-    AppRouter.appRouter.goToWidget(const Moms());
-  }
-
-  routAnalysis() {
-    AppRouter.appRouter.goToWidget(LeaderGraph());
-  }
-
-  routMaterial() {
-    AppRouter.appRouter.goToWidget(const AddMatrial());
-  }
-
-  routHomework() {
-    AppRouter.appRouter.goToWidget(const Homework());
-  }
-
-  routMeals() {
-    AppRouter.appRouter.goToWidget(const Meals());
-  }
-
-  void routNaps() {
-    AppRouter.appRouter.goToWidget(const Naps());
-  }
-
-  void routAct() {
-    AppRouter.appRouter.goToWidget(const Activities());
-  }
-
-  void routChat() {
-    AppRouter.appRouter.goToWidget(const Chat());
-  }
-
-  void routAcc() {
-    AppRouter.appRouter.goToWidget(Accident());
-  }
-
-  void routAnn() {
-    // AppRouter.appRouter.goToWidget(Announcements());
-    AppRouter.appRouter.showAddAnnouncement();
-  }
-
-  void routAtt() {
-    AppRouter.appRouter.goToWidget(const Attendance());
-  }
-
-  void routMed() {
-    AppRouter.appRouter.goToWidget(const Medicine());
-  }
-
-  void routFeed() {
-    AppRouter.appRouter.goToWidget(Feed());
   }
 }

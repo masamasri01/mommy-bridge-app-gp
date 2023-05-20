@@ -1,14 +1,23 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:gp/Providers/Mom_provider.dart';
 import 'package:gp/UI/Mom_UI/Activities.dart';
 import 'package:gp/UI/Mom_UI/Feed.dart';
 import 'package:gp/UI/Mom_UI/MomProfile.dart';
 import 'package:gp/chat/chat_home_page.dart';
 import 'package:gp/core/Colors/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:gp/practice%20db/config.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:gp/config.dart';
 
 class MomHomePage extends StatefulWidget {
-  const MomHomePage({super.key});
+  final token;
+  MomHomePage({super.key, required this.token});
 
   @override
   State<MomHomePage> createState() => _MomHomePage();
@@ -22,9 +31,20 @@ class _MomHomePage extends State<MomHomePage> {
     ChatHomePage(),
     MomProfileView()
   ];
+  String? userId;
+  List mychildrenList = List.filled(50, 0);
+  @override
+  void initState() {
+    super.initState();
+    // Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+
+    // userId = jwtDecodedToken['_id'];
+  }
 
   @override
   Widget build(BuildContext context) {
+    // Provider.of<MomProvider>(context, listen: false).setMomId(userId);
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       //   drawer: drawer(),

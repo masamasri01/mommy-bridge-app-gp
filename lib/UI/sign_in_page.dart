@@ -1,13 +1,21 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gp/Providers/Mom_provider.dart';
 import 'package:gp/Providers/Teacher_provider.dart';
 import 'package:gp/Router/app_router.dart';
 import 'package:gp/UI/Mom_UI/mom_home_page.dart';
 import 'package:gp/UI/staff_functionalities/staff_home_page.dart/staff_landing.dart';
+import 'package:gp/config.dart';
+import 'package:gp/practice%20db/config.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:supercharged/supercharged.dart';
+import 'package:http/http.dart' as http;
 
 class SignInPage1 extends StatefulWidget {
   @override
@@ -16,8 +24,65 @@ class SignInPage1 extends StatefulWidget {
 
 class _SignInPage1State extends State<SignInPage1> {
   final TextEditingController _emailController = TextEditingController();
-
+  late SharedPreferences prefs;
+  String? errorMessage = null;
   final TextEditingController _passwordController = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initSharedPref();
+  }
+
+  var token1;
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
+  var savedJsonRes;
+  Future<bool> loginUserToMongo(String n) async {
+    if (_emailController.text.isNotEmpty &&
+        _passwordController.text.isNotEmpty) {
+      var reqBody = {
+        "email": _emailController.text,
+        "password": _passwordController.text
+      };
+      http.Response response;
+      if (n == "m") {
+        response = await http.post(Uri.parse(loginMom),
+            headers: {"Content-Type": "application/json"},
+            body: jsonEncode(reqBody));
+      } else {
+        response = await http.post(Uri.parse(loginTeacher),
+            headers: {"Content-Type": "application/json"},
+            body: jsonEncode(reqBody));
+      }
+
+      var jsonResponse = jsonDecode(response.body);
+      savedJsonRes = jsonResponse;
+      // print('status is-----' + jsonResponse['status'].toString());
+      if (jsonResponse['status']) {
+        var myToken = jsonResponse['token'];
+        //    print(jsonResponse["name"] + "---------name----------");
+        //   prefs.setString('token', myToken);
+        token1 = myToken;
+        //  print('token is-----' + token1);
+        return true;
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => Dashboard2(token: myToken)));
+      } else {
+        log('Something went wrong');
+        setState(() {
+          errorMessage = "please inter proper data";
+        });
+
+        return false;
+      }
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,6 +190,7 @@ class _SignInPage1State extends State<SignInPage1> {
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
                                         hintText: "Email",
+                                        errorText: errorMessage,
                                         hintStyle:
                                             TextStyle(color: Colors.grey[400])),
                                   ),
@@ -137,6 +203,7 @@ class _SignInPage1State extends State<SignInPage1> {
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
                                         hintText: "Password",
+                                        errorText: errorMessage,
                                         hintStyle:
                                             TextStyle(color: Colors.grey[400])),
                                   ),
@@ -189,7 +256,7 @@ class _SignInPage1State extends State<SignInPage1> {
                                           listen: false)
                                       .isTeacher = true;
                                   // AppRouter.appRouter.goToWidget(StaffLanding());
-                                  _signInWithEmailAndPassword(StaffLanding());
+                                  _signInWithEmailAndPassword('t');
                                 },
                               )),
                           FadeAnimation(
@@ -220,7 +287,7 @@ class _SignInPage1State extends State<SignInPage1> {
                                   Provider.of<TeacherProvider>(context,
                                           listen: false)
                                       .isTeacher = false;
-                                  _signInWithEmailAndPassword(MomHomePage());
+                                  _signInWithEmailAndPassword('m');
                                 },
                               ))
                         ],
@@ -235,18 +302,49 @@ class _SignInPage1State extends State<SignInPage1> {
   }
 
   // Sign in with email and password using Firebase Authentication
-  void _signInWithEmailAndPassword(Widget w) async {
+  void _signInWithEmailAndPassword(String n) async {
     try {
       // Call Firebase Authentication sign in method
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
 
-      // Navigate to home screen on successful sign in
+      bool userExistsInMongo = await loginUserToMongo(n);
+      print("ntoken is______________" + token1);
+      if (userExistsInMongo) {
+        if (n == 't') {
+          Provider.of<TeacherProvider>(context, listen: false)
+              .setSavedJsonRes(savedJsonRes);
+          Provider.of<TeacherProvider>(context, listen: false)
+              .setUserToken(token1);
+        } else {
+          Provider.of<MomProvider>(context, listen: false)
+              .setSavedJsonRes(savedJsonRes);
+          Provider.of<MomProvider>(context, listen: false).setUserToken(token1);
+        }
 
-      AppRouter.appRouter.goToWidgetAndReplace(w);
+        final userExistsInFirebase = await isUserExists(_emailController.text);
+        if (userExistsInFirebase) {
+          UserCredential userCredential =
+              await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: _emailController.text,
+            password: _passwordController.text,
+          );
+        } else {
+          // user does not exist in FB so create it then login
+
+          signUpWithFirebase(_emailController.text, _passwordController.text);
+          UserCredential userCredential =
+              await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: _emailController.text,
+            password: _passwordController.text,
+          );
+        }
+        // Navigate to home screen on successful sign in
+        AppRouter.appRouter.goToWidgetAndReplace(n == 'm'
+            ? MomHomePage(token: token1)
+            : StaffLanding(token: token1));
+      } else
+        setState(() {
+          errorMessage = "please inter proper data";
+        });
     } on FirebaseAuthException catch (e) {
       // Display error message on failed sign in
       if (e.code == 'user-not-found') {
@@ -255,6 +353,22 @@ class _SignInPage1State extends State<SignInPage1> {
         print('Wrong password provided for that user.');
       }
     }
+  }
+
+  Future<bool> isUserExists(String email) async {
+    final signInMethods =
+        await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
+    return signInMethods.isNotEmpty;
+  }
+
+  Future<UserCredential> signUpWithFirebase(
+      String email, String password) async {
+    final auth = FirebaseAuth.instance;
+    final result = await auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    return result;
   }
 }
 
@@ -271,7 +385,7 @@ class FadeAnimation extends StatelessWidget {
       ..add(AniProps.translateY, (-30.0).tweenTo(0.0).curved(Curves.easeOut));
 
     return PlayAnimation<MultiTweenValues<AniProps>>(
-      delay: Duration(milliseconds: (100 * delay).round()),
+      delay: Duration(milliseconds: (500 * delay).round()),
       duration: tween.duration,
       tween: tween,
       child: child,
@@ -288,17 +402,17 @@ class FadeAnimation extends StatelessWidget {
 
 enum AniProps { opacity, translateY }
 
-class AuthGate extends StatelessWidget {
-  const AuthGate({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return SignInPage1();
-          } else
-            return SignInPage1();
-        });
-  }
-}
+// class AuthGate extends StatelessWidget {
+//   const AuthGate({Key? key}) : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     return StreamBuilder(
+//         stream: FirebaseAuth.instance.authStateChanges(),
+//         builder: (context, snapshot) {
+//           if (snapshot.hasData) {
+//             return SignInPage1();
+//           } else
+//             return SignInPage1();
+//         });
+//   }
+// }

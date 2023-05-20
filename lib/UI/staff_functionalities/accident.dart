@@ -1,14 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-
-import 'package:gp/core/API/children.dart';
+import 'package:gp/Providers/App_provider.dart';
 import 'package:gp/core/Colors/colors.dart';
 import 'package:gp/Providers/Teacher_provider.dart';
 import 'package:gp/core/Texts/text.dart';
 import 'package:gp/UI/staff_functionalities/widgets/attend_child.dart';
 import 'package:gp/UI/widgets/custom_appBar.dart';
 import 'package:gp/UI/widgets/text_area.dart';
+import 'package:gp/practice%20db/config.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class Accident extends StatefulWidget {
   @override
@@ -25,15 +28,51 @@ class _AccidentState extends State<Accident> {
     'Trip',
     'Other',
   ];
+  List myClassChilrenList = [];
+  late List attendList;
+  TextEditingController accidentController = TextEditingController();
+  void addAccident() async {
+    print("-----------------");
+
+    for (int i = 0; i < myClassChilrenList.length; i++) {
+      if (attendList[i] == true) {
+        print("-----------------" + myClassChilrenList[i]['_id']);
+        var regBody = {
+          "accidentType": dropdownvalue,
+          "description": accidentController.text ?? "",
+          "childId": myClassChilrenList[i]['_id']
+        };
+
+        var response = await http.post(Uri.parse(accidentAdd),
+            headers: {"Content-Type": "application/json"},
+            body: jsonEncode(regBody));
+
+        var jsonResponse = jsonDecode(response.body);
+
+        print(jsonResponse['status']);
+
+        if (jsonResponse['status']) {
+        } else {
+          print("SomeThing Went Wrong");
+        }
+      }
+    }
+    accidentController.clear();
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
+    myClassChilrenList =
+        Provider.of<TeacherProvider>(context, listen: false).myChildrenList;
+    attendList = Provider.of<AppProvider>(context, listen: false).attendance;
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: ab("Record Accident/Incident".tr()),
       body: Column(
         children: [
           SizedBox(
-            height: 5,
+            height: 2,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -55,8 +94,7 @@ class _AccidentState extends State<Accident> {
               TextArea(
                   label: 'Add Description'.tr(),
                   hint: 'Enter Description'.tr(),
-                  controller:
-                      Provider.of<TeacherProvider>(context).accidentController),
+                  controller: accidentController),
             ],
           ),
           Divider(
@@ -65,21 +103,21 @@ class _AccidentState extends State<Accident> {
           navyText('Choose affected children:'.tr()),
           Expanded(
             child: ListView.builder(
-              itemCount: childrenList.length,
+              itemCount: myClassChilrenList.length,
               itemBuilder: (context, index) {
                 return AttendanceChildtile(
                   index: index,
-                  name: childrenList[index]['name'],
-                  image: childrenList[index]['image'],
+                  name: myClassChilrenList[index]['fullName'],
+                  image: myClassChilrenList[index]['image'],
                   checked: false,
                   attendance: false,
                 );
               },
             ),
           ),
-          Divider(
-            color: MyColors.color1,
-          ),
+          // Divider(
+          //   color: MyColors.color1,
+          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -88,9 +126,14 @@ class _AccidentState extends State<Accident> {
                 width: 30,
               ),
               Container(
-                margin: const EdgeInsets.only(right: 18),
+                margin: const EdgeInsets.only(right: 18, left: 18),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    attendList =
+                        Provider.of<AppProvider>(context, listen: false)
+                            .attendance;
+                    addAccident();
+                  },
                   child: boldText2('  Post  '.tr()),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: MyColors.color1),

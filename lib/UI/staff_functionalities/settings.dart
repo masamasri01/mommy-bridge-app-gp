@@ -1,18 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'package:gp/Providers/Teacher_provider.dart';
 import 'package:gp/Router/app_router.dart';
-import 'package:gp/UI/Landing_page/landing_page.dart';
 import 'package:gp/UI/Mom_UI/MomProfile.dart';
-import 'package:gp/UI/Mom_UI/mom_profile_view.dart';
 import 'package:gp/UI/sign_in_page.dart';
 import 'package:gp/UI/widgets/custum_button.dart';
-import 'package:gp/UI/widgets/drawer.dart';
-import 'package:gp/chat/sign_in_srceen.dart';
 import 'package:gp/core/Colors/colors.dart';
 import 'package:gp/settings_controller.dart/settingscontroller.dart';
-import 'package:provider/provider.dart';
 
 class StaffSettings extends StatefulWidget {
   @override
@@ -22,27 +19,28 @@ class StaffSettings extends StatefulWidget {
 class _StaffSettings extends State<StaffSettings> {
   @override
   Widget build(BuildContext context) {
+    var res = Provider.of<TeacherProvider>(context, listen: false).savedJsonRes;
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          const StackContainer(),
+          StackContainer(name: res["name"]),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 children: [
                   CardItem(
                     label: "Name".tr(),
-                    text: "Masa Masri",
+                    text: res["name"],
                     edit: false,
                   ),
                   CardItem(
                     label: "Email".tr(),
-                    text: "masa.masri@gmail.com",
+                    text: res["email"],
                     idx: 2,
                     edit: false,
                   ),
-                  CardItem(label: "Phone".tr(), text: "059484744", idx: 1),
+                  CardItem(label: "Phone".tr(), text: res["phone"], idx: 1),
                   // Card(
                   //     child: Padding(
                   //         padding: const EdgeInsets.symmetric(
@@ -221,7 +219,11 @@ class MyCustomClipper extends CustomClipper<Path> {
 }
 
 class StackContainer extends StatelessWidget {
-  const StackContainer({super.key});
+  String name;
+  StackContainer({
+    Key? key,
+    required this.name,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -265,8 +267,8 @@ class StackContainer extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4.0),
-                const Text(
-                  "Masa Masri",
+                Text(
+                  name,
                   style: TextStyle(
                     fontSize: 21.0,
                     fontWeight: FontWeight.bold,

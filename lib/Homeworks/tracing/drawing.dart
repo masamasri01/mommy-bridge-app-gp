@@ -32,6 +32,7 @@ class TracingGameState extends State<TracingGame> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Drawing Game'),
+        backgroundColor: MyColors.color3,
         actions: [
           IconButton(
             icon: Icon(Icons.photo_library),

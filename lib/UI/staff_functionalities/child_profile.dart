@@ -1,16 +1,21 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:gp/Router/app_router.dart';
 import 'package:gp/UI/Landing_page/landing_page.dart';
 import 'package:gp/UI/Mom_UI/MomProfile.dart';
 import 'package:gp/UI/Mom_UI/mom_profile_view.dart';
-import 'package:easy_localization/easy_localization.dart';
-
 import 'package:gp/core/API/children.dart';
 import 'package:gp/core/Colors/colors.dart';
 
 class childProfile extends StatelessWidget {
+  String childId;
+  childProfile({
+    Key? key,
+    required this.childId,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

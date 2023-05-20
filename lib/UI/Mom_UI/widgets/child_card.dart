@@ -6,12 +6,13 @@ import 'package:gp/Router/app_router.dart';
 import 'package:gp/UI/Mom_UI/widgets/timeline.dart';
 
 class ChildCard extends StatelessWidget {
-  final String img;
+  final String? img;
   final Color color;
-  final String heading;
+  final String? heading;
   final String description;
   final Color color1;
   final VoidCallback onPressed;
+  
   ChildCard(
       {Key? key,
       required this.img,
@@ -58,7 +59,10 @@ class ChildCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(14.0),
                       // color: kcp1,
                       image: DecorationImage(
-                          image: NetworkImage(img, scale: 10),
+                          image: NetworkImage(
+                              img ??
+                                  "https://st2.depositphotos.com/4111759/12123/v/950/depositphotos_121232076-stock-illustration-girl-default-placeholder-children-avatar.jpg",
+                              scale: 10),
                           fit: BoxFit.contain)),
                 ),
               ),
@@ -66,7 +70,7 @@ class ChildCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Text(
-                heading,
+                heading ?? "",
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontSize: 20, color: color1, fontWeight: FontWeight.w500),

@@ -1,14 +1,21 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:gp/core/API/children.dart';
+import 'package:gp/Providers/Teacher_provider.dart';
 import 'package:gp/core/Colors/colors.dart';
 import 'package:gp/core/Texts/text.dart';
 //import 'package:gp/Texts/text.dart';
 import 'package:gp/UI/staff_functionalities/widgets/childtile_2.dart';
 import 'package:gp/UI/widgets/custom_appBar.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:gp/practice%20db/config.dart';
+import 'package:http/http.dart' as http;
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:provider/provider.dart';
 
 class Naps extends StatefulWidget {
-  const Naps({super.key});
+  final token;
+  const Naps({super.key, required this.token});
 
   @override
   State<Naps> createState() => _NapsState();
@@ -17,9 +24,69 @@ class Naps extends StatefulWidget {
 class _NapsState extends State<Naps> {
   final timeController = TextEditingController();
   final timeController2 = TextEditingController();
+  // String childId;
   var _value;
+  List mychildrenList = [];
+  String? userId;
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+
+  //   userId = jwtDecodedToken['_id'];
+  //   print("id-----------------" + userId);
+  //   getMyClassChildrenList(userId);
+  // }
+
+  void addNap(childId) async {
+    if (timeController.text.isNotEmpty && timeController2.text.isNotEmpty) {
+      var regBody = {
+        "startTime": timeController.text,
+        "endTime": timeController2.text,
+        "childId": childId
+      };
+
+      var response = await http.post(Uri.parse(napAdd),
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode(regBody));
+
+      var jsonResponse = jsonDecode(response.body);
+
+      print(jsonResponse['status']);
+
+      if (jsonResponse['status']) {
+        timeController.clear();
+        timeController2.clear();
+        Navigator.pop(context);
+        // setState(() {
+        //   getTodoList(userId);
+        // });
+      } else {
+        print("SomeThing Went Wrong");
+      }
+    }
+  }
+
+  void getMyClassChildrenList(userId) async {
+    var regBody = {"teacherId": userId};
+
+    var response = await http.post(Uri.parse(MyChildrenListGet),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(regBody));
+    var jsonResponse = jsonDecode(response.body);
+    print('response json ' + jsonResponse.toString());
+
+    setState(() {
+      mychildrenList = jsonResponse['success'];
+
+      print(jsonResponse['success'].toString());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    mychildrenList = Provider.of<TeacherProvider>(context).myChildrenList;
+    userId = Provider.of<TeacherProvider>(context).teacherId;
     String value = "";
 
     String value2 = "";
@@ -189,7 +256,7 @@ class _NapsState extends State<Naps> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: childrenList.length,
+              itemCount: mychildrenList.length,
               itemBuilder: (context, index) {
                 return Row(children: [
                   Radio(
@@ -203,18 +270,20 @@ class _NapsState extends State<Naps> {
                   ),
                   ChildTile2(
                       index: index,
-                      name: childrenList[index]['name'],
-                      image: childrenList[index]['image']),
+                      name: mychildrenList[index]['fullName'],
+                      image: mychildrenList[index]['image']),
                 ]);
               },
             ),
           ),
           Container(
-              margin: EdgeInsets.only(right: 15),
+              margin: EdgeInsets.only(right: 15, left: 15),
               child: Align(
                 alignment: Alignment.centerRight,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    addNap(mychildrenList[_value]['_id']);
+                  },
                   child: Text('Post'.tr()),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: MyColors.color1),

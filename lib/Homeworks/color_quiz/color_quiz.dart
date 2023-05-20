@@ -137,7 +137,8 @@ class ColorsQuizState extends State<ColorsQuiz> {
 }
 
 isTrueAnswer(String recognized, String color) {
-  if (recognized.toLowerCase().contains(color.toLowerCase())) return true;
+  if (recognized.toLowerCase().contains(color.toLowerCase()) ||
+      recognized == toArablic(color)) return true;
 
   int diffs = 0;
   for (int i = 0; i < color.length; i++) {
@@ -149,4 +150,21 @@ isTrueAnswer(String recognized, String color) {
     }
   }
   return diffs > 2;
+}
+
+toArablic(color) {
+  switch (color) {
+    case 'Blue':
+      return "ازرق";
+    case 'Green':
+      return "اخضر";
+    case 'Red':
+      return "احمر";
+    case 'Yellow':
+      return "اصفر";
+    case 'Purple':
+      return "بنفسجي";
+    case 'Orange':
+      return "برتقالي";
+  }
 }

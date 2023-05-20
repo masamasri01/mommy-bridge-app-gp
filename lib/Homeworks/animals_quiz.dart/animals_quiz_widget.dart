@@ -121,3 +121,36 @@ class AnimalsQuizState extends State<AnimalsQuiz> {
     );
   }
 }
+
+isTrueAnswerr(String recognized, String animal) {
+  if (recognized.toLowerCase().contains(animal.toLowerCase()) ||
+      toArablic(animal).contains(recognized)) return true;
+
+  int diffs = 0;
+  for (int i = 0; i < animal.length; i++) {
+    if (recognized[i] != animal[i]) {
+      diffs++;
+    }
+    if (diffs > 2) {
+      return false;
+    }
+  }
+  return diffs > 2;
+}
+
+toArablic(animal) {
+  switch (animal) {
+    case 'bird':
+      return "  عصفوره عصفور";
+    case 'turtle':
+      return "سلحفاه";
+    case 'horse':
+      return "حصان";
+    case 'cat':
+      return "قطه قط";
+    case 'dog':
+      return "كلب";
+    case 'fish':
+      return "سمكة سمك";
+  }
+}

@@ -4,16 +4,20 @@ import 'package:flutter/material.dart';
 
 class MyTimePicker extends StatelessWidget {
   String text;
+  TextEditingController timeController;
   MyTimePicker({
     Key? key,
     required this.text,
+    required this.timeController,
   }) : super(key: key);
-
-  final timeController = TextEditingController();
 
   String value = "";
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    timeController.text = TimeOfDay.now().format(context);
+    DateTime todayAt8AM = DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day, 8, 0);
+
     return InkWell(
       child: Container(
         width: size.width * 0.7,
@@ -60,7 +64,9 @@ class MyTimePicker extends StatelessWidget {
                     );
                   },
                   context: context,
-                  initialTime: TimeOfDay.now(),
+                  initialTime: text == 'Entery Time'
+                      ? TimeOfDay.fromDateTime(todayAt8AM)
+                      : TimeOfDay.now(),
                 );
 
                 print(time!.format(context));
@@ -69,7 +75,7 @@ class MyTimePicker extends StatelessWidget {
               },
               icon: const Icon(
                 Icons.add_alert,
-                color: Colors.deepPurple,
+                //  color: Colors.deepPurple,
               ),
             ),
             contentPadding:

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:gp/Homeworks/playSound.dart';
 import 'package:gp/Homeworks/shapes_quiz/shapes_quiz.dart';
+import 'package:gp/Providers/App_provider.dart';
 import 'package:gp/Providers/QuizProvider.dart';
 import 'package:gp/UI/widgets/custom_appBar.dart';
 import 'package:gp/core/Texts/text.dart';
@@ -67,11 +68,13 @@ class _ShapesAppState extends State<ShapesApp> {
       setState(() {
         _hasSpeech = hasSpeech;
       });
+      Provider.of<AppProvider>(context, listen: false).sethasSpeech(_hasSpeech);
     } catch (e) {
       setState(() {
         lastError = 'Speech recognition failed: ${e.toString()}';
         _hasSpeech = false;
       });
+      //Provider.of<AppProvider>(context, listen: false).sethasSpeech(_hasSpeech);
     }
   }
 
@@ -80,6 +83,7 @@ class _ShapesAppState extends State<ShapesApp> {
   Widget build(BuildContext context) {
     Map<String, dynamic> currentShape =
         Provider.of<QuizProvider>(context, listen: false).shape;
+    // _hasSpeech = Provider.of<AppProvider>(context, listen: false).hasSpeech;
     // This is called each time the users wants to start a new speech
     // recognition session
     void startListening() async {
@@ -97,7 +101,8 @@ class _ShapesAppState extends State<ShapesApp> {
           _logEvent(
               'Result listener final: ${result.finalResult}, words: ${result.recognizedWords}');
           setState(() {
-            lastWords = '${result.recognizedWords} - ${result.finalResult}';
+            lastWords =
+                '${result.recognizedWords} - ${result.finalResult} hearing';
           });
 
           //  Check if the user has finished speaking
@@ -129,8 +134,9 @@ class _ShapesAppState extends State<ShapesApp> {
           Container(
             child: Column(
               children: <Widget>[
-                InitSpeechWidget(_hasSpeech, initSpeechState),
-
+                _hasSpeech
+                    ? Container()
+                    : InitSpeechWidget(_hasSpeech, initSpeechState),
                 _hasSpeech
                     ? Column(
                         children: [
@@ -147,19 +153,18 @@ class _ShapesAppState extends State<ShapesApp> {
                               startListening, stopListening, cancelListening),
                         ],
                       )
-                    : Container()
-
-                // SessionOptionsWidget(
-                //   _currentLocaleId,
-                //   _switchLang,
-                //   _localeNames,
-                //   _logEvents,
-                //   _switchLogging,
-                //   _pauseForController,
-                //   _listenForController,
-                //   _onDevice,
-                //   _switchOnDevice,
-                // ),
+                    : Container(),
+                SessionOptionsWidget(
+                  _currentLocaleId,
+                  _switchLang,
+                  _localeNames,
+                  _logEvents,
+                  _switchLogging,
+                  _pauseForController,
+                  _listenForController,
+                  _onDevice,
+                  _switchOnDevice,
+                ),
               ],
             ),
           ),
@@ -473,6 +478,8 @@ class SessionOptionsWidget extends StatelessWidget {
                 onChanged: (selectedVal) => switchLang(selectedVal),
                 value: currentLocaleId,
                 items: localeNames
+                    .where((locale) =>
+                        ['ar', 'en'].contains(locale.localeId.split('_')[0]))
                     .map(
                       (localeName) => DropdownMenuItem(
                         value: localeName.localeId,
@@ -483,40 +490,40 @@ class SessionOptionsWidget extends StatelessWidget {
               ),
             ],
           ),
-          Row(
-            children: [
-              Text('pauseFor: '),
-              Container(
-                  padding: EdgeInsets.only(left: 8),
-                  width: 80,
-                  child: TextFormField(
-                    controller: pauseForController,
-                  )),
-              Container(
-                  padding: EdgeInsets.only(left: 16),
-                  child: Text('listenFor: ')),
-              Container(
-                  padding: EdgeInsets.only(left: 8),
-                  width: 80,
-                  child: TextFormField(
-                    controller: listenForController,
-                  )),
-            ],
-          ),
-          Row(
-            children: [
-              Text('On device: '),
-              Checkbox(
-                value: onDevice,
-                onChanged: switchOnDevice,
-              ),
-              Text('Log events: '),
-              Checkbox(
-                value: logEvents,
-                onChanged: switchLogging,
-              ),
-            ],
-          ),
+          // Row(
+          //   children: [
+          //     Text('pauseFor: '),
+          //     Container(
+          //         padding: EdgeInsets.only(left: 8),
+          //         width: 80,
+          //         child: TextFormField(
+          //           controller: pauseForController,
+          //         )),
+          //     Container(
+          //         padding: EdgeInsets.only(left: 16),
+          //         child: Text('listenFor: ')),
+          //     Container(
+          //         padding: EdgeInsets.only(left: 8),
+          //         width: 80,
+          //         child: TextFormField(
+          //           controller: listenForController,
+          //         )),
+          //   ],
+          // ),
+          // Row(
+          //   children: [
+          //     Text('On device: '),
+          //     Checkbox(
+          //       value: onDevice,
+          //       onChanged: switchOnDevice,
+          //     ),
+          //     Text('Log events: '),
+          //     Checkbox(
+          //       value: logEvents,
+          //       onChanged: switchLogging,
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     );
@@ -532,12 +539,15 @@ class InitSpeechWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return hasSpeech
-        ? Container()
-        : TextButton(
-            onPressed: hasSpeech ? null : initSpeechState,
-            child: Text('Initialize microphone'),
-          );
+    return
+        // hasSpeech
+
+        //     ? Container()
+        //     :
+        TextButton(
+      onPressed: hasSpeech ? null : initSpeechState,
+      child: Text('Initialize microphone'),
+    );
   }
 }
 

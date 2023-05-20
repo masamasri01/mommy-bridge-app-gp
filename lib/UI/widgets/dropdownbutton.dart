@@ -1,56 +1,50 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:gp/core/Colors/colors.dart';
 import 'package:gp/core/widgets.dart';
 
-class myDropdownButton extends StatefulWidget {
-  String val;
-  List<String> itemss;
-  myDropdownButton({
+class MyDropdownButton extends StatefulWidget {
+  final String value;
+  final List<String> items;
+  final Function(String) onChanged;
+
+  MyDropdownButton({
     Key? key,
-    required this.val,
-    required this.itemss,
+    required this.value,
+    required this.items,
+    required this.onChanged,
   }) : super(key: key);
 
   @override
-  State<myDropdownButton> createState() => _myDropdownButtonState();
+  State<MyDropdownButton> createState() => _MyDropdownButtonState();
 }
 
-class _myDropdownButtonState extends State<myDropdownButton> {
+class _MyDropdownButtonState extends State<MyDropdownButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(3),
       decoration: BoxDecoration(
-          color: MyColors.white,
-          boxShadow: myBoxShadow(),
-          borderRadius: BorderRadius.circular(4),
-          border: Border.all(width: 1, color: MyColors.color1)),
-      child: DropdownButton(
-        // Initial Value
-        value: widget.val,
-
-        // Down Arrow Icon
+        color: MyColors.white,
+        boxShadow: myBoxShadow(),
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(width: 1, color: MyColors.color1),
+      ),
+      child: DropdownButton<String>(
+        value: widget.value,
         icon: const Icon(Icons.keyboard_arrow_down),
-
-        // Array list of items
-        items: widget.itemss.map((String items) {
-          return DropdownMenuItem(
-            value: items,
+        items: widget.items.map((String item) {
+          return DropdownMenuItem<String>(
+            value: item,
             child: Text(
-              items,
+              item,
               style: const TextStyle(fontSize: 17),
             ),
           );
         }).toList(),
-        // After selecting the desired option,it will
-        // change button value to selected value
         onChanged: (String? newValue) {
           setState(() {
-            widget.val = newValue!;
+            widget.onChanged(newValue!);
           });
         },
       ),

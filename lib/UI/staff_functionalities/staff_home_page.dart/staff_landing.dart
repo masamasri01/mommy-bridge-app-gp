@@ -1,18 +1,22 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:gp/Providers/Teacher_provider.dart';
 import 'package:gp/UI/staff_functionalities/settings.dart';
 import 'package:gp/UI/staff_functionalities/staff_home_page.dart/staff_home_page.dart';
 import 'package:gp/chat/chat_home_page.dart';
-import 'package:gp/core/app_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:gp/core/Colors/colors.dart';
 import 'package:gp/core/Texts/text.dart';
 import 'package:gp/settings_controller.dart/settingscontroller.dart';
+import 'package:http/http.dart' as http;
 
 class StaffLanding extends StatefulWidget {
-  const StaffLanding({super.key});
+  final token;
+  StaffLanding({super.key, required this.token});
 
   @override
   State<StaffLanding> createState() => _StaffLanding();
@@ -20,14 +24,26 @@ class StaffLanding extends StatefulWidget {
 
 class _StaffLanding extends State<StaffLanding> {
   int _currentIndex = 0;
-  final List<Widget> _views = [
-    StaffHomePage(),
-    ChatHomePage(),
-    StaffSettings(),
-  ];
+  String? userId;
+  List mychildrenList = List.filled(50, 0);
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    // Provider.of<TeacherProvider>(context, listen: false).setTeacherId();
+
+    // Provider.of<TeacherProvider>(context, listen: false)
+    //     .getMyClassChildrenList();
+
+    final List<Widget> _views = [
+      StaffHomePage(token: widget.token),
+      ChatHomePage(),
+      StaffSettings(),
+    ];
     SettingsController controller = Provider.of<SettingsController>(context);
     bool isArabic = context.locale == Locale('ar');
     return Scaffold(

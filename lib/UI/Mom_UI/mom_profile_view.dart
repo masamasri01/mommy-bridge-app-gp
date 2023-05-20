@@ -1,8 +1,13 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:gp/practice%20db/config.dart';
+import 'package:provider/provider.dart';
 
+import 'package:gp/Providers/Mom_provider.dart';
 import 'package:gp/UI/widgets/custum_button.dart';
+import 'package:http/http.dart' as http;
+
+TextEditingController editC = TextEditingController();
 
 class MomProfile extends StatefulWidget {
   @override
@@ -10,52 +15,90 @@ class MomProfile extends StatefulWidget {
 }
 
 class _MomProfile extends State<MomProfile> {
+  var res;
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Provider.of<MomProvider>(context, listen: false).setMomData();
+    res = Provider.of<MomProvider>(context, listen: false).momData;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          const StackContainer(),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                children: [
-                  CardItem(
-                    label: "Name".tr(),
-                    text: "Masa Masri",
-                    edit: false,
-                  ),
-                  CardItem(
-                    label: "Email".tr(),
-                    text: "masa.masri@gmail.com",
-                    idx: 2,
-                    edit: false,
-                  ),
-                  CardItem(
-                    label: "Phone".tr(),
-                    text: "059484744",
-                    edit: false,
-                  ),
-                  CardItem(
-                    label: "Job".tr(),
-                    text: "nurse",
-                    edit: false,
-                  ),
-                  CardItem(
-                    label: "Address".tr(),
-                    text: "Rafidia Street",
-                    edit: false,
-                  ),
-                  CardItem(
-                    label: "Relationship Status".tr(),
-                    text: "Married",
-                  ),
-                ],
-              )),
-        ],
-      ),
-    ));
+    return Consumer<MomProvider>(builder: (context, prov, x) {
+      return Scaffold(
+          body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            StackContainer(
+              Name: prov.momData['name'],
+            ),
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  children: [
+                    CardItem(
+                      label: "Name".tr(),
+                      text: prov.momData['name'],
+                      edit: false,
+                    ),
+                    CardItem(
+                      label: "Email".tr(),
+                      text: prov.momData['email'],
+                      idx: 2,
+                      edit: false,
+                    ),
+                    CardItem(
+                      label: "Phone".tr(),
+                      text: prov.momData['phone'],
+                      editText: 'Edit your phone number',
+                      onPressed: () {
+                        prov.updatePhone();
+                        prov.setMomData();
+                        Navigator.pop(context);
+                      },
+                    ),
+                    CardItem(
+                      label: "Job".tr(),
+                      text: prov.momData['job'],
+                      editText: 'Edit your Job',
+                      onPressed: () {
+                        prov.updateJob();
+                        prov.setMomData();
+                        Navigator.pop(context);
+                      },
+                    ),
+                    CardItem(
+                      label: "Address".tr(),
+                      text: prov.momData['address'],
+                      editText: 'Edit your Address',
+                      onPressed: () {
+                        prov.updateAddress();
+                        prov.setMomData();
+                        Navigator.pop(context);
+                      },
+                    ),
+                    CardItem(
+                      label: "Relationship Status".tr(),
+                      text: prov.momData['relationship'],
+                      editText: 'Edit your Relationship Status',
+                      onPressed: () {
+                        prov.updateRelation();
+                        prov.setMomData();
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                )),
+          ],
+        ),
+      ));
+    });
   }
 }
 
@@ -90,13 +133,17 @@ class CardItem extends StatelessWidget {
   String text;
   bool edit;
   int idx;
-  CardItem({
-    Key? key,
-    required this.label,
-    required this.text,
-    this.edit = true,
-    this.idx = 0,
-  }) : super(key: key);
+  VoidCallback? onPressed;
+  String? editText;
+  CardItem(
+      {Key? key,
+      required this.label,
+      required this.text,
+      this.edit = true,
+      this.idx = 0,
+      this.editText,
+      this.onPressed})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -136,19 +183,23 @@ class CardItem extends StatelessWidget {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text('Edit your phone number').tr(),
+                              title: Text(editText!).tr(),
                               content: SizedBox(
                                 height: 150,
                                 child: Column(
                                   children: [
                                     TextField(
-                                      keyboardType: TextInputType.number,
+                                      keyboardType: (label == "Phone")
+                                          ? TextInputType.number
+                                          : TextInputType.text,
+                                      controller: editC,
                                     ),
                                     SizedBox(
                                       height: 30,
                                     ),
                                     elevatedButon(
-                                        text: 'Edit'.tr(), onPressed: () {})
+                                        text: 'Edit'.tr(),
+                                        onPressed: onPressed!)
                                   ],
                                 ),
                               ),
@@ -185,8 +236,11 @@ class MyCustomClipper extends CustomClipper<Path> {
 }
 
 class StackContainer extends StatelessWidget {
-  const StackContainer({super.key});
-
+  String Name;
+  StackContainer({
+    Key? key,
+    required this.Name,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -228,8 +282,8 @@ class StackContainer extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4.0),
-                const Text(
-                  "Masa Masri",
+                Text(
+                  Name,
                   style: TextStyle(
                     fontSize: 21.0,
                     fontWeight: FontWeight.bold,

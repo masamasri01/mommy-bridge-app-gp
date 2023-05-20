@@ -18,8 +18,8 @@ class IntroScreen extends StatelessWidget {
       child: IntroductionScreen(
         pages: [
           PageViewModel(
-              title: 'Stay Connected App',
-              body: '',
+              title: ' MommyBridge  App',
+              body: 'stay connected!🤍',
               image: Center(
                   child: Image.asset('lib/core/images/intro1.jpeg',
                       fit: BoxFit.cover, height: double.infinity)),

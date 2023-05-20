@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:gp/core/Colors/colors.dart';
 import 'package:gp/Router/app_router.dart';
 import 'package:gp/UI/staff_functionalities/meals.dart';
+import 'package:gp/core/Texts/text.dart';
 
 class QuizGridTile extends StatelessWidget {
   final VoidCallback onPressed;
@@ -34,12 +35,12 @@ class QuizGridTile extends StatelessWidget {
           children: [
             GridTile(
                 child: Container(
-              height: 40,
+              height: 50,
               alignment: Alignment.center,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(360),
                   color: MyColors.white),
-              child: Text(title),
+              child: Center(child: boldText(title)),
             )),
             // Text(
             //   title,

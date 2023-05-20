@@ -61,21 +61,6 @@ class ShapesQuizState extends State<ShapesQuiz> {
   Widget build(BuildContext context) {
     return Container(
       height: 300,
-      // decoration: BoxDecoration(
-      //   color: _color['name'] == 'Red'
-      //       ? Colors.red
-      //       : _color['name'] == 'Blue'
-      //           ? Colors.blue
-      //           : _color['name'] == 'Green'
-      //               ? Colors.green
-      //               : _color['name'] == 'Yellow'
-      //                   ? Colors.yellow
-      //                   : _color['name'] == 'Purple'
-      //                       ? Colors.purple
-      //                       : _color['name'] == 'Orange'
-      //                           ? Colors.orange
-      //                           : Colors.white,
-      // ),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -152,7 +137,8 @@ class ShapesQuizState extends State<ShapesQuiz> {
 }
 
 isTrueAnswer(String recognized, String color) {
-  if (recognized.toLowerCase().contains(color.toLowerCase())) return true;
+  if (recognized.toLowerCase().contains(color.toLowerCase()) ||
+      recognized == getArabic(color)) return true;
 
   int diffs = 0;
   for (int i = 0; i < color.length; i++) {
@@ -164,6 +150,23 @@ isTrueAnswer(String recognized, String color) {
     }
   }
   return diffs > 2;
+}
+
+getArabic(color) {
+  switch (color) {
+    case "red":
+      return 'احمر';
+    case "Triangle":
+      return "مثلث";
+    case "Rectangle":
+      return "مستطيل";
+    case "Circle":
+      return "دائره";
+    case "Square":
+      return "مربع";
+    case "Oval":
+      return "بيضاوي";
+  }
 }
 
 circle() {

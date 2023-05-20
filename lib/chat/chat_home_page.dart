@@ -62,7 +62,7 @@ class _ChatHomePage extends State<ChatHomePage> {
                   child: Container(
                     //color: Colors.indigo.shade400,
                     padding: const EdgeInsets.all(8),
-                    height: 170,
+                    height: 180,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

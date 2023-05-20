@@ -9,7 +9,7 @@ import 'package:gp/core/Colors/colors.dart';
 
 class ChildTile extends StatelessWidget {
   String name;
-  String image;
+  String? image;
   int index;
 
   ChildTile({
@@ -39,7 +39,9 @@ class ChildTile extends StatelessWidget {
                 child: CircleAvatar(
                   child: ClipOval(
                     child: Image.network(
-                      image,
+                      (image == null)
+                          ? "https://st2.depositphotos.com/4111759/12123/v/950/depositphotos_121232076-stock-illustration-girl-default-placeholder-children-avatar.jpg"
+                          : image!,
                       width: 100,
                       height: 100,
                       fit: BoxFit.fill,
@@ -67,7 +69,7 @@ class ChildTile extends StatelessWidget {
               // )
             ],
           ),
-          Container(height: 65, width: double.infinity, child: CustomRadio())
+          Container(height: 65, width: double.infinity, child: CustomRadio(index:index))
         ],
       ),
     );

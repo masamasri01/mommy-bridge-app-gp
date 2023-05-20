@@ -146,7 +146,8 @@ class Activities extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
+                              await provider.uploadImage();
                               provider.setactivityImageFileNULL();
                             },
                             child: Text('Post'.tr()),

@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:gp/Homeworks/Seasons/drag_drop.dart';
 import 'package:gp/Homeworks/animals_quiz.dart/animals_app.dart';
+import 'package:gp/Homeworks/animals_voices.dart';
 import 'package:gp/Homeworks/color_quiz/speech_to_text.dart';
 import 'package:gp/Homeworks/shapes_quiz/shapes_speech_app.dart';
 import 'package:gp/Homeworks/tracing/drawing.dart';
@@ -52,6 +53,11 @@ class Homework extends StatelessWidget {
                       AppRouter.appRouter.goToWidget(TracingGame());
                     },
                     title: 'Drawing'),
+                QuizGridTile(
+                    onPressed: () {
+                      AppRouter.appRouter.goToWidget(AnimalsVoices());
+                    },
+                    title: 'Animals voices'),
               ]),
             ),
           ),

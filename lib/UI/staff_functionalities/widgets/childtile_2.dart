@@ -1,12 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:gp/Providers/Teacher_provider.dart';
 import 'package:gp/UI/widgets/time_picker.dart';
 import 'package:gp/core/Colors/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:provider/provider.dart';
 
 class ChildTile2 extends StatelessWidget {
-  String name;
-  String image;
+  String? name;
+  String? image;
   int index;
   bool? attendance;
   ChildTile2(
@@ -17,7 +19,12 @@ class ChildTile2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var timeController;
+    TextEditingController enteryTimeController =
+        Provider.of<TeacherProvider>(context, listen: false)
+            .enteryTimeController;
+    TextEditingController pickUpTimeController =
+        Provider.of<TeacherProvider>(context, listen: false)
+            .pickUpTimeController;
     return Row(
       children: [
         Container(
@@ -46,7 +53,8 @@ class ChildTile2 extends StatelessWidget {
                     ClipOval(
                       child: CircleAvatar(
                         child: Image.network(
-                          image,
+                          image ??
+                              "https://st2.depositphotos.com/4111759/12123/v/950/depositphotos_121232076-stock-illustration-girl-default-placeholder-children-avatar.jpg",
                           width: 100,
                           height: 100,
                           fit: BoxFit.fill,
@@ -57,7 +65,7 @@ class ChildTile2 extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                      name,
+                      name ?? " ",
                       style: TextStyle(
                           color: getcolor(),
                           fontWeight: FontWeight.w900,
@@ -72,8 +80,12 @@ class ChildTile2 extends StatelessWidget {
                       children: [
                         MyTimePicker(
                           text: 'Entery Time'.tr(),
+                          timeController: enteryTimeController,
                         ),
-                        MyTimePicker(text: 'Pick Up time'.tr())
+                        MyTimePicker(
+                          text: 'Pick Up time'.tr(),
+                          timeController: pickUpTimeController,
+                        )
                       ],
                     ),
             ]))

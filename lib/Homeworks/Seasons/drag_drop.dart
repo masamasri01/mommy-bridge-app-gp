@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gp/Homeworks/color_quiz/speech_to_text.dart';
+import 'package:gp/Homeworks/playSound.dart';
 import 'package:gp/Providers/QuizProvider.dart';
 import 'package:gp/UI/widgets/custom_appBar.dart';
 import 'package:provider/provider.dart';
@@ -15,11 +16,22 @@ class _DragAndDropGameState extends State<DragAndDropGame> {
 
   int score = 0;
   bool gameOver = false;
-
+  Locale? currentLocale;
   @override
   void initState() {
     super.initState();
     initGame();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (currentLocale == null) {
+      currentLocale = Localizations.localeOf(context);
+      playSpecificSound(
+          (currentLocale == Locale('ar')) ? "seasonA.mp3" : "seasonE.mp3");
+      initGame();
+    }
   }
 
   initGame() {

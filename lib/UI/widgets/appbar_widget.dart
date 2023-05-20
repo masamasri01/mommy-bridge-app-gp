@@ -7,9 +7,12 @@ import 'package:gp/core/app_theme.dart';
 import 'package:gp/settings_controller.dart/settingscontroller.dart';
 import 'package:provider/provider.dart';
 
+import '../../Providers/Mom_provider.dart';
+
 class AppBarWidget extends PreferredSize {
 //  final UserModel user;
   final BuildContext context;
+
   AppBarWidget({required this.context})
       : super(
           preferredSize: Size.fromHeight(250),
@@ -35,7 +38,14 @@ class AppBarWidget extends PreferredSize {
                           style: AppTextStyles.title,
                           children: [
                             TextSpan(
-                              text: ('Masa Masri'),
+                              text:
+                                  (Provider.of<TeacherProvider>(context).isMom!
+                                      ? Provider.of<MomProvider>(context,
+                                              listen: false)
+                                          .savedJsonRes['name']
+                                      : Provider.of<TeacherProvider>(context,
+                                              listen: false)
+                                          .savedJsonRes['name']),
                               style: AppTextStyles.titleBold,
                             ),
                           ],

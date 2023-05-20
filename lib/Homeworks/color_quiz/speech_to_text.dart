@@ -98,7 +98,8 @@ class _SpeechSampleAppState extends State<SpeechSampleApp> {
           _logEvent(
               'Result listener final: ${result.finalResult}, words: ${result.recognizedWords}');
           setState(() {
-            lastWords = '${result.recognizedWords} - ${result.finalResult}';
+            lastWords =
+                '${result.recognizedWords} - ${result.finalResult} hearing';
           });
 
           //  Check if the user has finished speaking
@@ -131,7 +132,6 @@ class _SpeechSampleAppState extends State<SpeechSampleApp> {
             child: Column(
               children: <Widget>[
                 InitSpeechWidget(_hasSpeech, initSpeechState),
-
                 _hasSpeech
                     ? Column(
                         children: [
@@ -148,19 +148,18 @@ class _SpeechSampleAppState extends State<SpeechSampleApp> {
                               startListening, stopListening, cancelListening),
                         ],
                       )
-                    : Container()
-
-                // SessionOptionsWidget(
-                //   _currentLocaleId,
-                //   _switchLang,
-                //   _localeNames,
-                //   _logEvents,
-                //   _switchLogging,
-                //   _pauseForController,
-                //   _listenForController,
-                //   _onDevice,
-                //   _switchOnDevice,
-                // ),
+                    : Container(),
+                SessionOptionsWidget(
+                  _currentLocaleId,
+                  _switchLang,
+                  _localeNames,
+                  _logEvents,
+                  _switchLogging,
+                  _pauseForController,
+                  _listenForController,
+                  _onDevice,
+                  _switchOnDevice,
+                ),
               ],
             ),
           ),
@@ -472,6 +471,8 @@ class SessionOptionsWidget extends StatelessWidget {
                 onChanged: (selectedVal) => switchLang(selectedVal),
                 value: currentLocaleId,
                 items: localeNames
+                    .where((locale) =>
+                        ['ar', 'en'].contains(locale.localeId.split('_')[0]))
                     .map(
                       (localeName) => DropdownMenuItem(
                         value: localeName.localeId,
@@ -482,40 +483,40 @@ class SessionOptionsWidget extends StatelessWidget {
               ),
             ],
           ),
-          Row(
-            children: [
-              Text('pauseFor: '),
-              Container(
-                  padding: EdgeInsets.only(left: 8),
-                  width: 80,
-                  child: TextFormField(
-                    controller: pauseForController,
-                  )),
-              Container(
-                  padding: EdgeInsets.only(left: 16),
-                  child: Text('listenFor: ')),
-              Container(
-                  padding: EdgeInsets.only(left: 8),
-                  width: 80,
-                  child: TextFormField(
-                    controller: listenForController,
-                  )),
-            ],
-          ),
-          Row(
-            children: [
-              Text('On device: '),
-              Checkbox(
-                value: onDevice,
-                onChanged: switchOnDevice,
-              ),
-              Text('Log events: '),
-              Checkbox(
-                value: logEvents,
-                onChanged: switchLogging,
-              ),
-            ],
-          ),
+          // Row(
+          //   children: [
+          //     Text('pauseFor: '),
+          //     Container(
+          //         padding: EdgeInsets.only(left: 8),
+          //         width: 80,
+          //         child: TextFormField(
+          //           controller: pauseForController,
+          //         )),
+          //     Container(
+          //         padding: EdgeInsets.only(left: 16),
+          //         child: Text('listenFor: ')),
+          //     Container(
+          //         padding: EdgeInsets.only(left: 8),
+          //         width: 80,
+          //         child: TextFormField(
+          //           controller: listenForController,
+          //         )),
+          //   ],
+          // ),
+          // Row(
+          //   children: [
+          //     Text('On device: '),
+          //     Checkbox(
+          //       value: onDevice,
+          //       onChanged: switchOnDevice,
+          //     ),
+          //     Text('Log events: '),
+          //     Checkbox(
+          //       value: logEvents,
+          //       onChanged: switchLogging,
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     );

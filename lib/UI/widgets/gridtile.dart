@@ -60,8 +60,8 @@ class gridTile extends StatelessWidget {
 
 class AppGradients {
   static final linear = LinearGradient(colors: [
-    Color.fromRGBO(130, 87, 229, 0.695),
-    // MyColors.color2,
+    //  Color.fromRGBO(130, 87, 229, 0.695),
+    MyColors.color3,
     MyColors.color1
   ], stops: [
     0.0,

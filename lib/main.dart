@@ -1,40 +1,34 @@
-import 'package:audioplayers/audioplayers.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:gp/Homeworks/Seasons/drag_drop.dart';
-import 'package:gp/Homeworks/color_quiz/speech_to_text.dart';
-import 'package:gp/Homeworks/tracing/drawing.dart';
-import 'package:gp/Notifications/notification.dart';
+import 'dart:math';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:gp/Homeworks/shapes_quiz/shapes_speech_app.dart';
+import 'package:gp/UI/sign_in_page.dart';
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gp/Providers/App_provider.dart';
 
 import 'package:gp/Providers/Mom_provider.dart';
 import 'package:gp/Providers/QuizProvider.dart';
 import 'package:gp/Providers/Teacher_provider.dart';
 import 'package:gp/Router/app_router.dart';
-import 'package:gp/UI/Landing_page/landing_page.dart';
-import 'package:gp/UI/Mom_UI/mom_home_page.dart';
+
 import 'package:gp/UI/introduction_screen.dart';
-import 'package:gp/UI/sign_in_page.dart';
-import 'package:gp/UI/staff_functionalities/Analysis/graph.dart';
-import 'package:gp/UI/staff_functionalities/Analysis/graph_leader.dart';
-import 'package:gp/UI/staff_functionalities/staff_home_page.dart/staff_landing.dart';
-import 'package:gp/UI/widgets/custum_button.dart';
-import 'package:gp/chat/chat_home_page.dart';
-import 'package:gp/chat/sign_in_srceen.dart';
+
 import 'package:gp/core/Colors/color_codes.dart';
 import 'package:gp/core/Colors/colors.dart';
-import 'package:gp/core/app_theme.dart';
 import 'package:gp/firebase_options.dart';
-import 'package:gp/practice%20db/config.dart';
-import 'package:gp/practice%20db/registeration.dart';
-
 import 'package:gp/settings_controller.dart/settingscontroller.dart';
 import 'package:gp/splash.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:speech_to_text/speech_recognition_error.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -46,6 +40,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  print(prefs.getString('token'));
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -76,12 +72,15 @@ void main() async {
       path:
           'assets/translations', // <-- change the path of the translation files
       // fallbackLocale: Locale('en'),
-      child: MyApp()));
+      child: MyApp(
+        token: prefs.getString('token'),
+      )));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final token;
 
+  const MyApp({super.key, required this.token});
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -106,6 +105,11 @@ class MyApp extends StatelessWidget {
           return QuizProvider();
         },
       ),
+      ChangeNotifierProvider<AppProvider>(
+        create: (context) {
+          return AppProvider();
+        },
+      ),
     ], child: cc());
   }
 }
@@ -117,6 +121,7 @@ class cc extends StatelessWidget {
   Widget build(BuildContext context) {
     // context.setLocale(Provider.of<SettingsController>(context, listen: false)
     //     .currentAppLanguage);
+    //print('token in cc is' + token);
     return MaterialApp(
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
@@ -131,9 +136,9 @@ class cc extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         fontFamily: GoogleFonts.montserrat().fontFamily,
-        primarySwatch: blueSwatch,
-
-        primaryColor: Color.fromRGBO(254, 113, 101, 1),
+        //  primarySwatch: blueSwatch,
+        primarySwatch: Colors.pink,
+        primaryColor: Color.fromRGBO(154, 167, 255, .7),
         timePickerTheme: TimePickerThemeData(),
         floatingActionButtonTheme:
             FloatingActionButtonThemeData(backgroundColor: MyColors.color1),
@@ -153,10 +158,7 @@ class cc extends StatelessWidget {
         //           displayColor: Colors.black,
         //         ))
       ),
-      home:
-          //SpeechSampleApp()
-          IntroScreen(),
-      //  StaffLanding(),
+      home: SignInPage1(),
       debugShowCheckedModeBanner: false,
     );
   }

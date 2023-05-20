@@ -38,8 +38,8 @@ class MomProfileView extends StatelessWidget {
             //   color: MyColors.color2,
             // ),
             MomComand(
-              title: 'My Profile'.tr(),
-              subtitle: "".tr(),
+              title: 'My Details'.tr(),
+              subtitle: "edit your details".tr(),
               icon: Icon(Icons.medication_outlined),
               color: MyColors.color2,
               onPressed: (() {
