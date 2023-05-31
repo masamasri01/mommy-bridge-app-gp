@@ -86,7 +86,7 @@ class _AttendanceState extends State<Attendance> {
                     index: index,
                     attendance: true,
                     name: myClassChildrenList[index]['fullName'],
-                    image: myClassChildrenList[index]['image']);
+                    image: myClassChildrenList[index]['image']['data']);
               },
             ),
           ),

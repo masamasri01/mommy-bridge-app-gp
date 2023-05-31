@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gp/Providers/Teacher_provider.dart';
 import 'package:gp/Router/app_router.dart';
@@ -37,14 +38,22 @@ class Moms extends StatelessWidget {
                         borderRadius: BorderRadius.circular(14),
                       ),
                       child: ChildCard(
-                          img: (e['image']),
+                          img: (e['image'] == null
+                              ? Uint8List.fromList(([0, 0]).cast<int>())
+                              : Uint8List.fromList(
+                                  (e['image']['data']).cast<int>())),
                           color: Colors.pink,
                           heading: e['fullName'],
                           description: "",
                           color1: Colors.white,
-                          onPressed: () {
-                            AppRouter.appRouter.goToWidget(
-                                childProfileForMom(childId: e["_id"]));
+                          onPressed: () async {
+                            // await Provider.of<TeacherProvider>(context,
+                            //         listen: false)
+                            //     .getMyChildData(e["_id"]);
+                            AppRouter.appRouter.goToWidget(childProfileForMom(
+                              childId: e["_id"],
+                              forMom: false,
+                            ));
                           }),
                     );
                   }).toList()))

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gp/UI/widgets/custom_appBar.dart';
 import './playSound.dart';
 
 class AnimalsVoices extends StatelessWidget {
@@ -15,8 +16,8 @@ class AnimalsVoices extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Clickable Images Grid'),
+      appBar: ab(
+        ('Click on animal to hear sound'),
       ),
       body: GridView.count(
         crossAxisCount: 2,

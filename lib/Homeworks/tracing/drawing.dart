@@ -30,16 +30,6 @@ class TracingGameState extends State<TracingGame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Drawing Game'),
-        backgroundColor: MyColors.color3,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.photo_library),
-            onPressed: _showScreenshots,
-          ),
-        ],
-      ),
       body: Column(children: [
         Expanded(
           child: Screenshot(
@@ -77,7 +67,7 @@ class TracingGameState extends State<TracingGame> {
                 children: [
                   Text('Pick color'),
                   IconButton(
-                    iconSize: 100,
+                    iconSize: 90,
                     icon: Icon(
                       Icons.color_lens,
                       color: MyColors.color3,
@@ -108,7 +98,7 @@ class TracingGameState extends State<TracingGame> {
                 children: [
                   Text('Clear'),
                   IconButton(
-                    iconSize: 100,
+                    iconSize: 70,
                     icon: Icon(
                       Icons.clear,
                       color: MyColors.color4,
@@ -125,12 +115,25 @@ class TracingGameState extends State<TracingGame> {
                 children: [
                   Text('Save'),
                   IconButton(
-                    iconSize: 100,
+                    iconSize: 70,
                     icon: Icon(
                       Icons.camera_alt,
                       color: MyColors.color2,
                     ),
                     onPressed: _captureScreenshot,
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Text('Show Saved'),
+                  IconButton(
+                    iconSize: 70,
+                    icon: Icon(
+                      Icons.photo_library,
+                      color: MyColors.color1,
+                    ),
+                    onPressed: _showScreenshots,
                   ),
                 ],
               ),

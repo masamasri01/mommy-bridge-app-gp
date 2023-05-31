@@ -38,13 +38,16 @@ class ChildTileLeaderboard extends StatelessWidget {
               Center(
                 child: CircleAvatar(
                   child: ClipOval(
-                    child: Image.network(
-                      image,
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
+                      child:
+                          // Image.network(
+                          //   image,
+                          //   width: 100,
+                          //   height: 100,
+                          //   fit: BoxFit.fill,
+                          // ),
+                          Container(
+                    decoration: BoxDecoration(color: MyColors.color4),
+                  )),
                   backgroundColor: Colors.transparent,
                 ),
               ),
@@ -54,10 +57,10 @@ class ChildTileLeaderboard extends StatelessWidget {
                 style: TextStyle(
                     // color: Color.fromARGB(255, 109, 107, 107),
                     fontWeight: FontWeight.w900,
-                    fontSize: 17),
+                    fontSize: 16),
               ),
               SizedBox(
-                width: 110,
+                width: 100,
               ),
               // Checkbox(
               //   value: false,

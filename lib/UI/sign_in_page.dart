@@ -8,7 +8,6 @@ import 'package:gp/Providers/Teacher_provider.dart';
 import 'package:gp/Router/app_router.dart';
 import 'package:gp/UI/Mom_UI/mom_home_page.dart';
 import 'package:gp/UI/staff_functionalities/staff_home_page.dart/staff_landing.dart';
-import 'package:gp/config.dart';
 import 'package:gp/practice%20db/config.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

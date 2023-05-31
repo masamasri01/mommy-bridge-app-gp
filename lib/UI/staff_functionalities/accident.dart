@@ -108,7 +108,7 @@ class _AccidentState extends State<Accident> {
                 return AttendanceChildtile(
                   index: index,
                   name: myClassChilrenList[index]['fullName'],
-                  image: myClassChilrenList[index]['image'],
+                  image: myClassChilrenList[index]['image']['data'],
                   checked: false,
                   attendance: false,
                 );

@@ -15,20 +15,6 @@ class Activities extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // File? _postImageFile;
-    // final ImagePicker _imagePicker = ImagePicker();
-    // bool isLoading = false;
-
-    // selectImage(ImageSource imageSource) async {
-    //   XFile? file = await _imagePicker.pickImage(source: imageSource);
-    //   // File? croppedFile = await myImageCropper(file!.path);
-    //   setState(() {
-    //     File file2 = File(file!.path);
-
-    //     _postImageFile = file2;
-    //   });
-    // }
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: ab('Add Activity'.tr()),
@@ -85,9 +71,6 @@ class Activities extends StatelessWidget {
                                 ? Center(
                                     child: Image.asset(
                                     'lib/core/images/placeholder.png',
-
-                                    /// height: 20,
-                                    //  width: MediaQuery.of(context).size.width * 0.02,
                                     fit: BoxFit.fitWidth,
                                   ))
                                 : Image.file(
@@ -114,7 +97,7 @@ class Activities extends StatelessWidget {
                               child: TextArea(
                                   label: 'Add Description of the activity'.tr(),
                                   hint: 'Enter Description'.tr(),
-                                  controller: TextEditingController())),
+                                  controller: provider.description)),
                         ],
                       ),
                     ),
@@ -148,7 +131,8 @@ class Activities extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: () async {
                               await provider.uploadImage();
-                              provider.setactivityImageFileNULL();
+                              Navigator.pop(context);
+                              //   provider.setactivityImageFileNULL();
                             },
                             child: Text('Post'.tr()),
                             style: ElevatedButton.styleFrom(

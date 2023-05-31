@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gp/Education/add_material.dart';
+import 'package:gp/Providers/Teacher_provider.dart';
 import 'package:gp/Router/app_router.dart';
 import 'package:gp/UI/Mom_UI/Feed.dart';
 import 'package:gp/UI/staff_functionalities/Analysis/graph.dart';
@@ -16,6 +18,7 @@ import 'package:gp/UI/staff_functionalities/naps.dart';
 import 'package:gp/UI/widgets/drawer.dart';
 import 'package:gp/UI/widgets/gridtile.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:provider/provider.dart';
 
 class StaffHomePage extends StatelessWidget {
   final token;
@@ -63,18 +66,26 @@ class StaffHomePage extends StatelessWidget {
     AppRouter.appRouter.goToWidget(const Attendance());
   }
 
-  void routMed() {
+  void routMed(context) {
+    Provider.of<TeacherProvider>(context, listen: false).fetchMedicines();
     AppRouter.appRouter.goToWidget(const Medicine());
   }
 
-  void routFeed() {
+  void routFeed(context) {
+    Provider.of<TeacherProvider>(context, listen: false).fetchActivities();
     AppRouter.appRouter.goToWidget(Feed());
   }
 
   @override
   Widget build(BuildContext context) {
+    Uint8List image = Uint8List.fromList([0, 0].cast<int>());
+    if (Provider.of<TeacherProvider>(context).teacherData['image'] != null) {
+      List<dynamic> imageData =
+          Provider.of<TeacherProvider>(context).teacherData['image']['data'];
+      image = Uint8List.fromList(imageData.cast<int>());
+    }
     return Scaffold(
-      appBar: AppBarWidget(context: context),
+      appBar: AppBarWidget(context: context, image: image),
       // drawer: drawer(),
       body: Column(
         children: [
@@ -103,11 +114,13 @@ class StaffHomePage extends StatelessWidget {
                     title: 'Announce'.tr()),
                 gridTile(
                     icon_: const Icon(Icons.medication_liquid_sharp),
-                    onPressed: routMed,
+                    onPressed: (() => routMed(context)),
                     title: 'Medicine'.tr()),
                 gridTile(
                     icon_: const Icon(Icons.post_add),
-                    onPressed: routFeed,
+                    onPressed: (() {
+                      routFeed(context);
+                    }),
                     title: 'Posts'.tr()),
                 gridTile(
                     icon_: const Icon(Icons.table_view),

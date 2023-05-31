@@ -67,21 +67,21 @@ class _NapsState extends State<Naps> {
     }
   }
 
-  void getMyClassChildrenList(userId) async {
-    var regBody = {"teacherId": userId};
+  // void getMyClassChildrenList(userId) async {
+  //   var regBody = {"teacherId": userId};
 
-    var response = await http.post(Uri.parse(MyChildrenListGet),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode(regBody));
-    var jsonResponse = jsonDecode(response.body);
-    print('response json ' + jsonResponse.toString());
+  //   var response = await http.post(Uri.parse(MyChildrenListGet),
+  //       headers: {"Content-Type": "application/json"},
+  //       body: jsonEncode(regBody));
+  //   var jsonResponse = jsonDecode(response.body);
+  //   print('response json ' + jsonResponse.toString());
 
-    setState(() {
-      mychildrenList = jsonResponse['success'];
+  //   setState(() {
+  //     mychildrenList = jsonResponse['success'];
 
-      print(jsonResponse['success'].toString());
-    });
-  }
+  //     print(jsonResponse['success'].toString());
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -271,7 +271,7 @@ class _NapsState extends State<Naps> {
                   ChildTile2(
                       index: index,
                       name: mychildrenList[index]['fullName'],
-                      image: mychildrenList[index]['image']),
+                      image: mychildrenList[index]['image']['data']),
                 ]);
               },
             ),

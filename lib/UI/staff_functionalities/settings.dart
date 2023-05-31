@@ -1,6 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import 'package:gp/Providers/Teacher_provider.dart';
@@ -19,117 +23,109 @@ class StaffSettings extends StatefulWidget {
 class _StaffSettings extends State<StaffSettings> {
   @override
   Widget build(BuildContext context) {
-    var res = Provider.of<TeacherProvider>(context, listen: false).savedJsonRes;
-    return Scaffold(
-        body: SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          StackContainer(name: res["name"]),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                children: [
-                  CardItem(
-                    label: "Name".tr(),
-                    text: res["name"],
-                    edit: false,
-                  ),
-                  CardItem(
-                    label: "Email".tr(),
-                    text: res["email"],
-                    idx: 2,
-                    edit: false,
-                  ),
-                  CardItem(label: "Phone".tr(), text: res["phone"], idx: 1),
-                  // Card(
-                  //     child: Padding(
-                  //         padding: const EdgeInsets.symmetric(
-                  //           horizontal: 16.0,
-                  //           vertical: 21.0,
-                  //         ),
-                  //         child: tmp())),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (context.locale == Locale('ar')) {
-                          context.setLocale(Locale('en'));
-                          Provider.of<SettingsController>(context,
-                                  listen: false)
-                              .changeCurrentAppLanguage();
-                        } else {
-                          context.setLocale(Locale('ar'));
-                          Provider.of<SettingsController>(context,
-                                  listen: false)
-                              .changeCurrentAppLanguage();
-                        }
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          context.locale == Locale('ar')
-                              ? Text("ترجم إلى الانجليزية")
-                              : Text("Switch to Arabic language"),
-                          Icon(Icons.language),
-                        ],
-                      ),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: MyColors.color3),
+    return Consumer<TeacherProvider>(builder: (context, prov, x) {
+      var res = prov.teacherData;
+      //print("res=" + res.toString());
+      return Scaffold(
+          body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            StackContainer(name: res['name']),
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  children: [
+                    CardItem(
+                      label: "Name".tr(),
+                      text: res["name"],
+                      edit: false,
                     ),
-                  ),
+                    CardItem(
+                      label: "Email".tr(),
+                      text: res["email"],
+                      idx: 2,
+                      edit: false,
+                    ),
+                    CardItem(
+                      label: "Phone".tr(),
+                      text: res["phone"],
+                      idx: 1,
+                      onPressed: () {
+                        Provider.of<TeacherProvider>(context, listen: false)
+                            .updatePhone();
+                        prov.setTeacherData();
+                        Navigator.pop(context);
+                      },
+                    ),
+                    // Card(
+                    //     child: Padding(
+                    //         padding: const EdgeInsets.symmetric(
+                    //           horizontal: 16.0,
+                    //           vertical: 21.0,
+                    //         ),
+                    //         child: tmp())),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (context.locale == Locale('ar')) {
+                            context.setLocale(Locale('en'));
+                            Provider.of<SettingsController>(context,
+                                    listen: false)
+                                .changeCurrentAppLanguage();
+                          } else {
+                            context.setLocale(Locale('ar'));
+                            Provider.of<SettingsController>(context,
+                                    listen: false)
+                                .changeCurrentAppLanguage();
+                          }
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            context.locale == Locale('ar')
+                                ? Text("ترجم إلى الانجليزية")
+                                : Text("Switch to Arabic language"),
+                            Icon(Icons.language),
+                          ],
+                        ),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: MyColors.color3),
+                      ),
+                    ),
 
-                  MomComand(
-                    title: 'Log Out'.tr(),
-                    subtitle: " ",
-                    icon: Icon(Icons.logout),
-                    color: MyColors.color4,
-                    onPressed: (() {
-                      AppRouter.appRouter.goToWidget(SignInPage1());
-                    }),
-                  )
-                ],
-              )),
-        ],
-      ),
-    ));
+                    MomComand(
+                      title: 'Log Out'.tr(),
+                      subtitle: " ",
+                      icon: Icon(Icons.logout),
+                      color: MyColors.color4,
+                      onPressed: (() {
+                        AppRouter.appRouter.goToWidget(SignInPage1());
+                      }),
+                    )
+                  ],
+                )),
+          ],
+        ),
+      ));
+    });
   }
 }
-
-// class TopBar extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return SafeArea(
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//         children: <Widget>[
-//           IconButton(
-//             onPressed: () {},
-//             icon: Icon(
-//               Icons.arrow_back,
-//               color: Colors.white,
-//             ),
-//           ),
-//           IconButton(
-//             onPressed: () {},
-//             icon: Icon(Icons.menu, color: Colors.white),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
 
 class CardItem extends StatelessWidget {
   String label;
   String text;
   bool edit;
   int idx;
+  VoidCallback? onPressed;
+
   CardItem({
     Key? key,
     required this.label,
     required this.text,
     this.edit = true,
     this.idx = 0,
+    this.onPressed,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -177,12 +173,16 @@ class CardItem extends StatelessWidget {
                                   children: [
                                     TextField(
                                       keyboardType: TextInputType.number,
+                                      controller: Provider.of<TeacherProvider>(
+                                              context,
+                                              listen: false)
+                                          .phoneC,
                                     ),
                                     SizedBox(
                                       height: 30,
                                     ),
                                     elevatedButon(
-                                        text: 'Edit', onPressed: () {})
+                                        text: 'Edit', onPressed: onPressed!)
                                   ],
                                 ),
                               ),
@@ -220,6 +220,7 @@ class MyCustomClipper extends CustomClipper<Path> {
 
 class StackContainer extends StatelessWidget {
   String name;
+
   StackContainer({
     Key? key,
     required this.name,
@@ -227,6 +228,13 @@ class StackContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Uint8List image = Uint8List.fromList([0, 0].cast<int>());
+    if (Provider.of<TeacherProvider>(context).teacherData['image'] != null) {
+      List<dynamic> imageData =
+          Provider.of<TeacherProvider>(context).teacherData['image']['data'];
+      image = Uint8List.fromList(imageData.cast<int>());
+    }
+    //print(image.toString());
     return Container(
       height: 270.0,
       child: Stack(
@@ -256,13 +264,41 @@ class StackContainer extends StatelessWidget {
                     decoration: BoxDecoration(
                         border:
                             Border.all(width: 5, color: Colors.transparent)),
-                    child: ClipOval(
-                      child: Image.network(
-                        "https://images.pexels.com/photos/5212317/pexels-photo-5212317.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                        height: 200,
-                        width: 200,
-                        fit: BoxFit.cover,
-                      ),
+                    child: Stack(
+                      children: [
+                        // ClipOval(
+                        //   child: (Provider.of<TeacherProvider>(context)
+                        //               .teacherData['image'] ==
+                        //           null)
+                        //       ? Image.asset(
+                        //           'lib/core/images/placeholder.png',
+                        //           height: 200,
+                        //           width: 200,
+                        //           fit: BoxFit.cover,
+                        //         )
+                        //       : Image.memory(
+                        //           image,
+                        //           height: 200,
+                        //           width: 200,
+                        //           fit: BoxFit.cover,
+                        //         ),
+                        // ),
+                        Positioned(
+                          right: 5,
+                          top: 80,
+                          child: CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Colors.white,
+                            child: IconButton(
+                                onPressed: () {
+                                  Provider.of<TeacherProvider>(context,
+                                          listen: false)
+                                      .pickImageForTeacher(ImageSource.gallery);
+                                },
+                                icon: Icon(Icons.edit)),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),

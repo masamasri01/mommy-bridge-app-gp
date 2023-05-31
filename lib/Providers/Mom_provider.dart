@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:gp/UI/Mom_UI/mom_profile_view.dart';
 import 'package:gp/practice%20db/config.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class MomProvider extends ChangeNotifier {
@@ -139,22 +141,22 @@ class MomProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addMedicine() async {
+  addMedicine() async {
     try {
+      // print("object________!");
       final response = await http.post(Uri.parse(medicineAdd),
           headers: {
             'Content-Type': 'application/json', // Example header
-            'Authorization': 'Bearer your-token', // Example header
           },
           body: jsonEncode({
             'medicineName': medicineNameC.text,
             'daily': dailyMed,
             'noDays': noDaysC.text,
-            'noDoses': noDoses,
+            'noDoses': noDoses.text,
             'childId': childChosenId,
             'details': details.text,
           }));
-
+      //print("object____________________" + response.statusCode.toString());
       if (response.statusCode == 200) {
         print('Medicine added successfully');
       } else {
@@ -162,6 +164,52 @@ class MomProvider extends ChangeNotifier {
       }
     } catch (e) {
       print('An error occurred: $e');
+    }
+  }
+
+  var medicines;
+  Future<List<dynamic>> getMed() async {
+    return await medicines;
+  }
+
+  Future<List<dynamic>> fetchMedicines() async {
+    final url = '$getMySonsMedicine$momId';
+
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+        medicines = jsonData['medicines'] as List<dynamic>;
+        notifyListeners();
+        return medicines;
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error occurred: $error');
+    }
+    medicines = [];
+    return [];
+  }
+
+  TextEditingController addressC = TextEditingController();
+  updateChildAddresss() async {
+    if (addressC.text.isNotEmpty) {
+      var regBody = {"childId": childData["_id"], "newAddress": addressC.text};
+      print("masssaa" + childData["_id"]);
+      var response = await http.post(Uri.parse(updateChildAddress),
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode(regBody));
+
+      var jsonResponse = jsonDecode(response.body);
+      if (jsonResponse['status']) {
+        addressC.clear();
+        getMyChildData(childData["_id"]);
+        notifyListeners();
+      } else {
+        print("SomeThing Went Wrong");
+      }
     }
   }
 
@@ -232,5 +280,35 @@ class MomProvider extends ChangeNotifier {
         print("SomeThing Went Wrong");
       }
     }
+  }
+
+  File? MomImageFile;
+
+  void pickImageForMom(ImageSource imageSource) async {
+    XFile? pickedFile = await ImagePicker().pickImage(source: imageSource);
+    if (pickedFile != null) {
+      MomImageFile = File(pickedFile.path);
+      notifyListeners();
+    }
+    if (MomImageFile != null) {
+      print("reached");
+      var request = http.MultipartRequest('POST', Uri.parse(updateMomImage));
+      print("reached3");
+      request.files
+          .add(await http.MultipartFile.fromPath('image', MomImageFile!.path));
+      request.fields['momId'] = momId!;
+      print("reached2");
+      var response = await request.send();
+      print("fdf" + response.statusCode.toString());
+      if (response.statusCode == 201) {
+        // description.clear();
+
+        print('Image uploaded successfully');
+      } else {
+        print('Image upload failed');
+      }
+    }
+    setMomData();
+    notifyListeners();
   }
 }

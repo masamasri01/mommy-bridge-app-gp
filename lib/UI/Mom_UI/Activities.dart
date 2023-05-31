@@ -23,13 +23,13 @@ class ActivitiesFeed extends StatelessWidget {
               children: [
                 ShowDate(),
                 NapPost(
-                    name: 'Moen Alaa',
+                    name: 'Yazeed Jabr',
                     image: childrenList[0]['image'],
                     startTime: '2:09pm',
                     endTime: '3:09pm'),
-                MealPost(name: 'Yaman as', image: childrenList[2]['image']),
+                MealPost(name: 'Yazeed Jabr', image: childrenList[2]['image']),
                 AccidentPost(
-                    name: 'Huda Masri',
+                    name: 'Yara Jabr',
                     time: '5:00pm',
                     image: childrenList[0]['image'],
                     type: 'Fall',
@@ -98,7 +98,7 @@ class NapPost extends StatelessWidget {
             const SizedBox(
               height: 8,
             ),
-            ChildTile2(index: 0, name: name, image: image),
+            ChildTile2(index: 0, name: name, image: [1], activities: true),
           ],
         ),
       ),
@@ -164,7 +164,7 @@ class MealPost extends StatelessWidget {
             const SizedBox(
               height: 7,
             ),
-            ChildTile2(index: 1, name: name, image: image),
+            ChildTile2(index: 1, name: name, image: [1], activities: true),
           ],
         ),
       ),
@@ -226,7 +226,7 @@ class AccidentPost extends StatelessWidget {
               children: [navyText('Accident type:'.tr()), navyText(type)],
             ),
             navyText(desc),
-            ChildTile2(index: 2, name: name, image: image),
+            ChildTile2(index: 2, name: name, image: [1], activities: true),
           ],
         ),
       ),

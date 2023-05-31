@@ -1,80 +1,121 @@
-import 'package:flutter/material.dart';
-import 'package:date_picker_timeline/date_picker_timeline.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:date_picker_timeline/date_picker_timeline.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import 'package:gp/Providers/Teacher_provider.dart';
 import 'package:gp/UI/widgets/custom_appBar.dart';
 import 'package:gp/core/Texts/text.dart';
-import 'package:easy_localization/easy_localization.dart';
 
-class Feed extends StatelessWidget {
-  const Feed({super.key});
+import 'package:intl/intl.dart';
+
+class Feed extends StatefulWidget {
+  const Feed({Key? key}) : super(key: key);
 
   @override
+  State<Feed> createState() => _FeedState();
+}
+
+class _FeedState extends State<Feed> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Consumer<TeacherProvider>(builder: (context, provider, x) {
+      DateTime selectedDate = provider
+          .selectedDate; // Replace with the selected date from the time picker
+
+      return Scaffold(
         appBar: ab_noleading('Feed'.tr()),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
               children: [
                 Container(
+                  height: 100,
+                  margin: const EdgeInsets.all(1),
+                  child: DatePicker(
+                    DateTime.parse('2023-05-01 20:18:04Z'),
                     height: 100,
-                    margin: const EdgeInsets.all(1),
-                    child: DatePicker(
-                      DateTime.now(),
-                      height: 100,
-                      width: 80,
-                      selectionColor: Theme.of(context).primaryColor,
-                      daysCount: 32,
-                      dateTextStyle: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.grey),
-                      onDateChange: (selectedDate) {
-                        // prov.changeSelectedDate(selectedDate);
-                      },
-                    )),
-                SizedBox(
-                  height: 10,
+                    width: 80,
+                    selectionColor: Theme.of(context).primaryColor,
+                    daysCount: 32,
+                    dateTextStyle: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey,
+                    ),
+                    onDateChange: (selectedDate) {
+                      // Update the selectedDate when the user selects a new date
+                      provider.setSelectedDate(selectedDate);
+                    },
+                  ),
                 ),
-                FeedCard(),
-                FeedCard(),
-                FeedCard(),
+                SizedBox(height: 10),
+                FutureBuilder<List<Activity>>(
+                  future: provider.getActivitiesByDate(selectedDate),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.hasData) {
+                      final activities = snapshot.data!;
+
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: activities.length,
+                        itemBuilder: (context, index) {
+                          final activity = activities[index];
+                          return FeedCard(activity: activity);
+                        },
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      return Text('No activities found');
+                    }
+                  },
+                ),
               ],
             ),
           ),
-        ));
+        ),
+      );
+    });
   }
 }
 
 class FeedCard extends StatelessWidget {
-  const FeedCard({super.key});
+  final Activity activity;
+
+  const FeedCard({Key? key, required this.activity}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Uint8List image = Uint8List.fromList([0, 0].cast<int>());
+    if (activity.profileImage != null) {
+      List<dynamic> imageData = activity.profileImage;
+      image = Uint8List.fromList(imageData.cast<int>());
+    }
     return Card(
-      //  elevation: 1,
       color: Theme.of(context).cardColor,
       margin: const EdgeInsets.symmetric(horizontal: 2),
       child: Container(
-        //  height: 368,
         padding: const EdgeInsets.symmetric(horizontal: 6.0),
-        // decoration: BoxDecoration(
-        //   border: Border.all(color: Colors.grey),
-        //   borderRadius: BorderRadius.circular(10),
-        // ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           ListTile(
               contentPadding: const EdgeInsets.all(0),
               leading: CircleAvatar(
                 radius: 30,
-                backgroundImage: NetworkImage(
-                    'https://th.bing.com/th/id/R.2998a6cd018195303ab36ca50f881493?rik=najAV1%2fipGy4lQ&pid=ImgRaw&r=0'),
+                backgroundImage: MemoryImage(image),
               ),
-              title: navyText(
-                'Rahaf Omar',
-              ),
-              subtitle: Text('3:02 am',
+              title: navyText(activity.teacherName),
+              subtitle: Text(
+                  DateFormat('h:mm a').format(activity.timestamp).toString(),
                   style: Theme.of(context).textTheme.bodyText2!.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.normal,
@@ -85,7 +126,7 @@ class FeedCard extends StatelessWidget {
                     Icons.more_horiz,
                     color: Theme.of(context).iconTheme.color,
                   ))),
-          Text('we are having so much fun and knowledge',
+          Text(activity.description,
               textAlign: TextAlign.left,
               style: GoogleFonts.roboto(fontSize: 17)),
           SizedBox(
@@ -93,8 +134,8 @@ class FeedCard extends StatelessWidget {
           ),
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              'https://th.bing.com/th/id/OIP.vwyZx_tyS_PYgqdZ5PP_eAHaE8?pid=ImgDet&rs=1',
+            child: Image.memory(
+              activity.image,
               height: 200,
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.cover,
@@ -132,4 +173,18 @@ class FeedCard extends StatelessWidget {
       ),
     );
   }
+}
+
+class Activity {
+  final String description;
+  final Uint8List image;
+  final DateTime timestamp;
+  final String teacherName;
+  final List<dynamic> profileImage;
+  Activity(
+      {required this.description,
+      required this.image,
+      required this.timestamp,
+      required this.teacherName,
+      required this.profileImage});
 }

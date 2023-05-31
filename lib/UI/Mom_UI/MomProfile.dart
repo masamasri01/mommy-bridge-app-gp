@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gp/Education/pick_a_child_page.dart';
+import 'package:gp/Providers/Mom_provider.dart';
 import 'package:gp/Router/app_router.dart';
 import 'package:gp/UI/Landing_page/landing_page.dart';
 import 'package:gp/UI/Mom_UI/announcements_view.dart';
@@ -22,8 +24,14 @@ class MomProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<dynamic> imageData =
+        Provider.of<MomProvider>(context).momData['image']['data'];
+    Uint8List image = Uint8List.fromList(imageData.cast<int>());
     return Scaffold(
-        appBar: AppBarWidget(context: context),
+        appBar: AppBarWidget(
+          context: context,
+          image: image,
+        ),
         body: SingleChildScrollView(
             child: Padding(
           padding: const EdgeInsets.symmetric(
@@ -60,28 +68,13 @@ class MomProfileView extends StatelessWidget {
               subtitle: "Add medicine details for your children".tr(),
               icon: Icon(Icons.medication_outlined),
               color: MyColors.color2,
-              onPressed: (() {
+              onPressed: (() async {
+                await Provider.of<MomProvider>(context, listen: false)
+                    .fetchMedicines();
                 AppRouter.appRouter.goToWidget(MedicineDetails());
               }),
             ),
-            // MomComand(
-            //   title: 'Allergies'.tr(),
-            //   subtitle: "Add Allergies for your children".tr(),
-            //   icon: Icon(Icons.medication_outlined),
-            //   color: MyColors.color2,
-            //   onPressed: (() {
-            //     AppRouter.appRouter.goToWidget(Allergies());
-            //   }),
-            // ),
-            // MomComand(
-            //   title: 'Hobbies and Preferences'.tr(),
-            //   subtitle: "Let teachers know your children's favorites".tr(),
-            //   icon: Icon(Icons.medication_outlined),
-            //   color: MyColors.color2,
-            //   onPressed: (() {
-            //     AppRouter.appRouter.goToWidget(Preferences());
-            //   }),
-            //  ),
+
             MomComand(
               title: 'Announcements'.tr(),
               subtitle: "Check if there's an important announcement".tr(),
@@ -92,12 +85,14 @@ class MomProfileView extends StatelessWidget {
               }),
             ),
             MomComand(
-              title: 'Educational Material'.tr(),
+              title: 'Monthly Reports'.tr(),
               subtitle: "".tr(),
               icon: Icon(Icons.announcement),
               color: MyColors.color2,
               onPressed: (() {
-                AppRouter.appRouter.goToWidget(PickAChild());
+                AppRouter.appRouter.goToWidget(MyChildren(
+                  reports: true,
+                ));
               }),
             ),
             MomComand(
@@ -106,7 +101,7 @@ class MomProfileView extends StatelessWidget {
               icon: Icon(Icons.announcement),
               color: MyColors.color2,
               onPressed: (() {
-                AppRouter.appRouter.goToWidget(PickAChild());
+                AppRouter.appRouter.goToWidget(MyChildren());
               }),
             ),
             Padding(

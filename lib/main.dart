@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:gp/Homeworks/shapes_quiz/shapes_speech_app.dart';
+import 'package:gp/UI/Mom_UI/Feed.dart';
 import 'package:gp/UI/sign_in_page.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -26,9 +27,6 @@ import 'package:gp/settings_controller.dart/settingscontroller.dart';
 import 'package:gp/splash.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:speech_to_text/speech_recognition_error.dart';
-import 'package:speech_to_text/speech_recognition_result.dart';
-import 'package:speech_to_text/speech_to_text.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,

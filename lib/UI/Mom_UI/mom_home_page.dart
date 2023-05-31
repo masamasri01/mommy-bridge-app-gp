@@ -9,11 +9,6 @@ import 'package:gp/UI/Mom_UI/MomProfile.dart';
 import 'package:gp/chat/chat_home_page.dart';
 import 'package:gp/core/Colors/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:gp/practice%20db/config.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
-import 'package:gp/config.dart';
 
 class MomHomePage extends StatefulWidget {
   final token;

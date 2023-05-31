@@ -1,8 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
-
 import 'package:provider/provider.dart';
 
 import 'package:gp/Providers/Teacher_provider.dart';
@@ -12,20 +11,22 @@ import 'package:gp/core/Texts/text.dart';
 import 'package:gp/core/widgets.dart';
 
 class medDetailsWidget extends StatefulWidget {
-  String childName;
-  int noDoses;
-  String medName;
-  String timeStamp;
-  int noDays;
-  bool isDaily;
+  String? childName;
+  int? noDoses;
+  String? medName;
+  int? noDays;
+  bool? isDaily;
+  String? details;
+  String cretaedAt;
   medDetailsWidget({
     Key? key,
-    this.isDaily = false,
     required this.childName,
     required this.noDoses,
     required this.medName,
-    required this.timeStamp,
     required this.noDays,
+    this.isDaily = false,
+    required this.details,
+    required this.cretaedAt,
   }) : super(key: key);
 
   @override
@@ -36,6 +37,16 @@ class _medDetailsWidgetState extends State<medDetailsWidget> {
   bool checked = false;
   @override
   Widget build(BuildContext context) {
+    // Assuming you have a start date and today's date
+    DateTime startDate = DateTime.parse(widget.cretaedAt);
+    DateTime today = DateTime.now();
+
+// Calculate the difference between the two dates
+    Duration difference = today.difference(startDate);
+
+// Get the number of days as an integer
+    int daysLeft = difference.inDays;
+
     bool isMom = Provider.of<TeacherProvider>(context, listen: false).isMom!;
 
     return Container(
@@ -59,31 +70,31 @@ class _medDetailsWidgetState extends State<medDetailsWidget> {
                     fontSize: 16),
                 children: <TextSpan>[
                   TextSpan(
-                      text: widget.childName + ' ',
+                      text: widget.childName! + ' ',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: MyColors.color3,
                           fontSize: 20)),
                   TextSpan(text: 'needs to take '.tr()),
                   TextSpan(
-                      text: ' ' + widget.medName,
+                      text: ' ' + widget.medName!,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: MyColors.color4,
                           fontSize: 20)),
-                  TextSpan(text: ' at '.tr()),
-                  TextSpan(
-                      text: widget.timeStamp,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: MyColors.color3,
-                          fontSize: 20)),
-                  TextSpan(text: '.'),
+                  // TextSpan(text: ' at '.tr()),
+                  // TextSpan(
+                  //     text: widget.timeStamp,
+                  //     style: TextStyle(
+                  //         fontWeight: FontWeight.bold,
+                  //         color: MyColors.color3,
+                  //         fontSize: 20)),
+                  // TextSpan(text: '.'),
                 ],
               ),
             ),
             Divider(),
-            widget.isDaily
+            widget.isDaily ?? true
                 ? navyText('This is a daily Meditation'.tr())
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -98,7 +109,7 @@ class _medDetailsWidgetState extends State<medDetailsWidget> {
                             border: Border.all(color: MyColors.color1)),
                         child: Center(
                           child: Text(
-                            widget.noDoses.toString(),
+                            daysLeft.toString(),
                             style: TextStyle(fontSize: 24),
                           ),
                         ),
@@ -126,6 +137,60 @@ class _medDetailsWidgetState extends State<medDetailsWidget> {
                 ),
               ],
             ),
+            Divider(),
+            Column(
+              //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                navyText('This meditation started at:'.tr()),
+                Container(
+                  margin: EdgeInsets.all(3),
+                  height: 33,
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  decoration: BoxDecoration(
+                      color: MyColors.white,
+                      border: Border.all(color: MyColors.color2)),
+                  child: Center(
+                    child: Text(
+                      DateFormat('yyyy-MM-dd')
+                          .format(DateTime.parse(widget.cretaedAt)),
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                ),
+                widget.isDaily == true
+                    ? SizedBox()
+                    : navyText('and should be taken for :'.tr() +
+                        widget.noDays.toString() +
+                        ' days'),
+              ],
+            ),
+            Divider(),
+            widget.details != null
+                ? Column(
+                    //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      navyText('Other details/ instructions:'.tr()),
+                      Container(
+                        margin: EdgeInsets.all(3),
+                        height: 33,
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        decoration: BoxDecoration(
+                            color: MyColors.white,
+                            border: Border.all(color: MyColors.color3)),
+                        child: Center(
+                          child: Text(
+                            widget.details!,
+                          ),
+                        ),
+                      ),
+                      widget.isDaily == true
+                          ? SizedBox()
+                          : navyText('and should be taken for :'.tr() +
+                              widget.noDays.toString() +
+                              ' days'),
+                    ],
+                  )
+                : SizedBox(),
             isMom
                 ? SizedBox()
                 : Column(

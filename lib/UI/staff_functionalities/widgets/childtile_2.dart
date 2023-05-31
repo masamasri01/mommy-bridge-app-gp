@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gp/Providers/Teacher_provider.dart';
 import 'package:gp/UI/widgets/time_picker.dart';
@@ -8,17 +9,23 @@ import 'package:provider/provider.dart';
 
 class ChildTile2 extends StatelessWidget {
   String? name;
-  String? image;
+  List image;
   int index;
+  bool activities;
   bool? attendance;
   ChildTile2(
       {required this.index,
       required this.name,
       required this.image,
+      this.activities = false,
       this.attendance = false});
 
   @override
   Widget build(BuildContext context) {
+    Uint8List image1 = Uint8List.fromList([0, 0].cast<int>());
+    List<dynamic> imageData = image;
+    image1 = Uint8List.fromList(imageData.cast<int>());
+
     TextEditingController enteryTimeController =
         Provider.of<TeacherProvider>(context, listen: false)
             .enteryTimeController;
@@ -50,17 +57,30 @@ class ChildTile2 extends StatelessWidget {
                 child: Row(
                   // mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    ClipOval(
-                      child: CircleAvatar(
-                        child: Image.network(
-                          image ??
-                              "https://st2.depositphotos.com/4111759/12123/v/950/depositphotos_121232076-stock-illustration-girl-default-placeholder-children-avatar.jpg",
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
+                    activities == true
+                        ? ClipOval(
+                            child: CircleAvatar(
+                                child: Container(
+                              decoration: BoxDecoration(color: Colors.white12),
+                            )
+                                //  Image.asset(
+                                //   image1,
+                                //   width: 100,
+                                //   height: 100,
+                                //   fit: BoxFit.cover,
+                                // ),
+                                ),
+                          )
+                        : ClipOval(
+                            child: CircleAvatar(
+                              child: Image.memory(
+                                image1,
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                     SizedBox(
                       width: 10,
                     ),

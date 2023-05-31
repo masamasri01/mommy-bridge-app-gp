@@ -1,15 +1,23 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gp/UI/Mom_UI/report.dart';
+import 'package:provider/provider.dart';
+
 import 'package:gp/Providers/Mom_provider.dart';
 import 'package:gp/Router/app_router.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:gp/UI/Mom_UI/child_profile_for_mom.dart';
 import 'package:gp/UI/Mom_UI/widgets/child_card.dart';
 import 'package:gp/UI/widgets/custom_appBar.dart';
 import 'package:gp/core/Texts/text.dart';
-import 'package:provider/provider.dart';
 
 class MyChildren extends StatefulWidget {
-  MyChildren({Key? key}) : super(key: key);
+  bool reports;
+  MyChildren({
+    Key? key,
+    this.reports = false,
+  }) : super(key: key);
 
   @override
   _MyChildrenState createState() => _MyChildrenState();
@@ -33,7 +41,7 @@ class _MyChildrenState extends State<MyChildren> {
         padding: EdgeInsets.all(7),
         child: Column(
           children: [
-            boldText('m'.tr()),
+            boldText('My Children2'.tr()),
             Expanded(
               child: GridView.count(
                 crossAxisCount: 2,
@@ -54,7 +62,7 @@ class _MyChildrenState extends State<MyChildren> {
                         } else {
                           var childData = snapshot.data!;
                           var teacherName = childData["teacherId"]["name"];
-                          print("Teacher Name: $teacherName");
+                          // print("Teacher Name: $teacherName");
 
                           return Container(
                             margin: EdgeInsets.symmetric(horizontal: 2.3),
@@ -64,17 +72,27 @@ class _MyChildrenState extends State<MyChildren> {
                               borderRadius: BorderRadius.circular(14),
                             ),
                             child: ChildCard(
-                              img: childData['image'],
+                              img: childData['image'] == null
+                                  ? Uint8List.fromList(([0, 0]).cast<int>())
+                                  : Uint8List.fromList(
+                                      (childData['image']['data']).cast<int>()),
                               color: Colors.pink,
                               heading: childData['fullName'],
-                              description: "T. " + teacherName ?? "",
+                              description: "T. " + teacherName,
                               color1: Colors.white,
                               onPressed: () async {
-                                Provider.of<MomProvider>(context, listen: false)
+                                await Provider.of<MomProvider>(context,
+                                        listen: false)
                                     .getMyChildData(e["_id"]);
-                                AppRouter.appRouter.goToWidget(
-                                  childProfileForMom(childId: e["_id"]),
-                                );
+                                (widget.reports == false)
+                                    ? {
+                                        AppRouter.appRouter.goToWidget(
+                                          childProfileForMom(childId: e["_id"]),
+                                        )
+                                      }
+                                    : {
+                                        AppRouter.appRouter.goToWidget(Report())
+                                      };
                               },
                             ),
                           );

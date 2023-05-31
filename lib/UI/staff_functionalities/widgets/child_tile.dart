@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -9,7 +10,7 @@ import 'package:gp/core/Colors/colors.dart';
 
 class ChildTile extends StatelessWidget {
   String name;
-  String? image;
+  List image;
   int index;
 
   ChildTile({
@@ -20,6 +21,10 @@ class ChildTile extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    Uint8List image1 = Uint8List.fromList([0, 0].cast<int>());
+
+    List<dynamic> imageData = image;
+    image1 = Uint8List.fromList(imageData.cast<int>());
     return Container(
       padding: EdgeInsets.only(top: 12, bottom: 9, left: 16, right: 17),
       margin: EdgeInsets.only(left: 10, right: 10, bottom: 5),
@@ -38,13 +43,11 @@ class ChildTile extends StatelessWidget {
               Center(
                 child: CircleAvatar(
                   child: ClipOval(
-                    child: Image.network(
-                      (image == null)
-                          ? "https://st2.depositphotos.com/4111759/12123/v/950/depositphotos_121232076-stock-illustration-girl-default-placeholder-children-avatar.jpg"
-                          : image!,
+                    child: Image.memory(
+                      image1!,
                       width: 100,
                       height: 100,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                     ),
                   ),
                   backgroundColor: Colors.transparent,
@@ -69,7 +72,10 @@ class ChildTile extends StatelessWidget {
               // )
             ],
           ),
-          Container(height: 65, width: double.infinity, child: CustomRadio(index:index))
+          Container(
+              height: 65,
+              width: double.infinity,
+              child: CustomRadio(index: index))
         ],
       ),
     );

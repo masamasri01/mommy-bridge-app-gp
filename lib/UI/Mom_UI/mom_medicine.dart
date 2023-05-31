@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:gp/Providers/Mom_provider.dart';
 import 'package:gp/UI/Mom_UI/MomProfile.dart';
@@ -8,10 +10,12 @@ import 'package:gp/UI/widgets/custom_appBar.dart';
 import 'package:gp/UI/widgets/custum_button.dart';
 import 'package:gp/UI/widgets/dropdownbutton.dart';
 
-import 'package:provider/provider.dart';
-
 class MedicineDetails extends StatefulWidget {
-  MedicineDetails({super.key});
+  bool isMom;
+  MedicineDetails({
+    Key? key,
+    this.isMom = true,
+  }) : super(key: key);
 
   @override
   State<MedicineDetails> createState() => _MedicineDetailsState();
@@ -23,6 +27,7 @@ class _MedicineDetailsState extends State<MedicineDetails> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
     Provider.of<MomProvider>(context, listen: false).getMySonsList();
     mySonsList = Provider.of<MomProvider>(context, listen: false).mySonsList;
   }
@@ -129,6 +134,8 @@ class _MedicineDetailsState extends State<MedicineDetails> {
                                       text: 'Add'.tr(),
                                       onPressed: () {
                                         provider.addMedicine();
+                                        provider.fetchMedicines();
+                                        Navigator.pop(context);
                                       })),
                               Divider()
                             ],
@@ -146,33 +153,51 @@ class _MedicineDetailsState extends State<MedicineDetails> {
             size: 40,
           ),
         ),
+        /////////////*************************************** */
         body: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-            child: ListView.builder(
-                itemCount: 2,
-                itemBuilder: ((context, index) {
-                  return medDetailsWidget(
-                    childName: 'Fathi Mohammad',
-                    noDoses: 4,
-                    medName: 'medName',
-                    timeStamp: 'timeStamp',
-                    noDays: 2,
-                    isDaily: true,
-                  );
-                }))
-            //  Column(
-            //   children: [
-            //
-            //     medDetailsWidget(
-            //       childName: 'Fathi Mohammad',
-            //       noDoses: 4,
-            //       medName: 'medName',
-            //       timeStamp: 'timeStamp',
-            //       noDays: 5,
-            //     ),
-            //   ],
-            // ),
-            ),
+          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+          child: FutureBuilder<List<dynamic>>(
+            future: provider.getMed(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error occurred: ${snapshot.error}'));
+              } else {
+                final medicines = snapshot.data ?? [];
+
+                return ListView.builder(
+                  itemCount: medicines.length,
+                  itemBuilder: (context, index) {
+                    final medicine = medicines[index];
+                    final childName =
+                        'Fathi Mohammad'; // Provide the actual child name
+                    final medName = medicine[
+                        'medicineName']; // Assuming 'medicineName' is the key for the medicine name
+                    final details = medicine[
+                        'details']; // Assuming 'timestamps' is the key for the timestamp
+                    final noDays = medicine[
+                        'noDays']; // Assuming 'noDays' is the key for the number of days
+                    final noDoses = medicine[
+                        'noDoses']; // Assuming 'noDoses' is the key for the number of doses
+                    final isDaily = medicine[
+                        'daily']; // Assuming 'daily' is the key for the daily flag
+                    final createdAt = medicine['createdAt'];
+                    return medDetailsWidget(
+                      childName: childName,
+                      noDoses: noDoses,
+                      medName: medName,
+                      noDays: noDays,
+                      isDaily: isDaily,
+                      details: details,
+                      cretaedAt: createdAt,
+                    );
+                  },
+                );
+              }
+            },
+          ),
+        ),
       );
     });
   }

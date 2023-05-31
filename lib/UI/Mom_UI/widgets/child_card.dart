@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 
@@ -6,13 +7,13 @@ import 'package:gp/Router/app_router.dart';
 import 'package:gp/UI/Mom_UI/widgets/timeline.dart';
 
 class ChildCard extends StatelessWidget {
-  final String? img;
+  final Uint8List? img;
   final Color color;
   final String? heading;
   final String description;
   final Color color1;
   final VoidCallback onPressed;
-  
+
   ChildCard(
       {Key? key,
       required this.img,
@@ -58,12 +59,14 @@ class ChildCard extends StatelessWidget {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(14.0),
                       // color: kcp1,
-                      image: DecorationImage(
-                          image: NetworkImage(
-                              img ??
-                                  "https://st2.depositphotos.com/4111759/12123/v/950/depositphotos_121232076-stock-illustration-girl-default-placeholder-children-avatar.jpg",
-                              scale: 10),
-                          fit: BoxFit.contain)),
+                      image: (img == Uint8List.fromList(([0, 0]).cast<int>()))
+                          ? const DecorationImage(
+                              image:
+                                  AssetImage('lib/core/images/placeholder.png'),
+                              fit: BoxFit.contain)
+                          : DecorationImage(
+                              image: MemoryImage(img!, scale: 10),
+                              fit: BoxFit.contain)),
                 ),
               ),
             ),

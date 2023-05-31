@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gp/Providers/Teacher_provider.dart';
 import 'package:gp/core/Colors/colors.dart';
@@ -12,79 +15,74 @@ import '../../Providers/Mom_provider.dart';
 class AppBarWidget extends PreferredSize {
 //  final UserModel user;
   final BuildContext context;
-
-  AppBarWidget({required this.context})
+  Uint8List image;
+  AppBarWidget({required this.context, required this.image})
       : super(
-          preferredSize: Size.fromHeight(250),
-          child: Container(
-            height: 270,
-            child: Stack(
-              children: [
-                Container(
-                  height: 161,
-                  width: double.maxFinite,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                  ),
-                  decoration: BoxDecoration(
-                    gradient: AppGradients.linear,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text.rich(
-                        TextSpan(
-                          text: "Hello, ",
-                          style: AppTextStyles.title,
-                          children: [
-                            TextSpan(
-                              text:
-                                  (Provider.of<TeacherProvider>(context).isMom!
-                                      ? Provider.of<MomProvider>(context,
-                                              listen: false)
-                                          .savedJsonRes['name']
-                                      : Provider.of<TeacherProvider>(context,
-                                              listen: false)
-                                          .savedJsonRes['name']),
-                              style: AppTextStyles.titleBold,
-                            ),
-                          ],
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          //   Navigator.pushNamed(
-                          //     context,
-                          //   //  AppRoutes.settingsRoute,
-                          //  //   arguments: SettingsPageArgs(user: user),
-                          //   );
-                        },
-                        child: Container(
-                          width: 58,
-                          height: 58,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                "https://avatars.githubusercontent.com/u/37520136?v=4",
+            preferredSize: Size.fromHeight(250),
+            child: Container(
+              height: 270,
+              child: Stack(
+                children: [
+                  Container(
+                    height: 161,
+                    width: double.maxFinite,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                    ),
+                    decoration: BoxDecoration(
+                      gradient: AppGradients.linear,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text.rich(
+                          TextSpan(
+                            text: "Hello, ",
+                            style: AppTextStyles.title,
+                            children: [
+                              TextSpan(
+                                text: (Provider.of<TeacherProvider>(context)
+                                        .isMom!
+                                    ? Provider.of<MomProvider>(context,
+                                            listen: false)
+                                        .savedJsonRes['name']
+                                    : Provider.of<TeacherProvider>(context,
+                                            listen: false)
+                                        .savedJsonRes['name']),
+                                style: AppTextStyles.titleBold,
                               ),
+                            ],
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            //   Navigator.pushNamed(
+                            //     context,
+                            //   //  AppRoutes.settingsRoute,
+                            //  //   arguments: SettingsPageArgs(user: user),
+                            //   );
+                          },
+                          child: Container(
+                            width: 58,
+                            height: 58,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              image: DecorationImage(image: MemoryImage(image)),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment(0.0, 1.0),
-                  child: ScoreCardWidget(
-                    scorePercentage: 0.99,
+                  Align(
+                    alignment: Alignment(0.0, 1.0),
+                    child: ScoreCardWidget(
+                      scorePercentage: 0.99,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-        );
+                ],
+              ),
+            ));
 }
 
 class AppGradients {

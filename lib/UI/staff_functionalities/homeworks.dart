@@ -17,7 +17,7 @@ class Homework extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: ab('Homeworks'),
+      appBar: ab('Quizzes & Games'),
       // drawer: drawer(),
       body: Column(
         children: [

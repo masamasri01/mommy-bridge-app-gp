@@ -1,15 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gp/Router/app_router.dart';
+import 'package:gp/UI/Mom_UI/MomProfile.dart';
+import 'package:gp/UI/Mom_UI/mom_profile_view.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import 'package:gp/Providers/App_provider.dart';
 import 'package:gp/Providers/Mom_provider.dart';
 import 'package:gp/Providers/Teacher_provider.dart';
 import 'package:gp/UI/widgets/custum_button.dart';
 import 'package:gp/UI/widgets/text_area.dart';
-import 'package:gp/core/API/children.dart';
 import 'package:gp/core/Colors/colors.dart';
 
 class childProfileForMom extends StatefulWidget {
@@ -30,11 +32,16 @@ class _childProfileForMomState extends State<childProfileForMom> {
   }
 
   @override
-  void didChangeDependencies() {
+  Future<void> didChangeDependencies() async {
     super.didChangeDependencies();
-    Provider.of<MomProvider>(context, listen: false)
-        .getMyChildData(widget.childId);
-    res = Provider.of<MomProvider>(context, listen: false).childData;
+    (widget.forMom == true)
+        ? await Provider.of<MomProvider>(context, listen: false)
+            .getMyChildData(widget.childId)
+        : await Provider.of<TeacherProvider>(context, listen: false)
+            .getMyChildData(widget.childId);
+    (widget.forMom == true)
+        ? res = Provider.of<MomProvider>(context, listen: false).childData
+        : res = Provider.of<TeacherProvider>(context, listen: false).childData;
   }
 
   @override
@@ -43,11 +50,22 @@ class _childProfileForMomState extends State<childProfileForMom> {
         ? Consumer<MomProvider>(builder: (context, prov, x) {
             Provider.of<MomProvider>(context, listen: false)
                 .getMyChildData(widget.childId);
+            Uint8List image1 = Uint8List.fromList([0, 0].cast<int>());
+
+            List<dynamic> imageData =
+                Provider.of<MomProvider>(context).childData['image']['data'];
+            image1 = Uint8List.fromList(imageData.cast<int>());
+
             return Scaffold(
                 body: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  StackContainer(name: prov.childData["fullName"]),
+                  StackContainer(
+                    name: prov.childData["fullName"],
+                    childId: prov.childData["_id"],
+                    image: image1,
+                    editImage: true,
+                  ),
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Column(
@@ -98,17 +116,51 @@ class _childProfileForMomState extends State<childProfileForMom> {
             ));
           })
         : Consumer<TeacherProvider>(builder: (context, prov, x) {
-            Provider.of<TeacherProvider>(context, listen: false)
-                .getMyChildData(widget.childId);
+            // Provider.of<TeacherProvider>(context, listen: false)
+            //     .getMyChildData(widget.childId);
+            Uint8List image1 = Uint8List.fromList([0, 0].cast<int>());
+
+            List<dynamic> imageData = Provider.of<TeacherProvider>(context)
+                .childData['image']['data'];
+            image1 = Uint8List.fromList(imageData.cast<int>());
+
             return Scaffold(
                 body: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  StackContainer(name: prov.childData["fullName"]),
+                  StackContainer(
+                    name: prov.childData["fullName"],
+                    childId: prov.childData["_id"],
+                    image: image1,
+                    editImage: false,
+                  ),
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Column(
                         children: [
+                          MomComand(
+                            title: 'Mom Details'.tr(),
+                            subtitle: "click to see mom's details".tr(),
+                            icon: Icon(Icons.medication_outlined),
+                            color: MyColors.color4,
+                            onPressed: (() async {
+                              await Provider.of<TeacherProvider>(context,
+                                      listen: false)
+                                  .getMomDataByChildId(widget.childId);
+                              print(Provider.of<TeacherProvider>(context,
+                                      listen: false)
+                                  .getMomDataByChildId(widget.childId)
+                                  .toString());
+                              AppRouter.appRouter.goToWidget(MomProfile(
+                                  forTeacher: true, childId: widget.childId));
+                            }),
+                          ),
+                          CardItem(
+                            label: "Mom".tr(),
+                            text: prov.childData["classId"]["className"] ??
+                                "not entered",
+                            ss: "",
+                          ),
                           CardItem(
                             label: "Class".tr(),
                             text: prov.childData["classId"]["className"] ??
@@ -126,7 +178,7 @@ class _childProfileForMomState extends State<childProfileForMom> {
                             text: prov.childData["address"] ?? "not entered",
                             edit: false,
                             ss: "address",
-                            childId: widget.childId,
+                            childId: prov.childData["_id"],
                           ),
                           CardItem(
                             label: "Hobbies & Preferences".tr(),
@@ -136,7 +188,7 @@ class _childProfileForMomState extends State<childProfileForMom> {
                             edit: false,
                             add: true,
                             ss: "hobby",
-                            childId: widget.childId,
+                            childId: prov.childData["_id"],
                           ),
                           CardItem(
                             label: "Food Allergies from".tr(),
@@ -146,7 +198,7 @@ class _childProfileForMomState extends State<childProfileForMom> {
                             ss: "allergy",
                             edit: false,
                             add: true,
-                            childId: widget.childId,
+                            childId: prov.childData["_id"],
                           ),
                         ],
                       )),
@@ -309,11 +361,20 @@ class CardItem extends StatelessWidget {
               height: 150,
               child: Column(
                 children: [
-                  TextField(),
+                  TextField(
+                    controller: Provider.of<MomProvider>(context, listen: false)
+                        .addressC,
+                  ),
                   SizedBox(
                     height: 30,
                   ),
-                  elevatedButon(text: 'Edit'.tr(), onPressed: () {})
+                  elevatedButon(
+                      text: 'Edit'.tr(),
+                      onPressed: () {
+                        Provider.of<MomProvider>(context, listen: false)
+                            .updateChildAddresss();
+                        Navigator.pop(context);
+                      })
                 ],
               ),
             ),
@@ -341,12 +402,12 @@ class CardItem extends StatelessWidget {
                   elevatedButon(
                       text: 'Add'.tr(),
                       onPressed: () {
-                        print("adding allergy, allergy controller text:" +
-                            Provider.of<MomProvider>(context, listen: false)
-                                .allergyNameController
-                                .text +
-                            "child id = " +
-                            childId!);
+                        // print("adding allergy, allergy controller text:" +
+                        //     Provider.of<MomProvider>(context, listen: false)
+                        //         .allergyNameController
+                        //         .text +
+                        //     "child id = " +
+                        //     childId!);
                         Provider.of<MomProvider>(context, listen: false)
                             .addAllergy(
                                 childId!,
@@ -386,12 +447,12 @@ class CardItem extends StatelessWidget {
                   elevatedButon(
                       text: 'Add'.tr(),
                       onPressed: () {
-                        print("adding hobby, allergy controller text:" +
-                            Provider.of<MomProvider>(context, listen: false)
-                                .preferenceNameController
-                                .text +
-                            "child id = " +
-                            childId!);
+                        // print("adding hobby, allergy controller text:" +
+                        //     Provider.of<MomProvider>(context, listen: false)
+                        //         .preferenceNameController
+                        //         .text +
+                        //     "child id = " +
+                        //     childId!);
                         Provider.of<MomProvider>(context, listen: false)
                             .addHobby(
                                 childId!,
@@ -430,9 +491,15 @@ class MyCustomClipper extends CustomClipper<Path> {
 
 class StackContainer extends StatelessWidget {
   String name;
+  String childId;
+  bool editImage;
+  Uint8List? image;
   StackContainer({
     Key? key,
     required this.name,
+    required this.childId,
+    required this.editImage,
+    required this.image,
   }) : super(key: key);
 
   @override
@@ -469,46 +536,40 @@ class StackContainer extends StatelessWidget {
                     child: Stack(children: [
                       ClipOval(
                           child: Center(
-                        child: (Provider.of<TeacherProvider>(context)
-                                    .childImageFile ==
-                                null)
-                            ? Image.asset(
-                                'lib/core/images/placeholder.png',
-                                height: 200,
-                                width: 200,
-                                fit: BoxFit.cover,
-                              )
-                            : Image.file(
-                                Provider.of<TeacherProvider>(context)
-                                    .childImageFile!,
-                                height: 200,
-                                width: 200,
-                                fit: BoxFit.cover,
+                        child:
+                            (image == Uint8List.fromList([0, 0].cast<int>()) ||
+                                    image == null)
+                                ? Image.asset(
+                                    'lib/core/images/placeholder.png',
+                                    height: 200,
+                                    width: 200,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.memory(
+                                    image!,
+                                    height: 200,
+                                    width: 200,
+                                    fit: BoxFit.cover,
+                                  ),
+                      )),
+                      (editImage == true)
+                          ? Positioned(
+                              right: 5,
+                              top: 80,
+                              child: CircleAvatar(
+                                radius: 20,
+                                backgroundColor: Colors.white,
+                                child: IconButton(
+                                    onPressed: () {
+                                      Provider.of<TeacherProvider>(context,
+                                              listen: false)
+                                          .pickImageForChild(
+                                              ImageSource.gallery, childId);
+                                    },
+                                    icon: Icon(Icons.edit)),
                               ),
-                      ))
-
-                      //  Image.network(
-                      //   childrenList[2]["image"],
-                      //   height: 200,
-                      //   width: 200,
-                      //   fit: BoxFit.cover,
-                      // ),
-                      ,
-                      Positioned(
-                        right: 5,
-                        top: 80,
-                        child: CircleAvatar(
-                          radius: 20,
-                          backgroundColor: Colors.white,
-                          child: IconButton(
-                              onPressed: () {
-                                Provider.of<TeacherProvider>(context,
-                                        listen: false)
-                                    .pickImageForChild(ImageSource.gallery);
-                              },
-                              icon: Icon(Icons.edit)),
-                        ),
-                      ),
+                            )
+                          : SizedBox()
                     ]),
                   ),
                 ),

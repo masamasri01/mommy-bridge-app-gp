@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class AttendanceChildtile extends StatefulWidget {
   String? name;
-  String? image;
+  List image;
   int index;
   bool? checked;
   bool? attendance;

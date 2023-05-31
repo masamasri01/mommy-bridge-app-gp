@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gp/Providers/App_provider.dart';
 import 'package:gp/Providers/Teacher_provider.dart';
@@ -38,15 +39,6 @@ class _Meals extends State<Meals> {
   late String childId;
   List<int?> amount = List.filled(50, 0); //index : amount
   List mychildrenList = [];
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
-
-  //   userId = jwtDecodedToken['_id'];
-  //   print("id-----------------" + userId);
-  //   getMyClassChildrenList(userId);
-  // }
 
   void addMeal() async {
     if (mealNameController.text.isNotEmpty) {
@@ -80,24 +72,6 @@ class _Meals extends State<Meals> {
     mealNameController.clear();
     Navigator.pop(context);
   }
-
-  // void getMyClassChildrenList(userId) async {
-  //   var regBody = {"teacherId": userId};
-
-  //   var response = await http.post(Uri.parse(MyChildrenListGet),
-  //       headers: {"Content-Type": "application/json"},
-  //       body: jsonEncode(regBody));
-  //   var jsonResponse = jsonDecode(response.body);
-  //   print('response json ' + jsonResponse.toString());
-
-  //   setState(() {
-  //     mychildrenList = jsonResponse['success'];
-  //     for (int i = 0; i < mychildrenList.length; i++) {
-  //       amount[i] = 3;
-  //     }
-  //     print(jsonResponse['success'].toString());
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -149,12 +123,19 @@ class _Meals extends State<Meals> {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: mychildrenList.length,
+                  itemCount:
+                      Provider.of<TeacherProvider>(context, listen: false)
+                          .myChildrenList
+                          .length,
                   itemBuilder: (context, index) {
                     return ChildTile(
                         index: index,
-                        name: mychildrenList[index]['fullName'],
-                        image: mychildrenList[index]['image']);
+                        name:
+                            Provider.of<TeacherProvider>(context, listen: false)
+                                .myChildrenList[index]['fullName'],
+                        image:
+                            Provider.of<TeacherProvider>(context, listen: false)
+                                .myChildrenList[index]['image']['data']);
                   },
                 ),
               ),

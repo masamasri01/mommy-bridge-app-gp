@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:gp/UI/Mom_UI/report.dart';
 import 'package:gp/practice%20db/config.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -65,5 +66,37 @@ class AppProvider extends ChangeNotifier {
         print("SomeThing Went Wrong");
       }
     }
+  }
+
+  /******************report */
+  int shapesPlayedTimes = 2;
+  int colorsPlayedTimes = 10;
+
+  int animalsPlayedTimes = 5;
+
+  int seasonsPlayedTimes = 2;
+  getno() {
+    return colorsPlayedTimes;
+  }
+
+  List<Map<String, dynamic>> mylist = [];
+  fillListOfMaps() {
+    mylist.add({"game": "Nothing", 'noTimes': colorsPlayedTimes});
+    mylist.add({"game": "Quarter", 'noTimes': shapesPlayedTimes});
+    mylist.add({"game": "Half", 'noTimes': animalsPlayedTimes});
+    mylist.add({"game": "Full", 'noTimes': seasonsPlayedTimes});
+  }
+
+  late List<BarChartModel> data;
+  fillListOfChart() {
+    data = mylist.map((e) {
+      return BarChartModel.fromMap(e);
+    }).toList();
+  }
+
+  getDataList() {
+    fillListOfMaps();
+    fillListOfChart();
+    return data;
   }
 }

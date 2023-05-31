@@ -58,6 +58,7 @@ class QuizProvider extends ChangeNotifier {
   int animalsPlayedTimes = 20;
 
   int seasonsPlayedTimes = 50;
+  int voicesPlayedTimes = 6;
   getno() {
     return colorsPlayedTimes;
   }
@@ -68,6 +69,7 @@ class QuizProvider extends ChangeNotifier {
     mylist.add({"game": "shapes", 'noTimes': shapesPlayedTimes});
     mylist.add({"game": "animals", 'noTimes': animalsPlayedTimes});
     mylist.add({"game": "seasons", 'noTimes': seasonsPlayedTimes});
+    mylist.add({"game": "voices", 'noTimes': voicesPlayedTimes});
   }
 
   late List<BarChartModel> data;
