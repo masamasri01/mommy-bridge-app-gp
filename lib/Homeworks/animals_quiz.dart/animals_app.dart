@@ -269,21 +269,28 @@ class _AnimalsAppState extends State<AnimalsApp> {
     });
   }
 
+  Locale? currentLocale;
   void _performVoice(BuildContext context, String recognizedWords) {
     if (isTrueAnswerr(recognizedWords,
         Provider.of<QuizProvider>(context, listen: false).animal['name'])) {
       Provider.of<QuizProvider>(context, listen: false)
           .setrightAnswerAnimal(true);
-      Provider.of<QuizProvider>(context, listen: false).incrementPoints();
-      playrightAnswerSound();
+      Provider.of<QuizProvider>(context, listen: false).incrementScore();
+      currentLocale = Localizations.localeOf(context);
+      (currentLocale == Locale('en'))
+          ? playrightAnswerSound()
+          : playrightAnswerSoundA();
       Future.delayed(Duration(seconds: 3)).then(
         (value) => {animalKey.currentState?.generateQuestion()},
       );
     } else {
-      playWrongAnswerSound();
+      currentLocale = Localizations.localeOf(context);
+      (currentLocale == Locale('en'))
+          ? playWrongAnswerSound()
+          : playWrongAnswerSoundA();
       Provider.of<QuizProvider>(context, listen: false)
           .setrightAnswerAnimal(false);
-      Provider.of<QuizProvider>(context, listen: false).decrementPoints();
+      Provider.of<QuizProvider>(context, listen: false).decrementScore();
     }
   }
 }

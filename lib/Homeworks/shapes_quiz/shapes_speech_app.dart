@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:gp/Homeworks/color_quiz/speech_to_text.dart';
 import 'package:gp/Homeworks/playSound.dart';
 import 'package:gp/Homeworks/shapes_quiz/shapes_quiz.dart';
 import 'package:gp/Providers/App_provider.dart';
@@ -151,20 +152,20 @@ class _ShapesAppState extends State<ShapesApp> {
                           ),
                           SpeechControlWidget(_hasSpeech, speech.isListening,
                               startListening, stopListening, cancelListening),
+                          SessionOptionsWidget(
+                            _currentLocaleId,
+                            _switchLang,
+                            _localeNames,
+                            _logEvents,
+                            _switchLogging,
+                            _pauseForController,
+                            _listenForController,
+                            _onDevice,
+                            _switchOnDevice,
+                          ),
                         ],
                       )
                     : Container(),
-                SessionOptionsWidget(
-                  _currentLocaleId,
-                  _switchLang,
-                  _localeNames,
-                  _logEvents,
-                  _switchLogging,
-                  _pauseForController,
-                  _listenForController,
-                  _onDevice,
-                  _switchOnDevice,
-                ),
               ],
             ),
           ),
@@ -273,21 +274,29 @@ class _ShapesAppState extends State<ShapesApp> {
     });
   }
 
+  Locale? currentLocale;
   void _performVoice(BuildContext context, String recognizedWords) {
     if (isTrueAnswer(recognizedWords,
         Provider.of<QuizProvider>(context, listen: false).shape['name'])) {
       Provider.of<QuizProvider>(context, listen: false)
           .setrightAnswerShape(true);
-      Provider.of<QuizProvider>(context, listen: false).incrementPoints();
-      playrightAnswerSound();
+      Provider.of<QuizProvider>(context, listen: false).incrementScore();
+      currentLocale = Localizations.localeOf(context);
+      (currentLocale == Locale('en'))
+          ? playrightAnswerSound()
+          : playrightAnswerSoundA();
       Future.delayed(Duration(seconds: 3)).then(
         (value) => {shapeKey.currentState?.generateQuestion()},
       );
     } else {
-      playWrongAnswerSound();
+      currentLocale = Localizations.localeOf(context);
+      (currentLocale == Locale('en'))
+          ? playWrongAnswerSound()
+          : playWrongAnswerSoundA();
+
       Provider.of<QuizProvider>(context, listen: false)
           .setrightAnswerShape(false);
-      Provider.of<QuizProvider>(context, listen: false).decrementPoints();
+      Provider.of<QuizProvider>(context, listen: false).decrementScore();
     }
   }
 }
@@ -593,23 +602,5 @@ class RightAnswer extends StatelessWidget {
           ? boldGreenText('Right  Answer :) ')
           : boldRedText('Wrong  Answer :('),
     );
-  }
-}
-
-class yourPoints extends StatelessWidget {
-  const yourPoints({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    int yourPints =
-        Provider.of<QuizProvider>(context, listen: false).yourPoints;
-    return Container(
-        alignment: Alignment.center,
-        child: Card(
-          child: Padding(
-            child: boldText2('Your Points = ${yourPints}'),
-            padding: EdgeInsets.all(10),
-          ),
-        ));
   }
 }

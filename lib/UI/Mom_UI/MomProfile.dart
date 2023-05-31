@@ -96,12 +96,15 @@ class MomProfileView extends StatelessWidget {
               }),
             ),
             MomComand(
-              title: 'Homeworks'.tr(),
+              title: 'Games & Quizzes'.tr(),
               subtitle: "".tr(),
               icon: Icon(Icons.announcement),
               color: MyColors.color2,
               onPressed: (() {
-                AppRouter.appRouter.goToWidget(MyChildren());
+                AppRouter.appRouter.goToWidget(MyChildren(
+                  games: true,
+                  reports: false,
+                ));
               }),
             ),
             Padding(

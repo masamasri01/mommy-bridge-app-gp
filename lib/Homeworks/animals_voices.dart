@@ -25,7 +25,7 @@ class AnimalsVoices extends StatelessWidget {
           return InkWell(
             onTap: () {
               playSpecificSound("${animals[index]}V.mp3");
-              print('Image $index was clicked!');
+              //       print('Image $index was clicked!');
             },
             child: Card(
               child: Image.asset(

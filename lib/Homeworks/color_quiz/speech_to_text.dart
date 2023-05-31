@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:gp/Homeworks/color_quiz/color_quiz.dart';
 import 'package:gp/Homeworks/playSound.dart';
+import 'package:gp/Providers/Mom_provider.dart';
 import 'package:gp/Providers/QuizProvider.dart';
 import 'package:gp/UI/widgets/custom_appBar.dart';
 import 'package:gp/core/Texts/text.dart';
@@ -132,34 +133,32 @@ class _SpeechSampleAppState extends State<SpeechSampleApp> {
             child: Column(
               children: <Widget>[
                 InitSpeechWidget(_hasSpeech, initSpeechState),
-                _hasSpeech
-                    ? Column(
-                        children: [
-                          ColorsQuiz(
-                            key: childKey,
-                            recognizedWord: lastWords,
-                          ),
-                          Container(
-                            height: 150,
-                            child: RecognitionResultsWidget(
-                                lastWords: lastWords, level: level),
-                          ),
-                          SpeechControlWidget(_hasSpeech, speech.isListening,
-                              startListening, stopListening, cancelListening),
-                        ],
-                      )
+                (_hasSpeech)
+                    ? Column(children: [
+                        ColorsQuiz(
+                          key: childKey,
+                          recognizedWord: lastWords,
+                        ),
+                        Container(
+                          height: 150,
+                          child: RecognitionResultsWidget(
+                              lastWords: lastWords, level: level),
+                        ),
+                        SpeechControlWidget(_hasSpeech, speech.isListening,
+                            startListening, stopListening, cancelListening),
+                        SessionOptionsWidget(
+                          _currentLocaleId,
+                          _switchLang,
+                          _localeNames,
+                          _logEvents,
+                          _switchLogging,
+                          _pauseForController,
+                          _listenForController,
+                          _onDevice,
+                          _switchOnDevice,
+                        )
+                      ])
                     : Container(),
-                SessionOptionsWidget(
-                  _currentLocaleId,
-                  _switchLang,
-                  _localeNames,
-                  _logEvents,
-                  _switchLogging,
-                  _pauseForController,
-                  _listenForController,
-                  _onDevice,
-                  _switchOnDevice,
-                ),
               ],
             ),
           ),
@@ -268,19 +267,27 @@ class _SpeechSampleAppState extends State<SpeechSampleApp> {
     });
   }
 
+  Locale? currentLocale;
   void _performVoice(BuildContext context, String recognizedWords) {
     if (isTrueAnswer(recognizedWords,
         Provider.of<QuizProvider>(context, listen: false).color['name'])) {
       Provider.of<QuizProvider>(context, listen: false).setrightAnswer(true);
-      Provider.of<QuizProvider>(context, listen: false).incrementPoints();
-      playrightAnswerSound();
+      Provider.of<QuizProvider>(context, listen: false).incrementScore();
+
+      currentLocale = Localizations.localeOf(context);
+      (currentLocale == Locale('en'))
+          ? playrightAnswerSound()
+          : playrightAnswerSoundA();
       Future.delayed(Duration(seconds: 3)).then(
         (value) => {childKey.currentState?.generateQuestion()},
       );
     } else {
-      playWrongAnswerSound();
+      currentLocale = Localizations.localeOf(context);
+      (currentLocale == Locale('en'))
+          ? playWrongAnswerSound()
+          : playWrongAnswerSoundA();
       Provider.of<QuizProvider>(context, listen: false).setrightAnswer(false);
-      Provider.of<QuizProvider>(context, listen: false).decrementPoints();
+      Provider.of<QuizProvider>(context, listen: false).decrementScore();
     }
   }
 }
@@ -592,12 +599,12 @@ class yourPoints extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int yourPints =
-        Provider.of<QuizProvider>(context, listen: false).yourPoints;
+        Provider.of<QuizProvider>(context, listen: false).scoreG ?? 0;
     return Container(
         alignment: Alignment.center,
         child: Card(
           child: Padding(
-            child: boldText2('Your Points = ${yourPints}'),
+            child: boldText2('Your Score = ${yourPints}'),
             padding: EdgeInsets.all(10),
           ),
         ));

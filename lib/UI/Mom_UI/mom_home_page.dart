@@ -19,7 +19,7 @@ class MomHomePage extends StatefulWidget {
 }
 
 class _MomHomePage extends State<MomHomePage> {
-  int _currentIndex = 0;
+  int _currentIndex = 1;
   final List<Widget> _views = [
     Feed(),
     ActivitiesFeed(),

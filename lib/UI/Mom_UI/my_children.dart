@@ -2,7 +2,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gp/Providers/QuizProvider.dart';
 import 'package:gp/UI/Mom_UI/report.dart';
+import 'package:gp/UI/staff_functionalities/homeworks.dart';
 import 'package:provider/provider.dart';
 
 import 'package:gp/Providers/Mom_provider.dart';
@@ -14,10 +16,9 @@ import 'package:gp/core/Texts/text.dart';
 
 class MyChildren extends StatefulWidget {
   bool reports;
-  MyChildren({
-    Key? key,
-    this.reports = false,
-  }) : super(key: key);
+  bool games;
+  MyChildren({Key? key, this.reports = false, this.games = false})
+      : super(key: key);
 
   @override
   _MyChildrenState createState() => _MyChildrenState();
@@ -41,7 +42,11 @@ class _MyChildrenState extends State<MyChildren> {
         padding: EdgeInsets.all(7),
         child: Column(
           children: [
-            boldText('My Children2'.tr()),
+            (widget.reports == true)
+                ? boldText('Choose whom to see their report')
+                : (widget.games == true)
+                    ? boldText('whom child is playing?')
+                    : boldText('My Children2'.tr()),
             Expanded(
               child: GridView.count(
                 crossAxisCount: 2,
@@ -84,13 +89,24 @@ class _MyChildrenState extends State<MyChildren> {
                                 await Provider.of<MomProvider>(context,
                                         listen: false)
                                     .getMyChildData(e["_id"]);
+                                await Provider.of<QuizProvider>(context,
+                                        listen: false)
+                                    .setChildIdG(e["_id"]);
                                 (widget.reports == false)
-                                    ? {
-                                        AppRouter.appRouter.goToWidget(
-                                          childProfileForMom(childId: e["_id"]),
-                                        )
-                                      }
+                                    ? (widget.games == false)
+                                        ? {
+                                            AppRouter.appRouter.goToWidget(
+                                              childProfileForMom(
+                                                  childId: e["_id"]),
+                                            )
+                                          }
+                                        : {
+                                            //games=true
+                                            AppRouter.appRouter.goToWidget(
+                                                Homework(edit: false)),
+                                          }
                                     : {
+                                        //reports=true
                                         AppRouter.appRouter.goToWidget(Report())
                                       };
                               },

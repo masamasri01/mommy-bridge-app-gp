@@ -32,14 +32,24 @@ class ColorsQuizState extends State<ColorsQuiz> {
   Map<String, dynamic> _color = {};
   String _question = "What color is this?";
   bool _showAnswer = false;
-
+  Locale? currentLocale;
   @override
   void initState() {
     super.initState();
     _color = _colors[_random.nextInt(_colors.length)];
     Provider.of<QuizProvider>(context, listen: false).setCurrentColor(_color);
 
-    playSoundWhatColorIsThis();
+    //  playSoundWhatColorIsThis();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (currentLocale == null) {
+      currentLocale = Localizations.localeOf(context);
+      playSpecificSound(
+          (currentLocale == Locale('en')) ? "whatcolor.mp3" : "whatcolorA.mp3");
+    }
   }
 
   void generateQuestion() {
@@ -48,8 +58,8 @@ class ColorsQuizState extends State<ColorsQuiz> {
       Provider.of<QuizProvider>(context, listen: false).setCurrentColor(_color);
       _question = "What color is this?";
       _showAnswer = false;
-
-      playSoundWhatColorIsThis();
+      playSpecificSound(
+          (currentLocale == Locale('en')) ? "whatcolor.mp3" : "whatcolorA.mp3");
     });
   }
 
@@ -60,6 +70,7 @@ class ColorsQuizState extends State<ColorsQuiz> {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<QuizProvider>(context, listen: false).getScore();
     return Container(
       decoration: BoxDecoration(
         color: _color['name'] == 'Red'

@@ -31,14 +31,25 @@ class ShapesQuizState extends State<ShapesQuiz> {
   Map<String, dynamic> _shape = {};
   String _question = "What Shape is this?";
   bool _showAnswer = false;
-
+  Locale? currentLocale;
   @override
   void initState() {
     super.initState();
     _shape = _shapes[_random.nextInt(_shapes.length)];
     Provider.of<QuizProvider>(context, listen: false).setCurrentShape(_shape);
 
-    playSoundWhatShapeIsThis();
+    // playSoundWhatShapeIsThis();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (currentLocale == null) {
+      currentLocale = Localizations.localeOf(context);
+      playSpecificSound((currentLocale == Locale('en'))
+          ? "whatshapeisthis.mp3"
+          : "whatshapeA.mp3");
+    }
   }
 
   void generateQuestion() {
@@ -48,7 +59,9 @@ class ShapesQuizState extends State<ShapesQuiz> {
       _question = "What Shape is this?";
       _showAnswer = false;
 
-      playSoundWhatShapeIsThis();
+      playSpecificSound((currentLocale == Locale('en'))
+          ? "whatshapeisthis.mp3"
+          : "whatshapeA.mp3");
     });
   }
 
@@ -59,6 +72,7 @@ class ShapesQuizState extends State<ShapesQuiz> {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<QuizProvider>(context, listen: false).getScore();
     return Container(
       height: 300,
       child: Center(

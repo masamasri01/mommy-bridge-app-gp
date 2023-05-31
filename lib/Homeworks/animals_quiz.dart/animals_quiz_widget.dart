@@ -32,13 +32,24 @@ class AnimalsQuizState extends State<AnimalsQuiz> {
   Map<String, dynamic> _animal = {};
   String _question = "What Animal is this?";
   bool _showAnswer = false;
-
+  Locale? currentLocale;
   @override
   void initState() {
     super.initState();
     _animal = _animals[_random.nextInt(_animals.length)];
     Provider.of<QuizProvider>(context, listen: false).setCurrentAnimal(_animal);
-    playSoundWhatAnimalIsThis();
+    // playSoundWhatAnimalIsThis();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (currentLocale == null) {
+      currentLocale = Localizations.localeOf(context);
+      playSpecificSound((currentLocale == Locale('en'))
+          ? "whoisthisanimal.mp3"
+          : "whatanimalA.mp3");
+    }
   }
 
   void generateQuestion() {
@@ -49,7 +60,9 @@ class AnimalsQuizState extends State<AnimalsQuiz> {
       _question = "What Animal is this?";
       _showAnswer = false;
 
-      playSoundWhatAnimalIsThis();
+      playSpecificSound((currentLocale == Locale('en'))
+          ? "whoisthisanimal.mp3"
+          : "whatanimalA.mp3");
     });
   }
 
@@ -60,6 +73,7 @@ class AnimalsQuizState extends State<AnimalsQuiz> {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<QuizProvider>(context, listen: false).getScore();
     return Container(
       height: 300,
       child: Center(

@@ -266,23 +266,23 @@ class StackContainer extends StatelessWidget {
                             Border.all(width: 5, color: Colors.transparent)),
                     child: Stack(
                       children: [
-                        // ClipOval(
-                        //   child: (Provider.of<TeacherProvider>(context)
-                        //               .teacherData['image'] ==
-                        //           null)
-                        //       ? Image.asset(
-                        //           'lib/core/images/placeholder.png',
-                        //           height: 200,
-                        //           width: 200,
-                        //           fit: BoxFit.cover,
-                        //         )
-                        //       : Image.memory(
-                        //           image,
-                        //           height: 200,
-                        //           width: 200,
-                        //           fit: BoxFit.cover,
-                        //         ),
-                        // ),
+                        ClipOval(
+                          child: (Provider.of<TeacherProvider>(context)
+                                      .teacherData['image'] ==
+                                  null)
+                              ? Image.asset(
+                                  'lib/core/images/placeholder.png',
+                                  height: 200,
+                                  width: 200,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.memory(
+                                  image,
+                                  height: 200,
+                                  width: 200,
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
                         Positioned(
                           right: 5,
                           top: 80,

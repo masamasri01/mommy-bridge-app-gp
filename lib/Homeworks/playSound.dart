@@ -13,6 +13,14 @@ playWrongAnswerSound() {
   player.play('wrong.mp3');
 }
 
+playrightAnswerSoundA() {
+  player.play('trueA.mp3');
+}
+
+playWrongAnswerSoundA() {
+  player.play('wrongA.mp3');
+}
+
 Future<void> playSoundWhatColorIsThis() async {
   final player = AudioCache();
   player.play('whatcolor.mp3');

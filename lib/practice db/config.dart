@@ -34,3 +34,6 @@ const updateChildImage = url + "updateChildImage";
 const getChildMomData = url + "child/";
 //router.patch('/child/:id/hobby',UserController.addChildHobby)
 //router.patch('/child/:id/allergy',UserController.addChildAllergy)
+
+/*******************quizzzzzzzzzzzzzzzzzz */
+const increment = url + "child/";

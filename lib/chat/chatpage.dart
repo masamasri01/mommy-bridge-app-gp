@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:gp/core/Colors/colors.dart';
 
 class ChatPage extends StatefulWidget {
   final String id;
@@ -21,9 +22,9 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     final firestore = FirebaseFirestore.instance;
     return Scaffold(
-      backgroundColor: Colors.indigo.shade400,
+      backgroundColor: MyColors.color3,
       appBar: AppBar(
-        backgroundColor: Colors.indigo.shade400,
+        backgroundColor: MyColors.color3,
         title: Text(widget.name),
         elevation: 0,
         actions: [
@@ -122,8 +123,7 @@ class _ChatPageState extends State<ChatPage> {
                         return Center(
                           child: Text(
                             'No conversion found'.tr(),
-                            style: Styles.h1()
-                                .copyWith(color: Colors.indigo.shade400),
+                            style: Styles.h1().copyWith(color: MyColors.color3),
                           ),
                         );
                       }

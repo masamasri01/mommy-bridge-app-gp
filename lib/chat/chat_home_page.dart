@@ -152,7 +152,7 @@ class _ChatHomePage extends State<ChatHomePage> {
                               horizontal: 20, vertical: 20),
                           child: Text(
                             'Contacts'.tr(),
-                            style: Styles.h1().copyWith(color: Colors.indigo),
+                            style: Styles.h1().copyWith(color: MyColors.color3),
                           ),
                         ),
                         Expanded(

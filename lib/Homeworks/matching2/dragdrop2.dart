@@ -5,12 +5,12 @@ import 'package:gp/Providers/QuizProvider.dart';
 import 'package:gp/UI/widgets/custom_appBar.dart';
 import 'package:provider/provider.dart';
 
-class DragAndDropGame extends StatefulWidget {
+class DragAndDropGame2 extends StatefulWidget {
   @override
   _DragAndDropGameState createState() => _DragAndDropGameState();
 }
 
-class _DragAndDropGameState extends State<DragAndDropGame> {
+class _DragAndDropGameState extends State<DragAndDropGame2> {
   List<ItemModel> items = [];
   List<ItemModel> items2 = [];
 
@@ -42,14 +42,32 @@ class _DragAndDropGameState extends State<DragAndDropGame> {
           icon: Icons.coffee,
           name: "Coffee",
           value: "Coffee",
-          question: "winter.jpg",
-          answer: "winterans.jpg"),
+          question: "bee.jpg",
+          answer: "beeanswer.jpg"),
       ItemModel(
           icon: Icons.catching_pokemon,
           name: "dog",
           value: "dog",
-          question: "summer.png",
-          answer: "summerans.png"),
+          question: "bird.png",
+          answer: "birdanswer.png"),
+      ItemModel(
+          icon: Icons.catching_pokemon,
+          name: "q",
+          value: "q",
+          question: "cow.png",
+          answer: "cowanswer.png"),
+      ItemModel(
+          icon: Icons.catching_pokemon,
+          name: "w",
+          value: "w",
+          question: "horse.png",
+          answer: "horseanswer.png"),
+      ItemModel(
+          icon: Icons.catching_pokemon,
+          name: "e",
+          value: "e",
+          question: "monkey.png",
+          answer: "monkeyanswer.png"),
     ];
     items2 = List<ItemModel>.from(items);
     items.shuffle();
