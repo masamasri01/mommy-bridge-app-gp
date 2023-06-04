@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:gp/UI/Mom_UI/report.dart';
@@ -81,10 +82,10 @@ class AppProvider extends ChangeNotifier {
 
   List<Map<String, dynamic>> mylist = [];
   fillListOfMaps() {
-    mylist.add({"game": "Nothing", 'noTimes': colorsPlayedTimes});
-    mylist.add({"game": "Quarter", 'noTimes': shapesPlayedTimes});
-    mylist.add({"game": "Half", 'noTimes': animalsPlayedTimes});
-    mylist.add({"game": "Full", 'noTimes': seasonsPlayedTimes});
+    mylist.add({"game": "Nothing".tr(), 'noTimes': colorsPlayedTimes});
+    mylist.add({"game": "Quarter".tr(), 'noTimes': shapesPlayedTimes});
+    mylist.add({"game": "Half".tr(), 'noTimes': animalsPlayedTimes});
+    mylist.add({"game": "Full".tr(), 'noTimes': seasonsPlayedTimes});
   }
 
   late List<BarChartModel> data;

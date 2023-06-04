@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'dart:math';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class ShapesQuizState extends State<ShapesQuiz> {
   ];
   Random _random = new Random();
   Map<String, dynamic> _shape = {};
-  String _question = "What Shape is this?";
+  String _question = "What Shape is this?".tr();
   bool _showAnswer = false;
   Locale? currentLocale;
   @override
@@ -56,7 +57,7 @@ class ShapesQuizState extends State<ShapesQuiz> {
     setState(() {
       _shape = _shapes[_random.nextInt(_shapes.length)];
       Provider.of<QuizProvider>(context, listen: false).setCurrentShape(_shape);
-      _question = "What Shape is this?";
+      _question = "What Shape is this?".tr();
       _showAnswer = false;
 
       playSpecificSound((currentLocale == Locale('en'))
@@ -122,7 +123,7 @@ class ShapesQuizState extends State<ShapesQuiz> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    child: Text('Cheat Answer'),
+                    child: Text('Cheat Answer'.tr()),
                     onPressed: () {
                       setState(() {
                         _playSound();
@@ -135,7 +136,7 @@ class ShapesQuizState extends State<ShapesQuiz> {
                   ),
                   SizedBox(height: 2.0),
                   ElevatedButton(
-                    child: Text('Next Question=>'),
+                    child: Text('Next Question=>'.tr()),
                     onPressed: () => generateQuestion(),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF9AA7FF)),
@@ -152,8 +153,11 @@ class ShapesQuizState extends State<ShapesQuiz> {
 
 isTrueAnswer(String recognized, String color) {
   if (recognized.toLowerCase().contains(color.toLowerCase()) ||
-      recognized == getArabic(color)) return true;
-
+      recognized.contains(getArabic(color)) ||
+      getArabic(color).contains(recognized))
+    return true;
+  else
+    return false;
   int diffs = 0;
   for (int i = 0; i < color.length; i++) {
     if (recognized[i] != color[i]) {
@@ -163,13 +167,11 @@ isTrueAnswer(String recognized, String color) {
       return false;
     }
   }
-  return diffs > 2;
+  return false;
 }
 
 getArabic(color) {
   switch (color) {
-    case "red":
-      return 'احمر';
     case "Triangle":
       return "مثلث";
     case "Rectangle":

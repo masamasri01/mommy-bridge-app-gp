@@ -43,9 +43,9 @@ class _MyChildrenState extends State<MyChildren> {
         child: Column(
           children: [
             (widget.reports == true)
-                ? boldText('Choose whom to see their report')
+                ? boldText('Choose whom to see their report'.tr())
                 : (widget.games == true)
-                    ? boldText('whom child is playing?')
+                    ? boldText('whom child is playing?'.tr())
                     : boldText('My Children2'.tr()),
             Expanded(
               child: GridView.count(

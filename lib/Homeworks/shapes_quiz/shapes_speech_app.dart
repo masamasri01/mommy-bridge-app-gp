@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter/material.dart';
 import 'package:gp/Homeworks/color_quiz/speech_to_text.dart';
@@ -128,7 +129,7 @@ class _ShapesAppState extends State<ShapesApp> {
     }
 
     return Scaffold(
-      appBar: ab('Shapes Quiz'),
+      appBar: ab('Shapes Quiz'.tr()),
       body: SingleChildScrollView(
         child: Column(children: [
           // HeaderWidget(),
@@ -276,6 +277,11 @@ class _ShapesAppState extends State<ShapesApp> {
 
   Locale? currentLocale;
   void _performVoice(BuildContext context, String recognizedWords) {
+    print('qqqreached');
+    print("qqq" +
+        isTrueAnswer(recognizedWords,
+                Provider.of<QuizProvider>(context, listen: false).shape['name'])
+            .toString());
     if (isTrueAnswer(recognizedWords,
         Provider.of<QuizProvider>(context, listen: false).shape['name'])) {
       Provider.of<QuizProvider>(context, listen: false)
@@ -293,7 +299,7 @@ class _ShapesAppState extends State<ShapesApp> {
       (currentLocale == Locale('en'))
           ? playWrongAnswerSound()
           : playWrongAnswerSoundA();
-
+      print('wroooooong');
       Provider.of<QuizProvider>(context, listen: false)
           .setrightAnswerShape(false);
       Provider.of<QuizProvider>(context, listen: false).decrementScore();
@@ -482,7 +488,7 @@ class SessionOptionsWidget extends StatelessWidget {
         children: <Widget>[
           Row(
             children: [
-              Text('Language: '),
+              Text('Language: '.tr()),
               DropdownButton<String>(
                 onChanged: (selectedVal) => switchLang(selectedVal),
                 value: currentLocaleId,

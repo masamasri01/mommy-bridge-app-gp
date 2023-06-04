@@ -161,7 +161,7 @@ class _medDetailsWidgetState extends State<medDetailsWidget> {
                     ? SizedBox()
                     : navyText('and should be taken for :'.tr() +
                         widget.noDays.toString() +
-                        ' days'),
+                        ' days'.tr()),
               ],
             ),
             Divider(),
@@ -183,11 +183,6 @@ class _medDetailsWidgetState extends State<medDetailsWidget> {
                           ),
                         ),
                       ),
-                      widget.isDaily == true
-                          ? SizedBox()
-                          : navyText('and should be taken for :'.tr() +
-                              widget.noDays.toString() +
-                              ' days'),
                     ],
                   )
                 : SizedBox(),

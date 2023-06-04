@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter/material.dart';
 import 'package:gp/Homeworks/animals_quiz.dart/animals_quiz_widget.dart';
@@ -125,7 +126,7 @@ class _AnimalsAppState extends State<AnimalsApp> {
     }
 
     return Scaffold(
-      appBar: ab('Animals Quiz'),
+      appBar: ab('Animals Quiz'.tr()),
       body: SingleChildScrollView(
         child: Column(children: [
           // HeaderWidget(),
@@ -476,7 +477,7 @@ class SessionOptionsWidget extends StatelessWidget {
         children: <Widget>[
           Row(
             children: [
-              Text('Language: '),
+              Text('Language: '.tr()),
               DropdownButton<String>(
                 onChanged: (selectedVal) => switchLang(selectedVal),
                 value: currentLocaleId,
@@ -590,8 +591,8 @@ class RightAnswer extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       child: rightAnswer
-          ? boldGreenText('Right  Answer :) ')
-          : boldRedText('Wrong  Answer :('),
+          ? boldGreenText('Right  Answer :)'.tr())
+          : boldRedText('Wrong  Answer :('.tr()),
     );
   }
 }

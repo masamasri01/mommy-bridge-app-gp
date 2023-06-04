@@ -311,4 +311,19 @@ class MomProvider extends ChangeNotifier {
     setMomData();
     notifyListeners();
   }
+
+  /*******************8 */
+  List? announcementsList;
+  Future<List<dynamic>> fetchAnnouncements() async {
+    final response = await http.get(Uri.parse('$getannouncements'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      announcementsList = data;
+      notifyListeners();
+      return data;
+    } else {
+      throw Exception('Failed to fetch announcements');
+    }
+  }
 }

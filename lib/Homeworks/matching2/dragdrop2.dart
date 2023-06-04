@@ -4,6 +4,7 @@ import 'package:gp/Homeworks/playSound.dart';
 import 'package:gp/Providers/QuizProvider.dart';
 import 'package:gp/UI/widgets/custom_appBar.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class DragAndDropGame2 extends StatefulWidget {
   @override
@@ -23,16 +24,16 @@ class _DragAndDropGameState extends State<DragAndDropGame2> {
     initGame();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (currentLocale == null) {
-      currentLocale = Localizations.localeOf(context);
-      playSpecificSound(
-          (currentLocale == Locale('ar')) ? "seasonA.mp3" : "seasonE.mp3");
-      initGame();
-    }
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  // if (currentLocale == null) {
+  //   currentLocale = Localizations.localeOf(context);
+  //   playSpecificSound(
+  //       (currentLocale == Locale('ar')) ? "seasonA.mp3" : "seasonE.mp3");
+  //   initGame();
+  // }
+  //}
 
   initGame() {
     gameOver = false;
@@ -42,8 +43,8 @@ class _DragAndDropGameState extends State<DragAndDropGame2> {
           icon: Icons.coffee,
           name: "Coffee",
           value: "Coffee",
-          question: "bee.jpg",
-          answer: "beeanswer.jpg"),
+          question: "bee.png",
+          answer: "beeanswer.png"),
       ItemModel(
           icon: Icons.catching_pokemon,
           name: "dog",
@@ -56,18 +57,18 @@ class _DragAndDropGameState extends State<DragAndDropGame2> {
           value: "q",
           question: "cow.png",
           answer: "cowanswer.png"),
+      // ItemModel(
+      //     icon: Icons.catching_pokemon,
+      //     name: "h",
+      //     value: "h",
+      //     question: "monkey.png",
+      //     answer: "monkeyanswer.png"),
       ItemModel(
           icon: Icons.catching_pokemon,
           name: "w",
           value: "w",
           question: "horse.png",
           answer: "horseanswer.png"),
-      ItemModel(
-          icon: Icons.catching_pokemon,
-          name: "e",
-          value: "e",
-          question: "monkey.png",
-          answer: "monkeyanswer.png"),
     ];
     items2 = List<ItemModel>.from(items);
     items.shuffle();
@@ -82,7 +83,7 @@ class _DragAndDropGameState extends State<DragAndDropGame2> {
 
     return Scaffold(
       // backgroundColor: Colors.amber,
-      appBar: ab('Matching Game'),
+      appBar: ab('Matching Game'.tr()),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -118,7 +119,7 @@ class _DragAndDropGameState extends State<DragAndDropGame2> {
                                 height: 160,
                                 width: 160,
                                 child: Image.asset(
-                                    "assets/images/dragDrop/${item.question}"))
+                                    "assets/images/dragDrop2/${item.question}"))
                           ],
                         ),
                         feedback: Column(
@@ -132,7 +133,7 @@ class _DragAndDropGameState extends State<DragAndDropGame2> {
                                 height: 160,
                                 width: 160,
                                 child: Image.asset(
-                                    "assets/images/dragDrop/${item.question}"))
+                                    "assets/images/dragDrop2/${item.question}"))
                           ],
                         ),
                         child: Column(
@@ -146,7 +147,7 @@ class _DragAndDropGameState extends State<DragAndDropGame2> {
                               height: 160,
                               width: 160,
                               child: Image.asset(
-                                  "assets/images/dragDrop/${item.question}"),
+                                  "assets/images/dragDrop2/${item.question}"),
                             ),
                             Divider(
                               color: Colors.grey,
@@ -162,7 +163,7 @@ class _DragAndDropGameState extends State<DragAndDropGame2> {
                   ),
                   Container(
                     width: 2, // set the width of the divider
-                    height: 350, // set the height of the divider
+                    height: 550, // set the height of the divider
                     color: Colors.green, // set the color of the divider
                   ),
                   SizedBox(
@@ -223,7 +224,7 @@ class _DragAndDropGameState extends State<DragAndDropGame2> {
                               height: 160,
                               width: 160,
                               child: Image.asset(
-                                  "assets/images/dragDrop/${item.answer}")),
+                                  "assets/images/dragDrop2/${item.answer}")),
                           Divider(
                             color: Colors.grey,
                             thickness: 6,
@@ -252,7 +253,12 @@ class _DragAndDropGameState extends State<DragAndDropGame2> {
                   onPressed: () {
                     initGame();
 
-                    setState(() {});
+                    setState(() {
+                      // Provider.of<QuizProvider>(context, listen: false)
+                      //     .getScore();
+                      // int score =
+                      //     Provider.of<QuizProvider>(context).scoreG ?? 0;
+                    });
                   },
                 ),
               )

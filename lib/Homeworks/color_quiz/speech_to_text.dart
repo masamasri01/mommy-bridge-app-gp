@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter/material.dart';
 import 'package:gp/Homeworks/color_quiz/color_quiz.dart';
@@ -12,6 +13,7 @@ import 'package:speech_to_text/speech_recognition_error.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SpeechSampleApp extends StatefulWidget {
   @override
@@ -125,7 +127,7 @@ class _SpeechSampleAppState extends State<SpeechSampleApp> {
     }
 
     return Scaffold(
-      appBar: ab('Colors Quiz'),
+      appBar: ab('Colors Quiz'.tr()),
       body: SingleChildScrollView(
         child: Column(children: [
           // HeaderWidget(),
@@ -473,7 +475,7 @@ class SessionOptionsWidget extends StatelessWidget {
         children: <Widget>[
           Row(
             children: [
-              Text('Language: '),
+              Text('Language: '.tr()),
               DropdownButton<String>(
                 onChanged: (selectedVal) => switchLang(selectedVal),
                 value: currentLocaleId,
@@ -587,8 +589,8 @@ class RightAnswer extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       child: rightAnswer
-          ? boldGreenText('Right  Answer :) ')
-          : boldRedText('Wrong  Answer :('),
+          ? boldGreenText('Right  Answer :)'.tr())
+          : boldRedText('Wrong  Answer :('.tr()),
     );
   }
 }
@@ -604,7 +606,7 @@ class yourPoints extends StatelessWidget {
         alignment: Alignment.center,
         child: Card(
           child: Padding(
-            child: boldText2('Your Score = ${yourPints}'),
+            child: boldText2('Your Score ='.tr() + yourPints.toString()),
             padding: EdgeInsets.all(10),
           ),
         ));

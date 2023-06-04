@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:gp/Homeworks/QA/qa_ddg.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:gp/Homeworks/Seasons/drag_drop.dart';
 import 'package:gp/Homeworks/animals_quiz.dart/animals_app.dart';
@@ -24,7 +26,7 @@ class Homework extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: ab('Quizzes & Games'),
+      appBar: ab('Quizzes & Games'.tr()),
       // drawer: drawer(),
       body: Column(
         children: [
@@ -39,43 +41,49 @@ class Homework extends StatelessWidget {
                     onPressed: () {
                       AppRouter.appRouter.goToWidget(SpeechSampleApp());
                     },
-                    title: 'Colors',
+                    title: 'Colors'.tr(),
                     edit: edit),
                 QuizGridTile(
                     onPressed: () {
                       AppRouter.appRouter.goToWidget(ShapesApp());
                     },
-                    title: 'Shapes',
+                    title: 'Shapes'.tr(),
                     edit: edit),
                 QuizGridTile(
                     onPressed: () {
                       AppRouter.appRouter.goToWidget(AnimalsApp());
                     },
-                    title: 'Animals',
+                    title: 'Animals'.tr(),
                     edit: edit),
                 QuizGridTile(
                     onPressed: () {
                       AppRouter.appRouter.goToWidget(DragAndDropGame());
                     },
-                    title: 'Seasons',
+                    title: 'Seasons'.tr(),
                     edit: edit),
                 QuizGridTile(
                     onPressed: () {
                       AppRouter.appRouter.goToWidget(TracingGame());
                     },
-                    title: 'Drawing',
+                    title: 'Drawing'.tr(),
                     edit: edit),
                 QuizGridTile(
                     onPressed: () {
                       AppRouter.appRouter.goToWidget(AnimalsVoices());
                     },
-                    title: 'Animals voices',
+                    title: 'Animals voices'.tr(),
                     edit: edit),
                 QuizGridTile(
                     onPressed: () {
                       AppRouter.appRouter.goToWidget(DragAndDropGame2());
                     },
-                    title: 'Habitats',
+                    title: 'Habitats'.tr(),
+                    edit: edit),
+                QuizGridTile(
+                    onPressed: () {
+                      AppRouter.appRouter.goToWidget(QA());
+                    },
+                    title: 'Q&A'.tr(),
                     edit: edit),
               ]),
             ),

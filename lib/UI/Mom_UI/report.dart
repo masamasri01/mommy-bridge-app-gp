@@ -9,6 +9,7 @@ import 'package:gp/core/Colors/colors.dart';
 import 'package:gp/core/Texts/text.dart';
 import 'package:provider/provider.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:easy_localization/easy_localization.dart';
 
 class Report extends StatelessWidget {
   const Report({super.key});
@@ -26,7 +27,7 @@ class Report extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: ab('Report'),
+      appBar: ab('Report'.tr()),
       backgroundColor: Colors.white,
       body: Consumer<AppProvider>(builder: (context, prov, x) {
         return SingleChildScrollView(
@@ -40,7 +41,7 @@ class Report extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    'Child Name:',
+                    'Child Name:'.tr(),
                     style: TextStyle(
                         color: Color.fromARGB(255, 61, 53, 53), fontSize: 16),
                   ),
@@ -55,11 +56,11 @@ class Report extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    'Report of month Month:',
+                    'Report of month Month:'.tr(),
                     style: TextStyle(
                         color: Color.fromARGB(255, 61, 53, 53), fontSize: 16),
                   ),
-                  Text('February',
+                  Text('February'.tr(),
                       style: TextStyle(
                           color: Colors.grey,
                           fontSize: 16,
@@ -73,9 +74,9 @@ class Report extends StatelessWidget {
                 color: Color.fromARGB(255, 201, 199, 199),
                 height: 50,
               ),
-              boldPinkText("َConsumed Quantityies of Meals"),
+              boldPinkText("َConsumed Quantityies of Meals".tr()),
               Row(
-                children: [Text("Repeated times")],
+                children: [Text("Repeated times".tr())],
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
@@ -89,7 +90,7 @@ class Report extends StatelessWidget {
                   ),
                 ),
               ),
-              Text('Quantity'),
+              Text('Quantity'.tr()),
               const Divider(
                 indent: 10,
                 endIndent: 10,
@@ -97,17 +98,17 @@ class Report extends StatelessWidget {
                 color: Color.fromARGB(255, 201, 199, 199),
                 height: 50,
               ),
-              boldPinkText("َNaps"),
+              boldPinkText("َNaps".tr()),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Total Hours of naps slept:',
+                      'Total Hours of naps slept:'.tr(),
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
-                    Text('21 hours and 20 minuites',
+                    Text('21' + 'hours and '.tr() + '20' + 'minuites'.tr(),
                         style: TextStyle(
                             fontSize: 16,
                             color: Color.fromARGB(255, 77, 73, 73))),
@@ -121,10 +122,10 @@ class Report extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Average slept Hours of naps per day:',
+                      'Average slept Hours of naps per day:'.tr(),
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
-                    Text('1 hours and 12 minuites',
+                    Text('0' + 'hours and '.tr() + '40' + 'minuites'.tr(),
                         style: TextStyle(
                             color: Color.fromARGB(255, 77, 73, 73),
                             fontSize: 16)),
@@ -138,17 +139,17 @@ class Report extends StatelessWidget {
                 color: Color.fromARGB(255, 201, 199, 199),
                 height: 50,
               ),
-              boldPinkText("Attendance"),
+              boldPinkText("Attendance".tr()),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Number of days child attended this month:',
+                      'Number of days child attended this month:'.tr(),
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
-                    Text('23 days',
+                    Text('23' + 'days'.tr(),
                         style:
                             TextStyle(color: Color.fromARGB(255, 77, 73, 73))),
                   ],
@@ -160,10 +161,10 @@ class Report extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Number of days child was absent this month:',
+                      'Number of days child was absent this month:'.tr(),
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
-                    Text('6 days',
+                    Text('6' + 'days'.tr(),
                         style:
                             TextStyle(color: Color.fromARGB(255, 77, 73, 73))),
                   ],
@@ -182,7 +183,7 @@ class Report extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          "Teacher Notes:",
+                          "Teacher Notes:".tr(),
                           style: TextStyle(color: Colors.grey),
                         ),
                         Text(

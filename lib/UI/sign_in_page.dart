@@ -74,7 +74,7 @@ class _SignInPage1State extends State<SignInPage1> {
       } else {
         log('Something went wrong');
         setState(() {
-          errorMessage = "please inter proper data";
+          errorMessage = "please inter proper data".tr();
         });
 
         return false;
@@ -188,7 +188,7 @@ class _SignInPage1State extends State<SignInPage1> {
                                     controller: _emailController,
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        hintText: "Email",
+                                        hintText: "Email".tr(),
                                         errorText: errorMessage,
                                         hintStyle:
                                             TextStyle(color: Colors.grey[400])),
@@ -201,7 +201,7 @@ class _SignInPage1State extends State<SignInPage1> {
                                     controller: _passwordController,
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        hintText: "Password",
+                                        hintText: "Password".tr(),
                                         errorText: errorMessage,
                                         hintStyle:
                                             TextStyle(color: Colors.grey[400])),
@@ -342,7 +342,7 @@ class _SignInPage1State extends State<SignInPage1> {
             : StaffLanding(token: token1));
       } else
         setState(() {
-          errorMessage = "please inter proper data";
+          errorMessage = "please inter proper data".tr();
         });
     } on FirebaseAuthException catch (e) {
       // Display error message on failed sign in

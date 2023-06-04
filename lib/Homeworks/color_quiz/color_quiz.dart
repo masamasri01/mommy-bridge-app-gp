@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 import 'dart:math';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class ColorsQuizState extends State<ColorsQuiz> {
   ];
   Random _random = new Random();
   Map<String, dynamic> _color = {};
-  String _question = "What color is this?";
+  String _question = "What color is this?".tr();
   bool _showAnswer = false;
   Locale? currentLocale;
   @override
@@ -56,7 +57,7 @@ class ColorsQuizState extends State<ColorsQuiz> {
     setState(() {
       _color = _colors[_random.nextInt(_colors.length)];
       Provider.of<QuizProvider>(context, listen: false).setCurrentColor(_color);
-      _question = "What color is this?";
+      _question = "What color is this?".tr();
       _showAnswer = false;
       playSpecificSound(
           (currentLocale == Locale('en')) ? "whatcolor.mp3" : "whatcolorA.mp3");
@@ -120,7 +121,7 @@ class ColorsQuizState extends State<ColorsQuiz> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  child: Text('Cheat Answer'),
+                  child: Text('Cheat Answer'.tr()),
                   onPressed: () {
                     setState(() {
                       _playSound();
@@ -133,7 +134,7 @@ class ColorsQuizState extends State<ColorsQuiz> {
                 ),
                 SizedBox(height: 2.0),
                 ElevatedButton(
-                  child: Text('Next Question=>'),
+                  child: Text('Next Question=>'.tr()),
                   onPressed: () => generateQuestion(),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF9AA7FF)),
@@ -149,8 +150,8 @@ class ColorsQuizState extends State<ColorsQuiz> {
 
 isTrueAnswer(String recognized, String color) {
   if (recognized.toLowerCase().contains(color.toLowerCase()) ||
-      recognized == toArablic(color)) return true;
-
+      recognized.contains(toArablic(color)) ||
+      toArablic(color).contains(recognized)) return true;
   int diffs = 0;
   for (int i = 0; i < color.length; i++) {
     if (recognized[i] != color[i]) {

@@ -1,5 +1,5 @@
 const url = 'http://192.168.1.9:3000/';
-
+const endpoint = '192.168.1.9:3000';
 final loginMom = url + 'loginMom';
 final loginTeacher = url + 'loginTeacher';
 
@@ -32,6 +32,11 @@ const getChildData = url + "child/";
 const updateChildAddress = url + "updateChildAddress";
 const updateChildImage = url + "updateChildImage";
 const getChildMomData = url + "child/";
+const getannouncements = url + "announcements";
+const getmeals = url + "meals/";
+const getNaps = url + "naps/";
+const getAccidents = url + "accidents/";
+
 //router.patch('/child/:id/hobby',UserController.addChildHobby)
 //router.patch('/child/:id/allergy',UserController.addChildAllergy)
 

@@ -141,7 +141,7 @@ class StaffHomePage extends StatelessWidget {
                 gridTile(
                     icon_: const Icon(Icons.book_sharp),
                     onPressed: routHomework,
-                    title: 'Homeworks'.tr()),
+                    title: 'Games'.tr()),
                 gridTile(
                     icon_: const Icon(Icons.book_sharp),
                     onPressed: routAnalysis,

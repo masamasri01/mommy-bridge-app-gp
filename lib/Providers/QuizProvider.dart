@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:gp/UI/staff_functionalities/Analysis/graph.dart';
 import 'dart:convert';
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:gp/practice%20db/config.dart';
 import 'package:http/http.dart' as http;
@@ -57,24 +58,26 @@ class QuizProvider extends ChangeNotifier {
   }
 
   /**********************  Animals Quiz****************** */
-  int shapesPlayedTimes = 2;
+  int shapesPlayedTimes = 70;
   int colorsPlayedTimes = 10;
 
-  int animalsPlayedTimes = 20;
+  int animalsPlayedTimes = 40;
 
   int seasonsPlayedTimes = 50;
-  int voicesPlayedTimes = 6;
+  int voicesPlayedTimes = 16;
   getno() {
     return colorsPlayedTimes;
   }
 
   List<Map<String, dynamic>> mylist = [];
   fillListOfMaps() {
-    mylist.add({"game": "colors", 'noTimes': colorsPlayedTimes});
-    mylist.add({"game": "shapes", 'noTimes': shapesPlayedTimes});
-    mylist.add({"game": "animals", 'noTimes': animalsPlayedTimes});
-    mylist.add({"game": "seasons", 'noTimes': seasonsPlayedTimes});
-    mylist.add({"game": "voices", 'noTimes': voicesPlayedTimes});
+    mylist.add({"game": "colors".tr(), 'noTimes': colorsPlayedTimes});
+    mylist.add({"game": "shapes".tr(), 'noTimes': shapesPlayedTimes});
+    mylist.add({"game": "animals".tr(), 'noTimes': animalsPlayedTimes});
+    mylist.add({"game": "seasons".tr(), 'noTimes': seasonsPlayedTimes});
+    mylist.add({"game": "voices".tr(), 'noTimes': voicesPlayedTimes});
+    mylist.add({"game": "Habitats".tr(), 'noTimes': 100});
+    mylist.add({"game": "Q&A".tr(), 'noTimes': voicesPlayedTimes});
   }
 
   late List<BarChartModel> data;

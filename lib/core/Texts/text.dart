@@ -30,6 +30,23 @@ boldText(String word) {
   );
 }
 
+boldWhiteText(String word) {
+  return Container(
+    margin: EdgeInsets.only(left: 20),
+    child: Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        word,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+    ),
+  );
+}
+
 boldText2(String word) {
   return Container(
     child: Text(

@@ -117,9 +117,111 @@
   "No conversion found":"No conversion found",
   "Enter Message":"Enter Message",
   "Sign In":"Sign In",
-
-
+   "Games":"Games",
+  "Material":"Material",
+  "Analysis":"Analysis",
+  "Q&A":"Q&A",
+  "Habitats":"Habitats",
+ "Animals voices":"Animals voices",
+ "Drawing":"Drawing",
+ "Seasons":"Seasons",
+ "Animals":"Animals",
+ "Shapes":"Shapes",
+ "Colors":"Colors",
 "My Children2":"Pick one of your children to edit their details" 
+,
+"Right  Answer :)":"Right  Answer :)",
+"Wrong  Answer :(":"Wrong  Answer :(",
+"Your Score =":"Your Score =",
+"What Animal is this?":"What Animal is this?",
+"Cheat Answer":"Cheat Answer",
+"Next Question=>":"Next Question=>",
+"What Shape is this?":"What Shape is this?",
+"What color is this?":"What color is this?",
+
+"please inter proper data":"please inter proper data",
+"Password":"Password",
+"Shapes Quiz":"Shapes Quiz",
+"Colors Quiz":"Colors Quiz",
+"Animals Quiz":"Animals Quiz",
+"Language: ":"Language: ",
+"Click on animal to hear sound":"Click on animal to hear sound",
+"Matching Game":"Animals Habitats",
+"Get Answer":"Get Answer",
+"Start Speaking":"Start Speaking",
+"Stop Speaking":"Stop Speaking",
+"Answer -play sound":"Answer -play sound",
+"Questions & Answers":"Questions & Answers",
+"Points":"Points",
+"Played Times / Game":"Played Times / Game",
+"Leaderboard":"Leaderboard",
+"colors":"colors",
+"shapes":"shapes",
+"animals":"animals",
+"seasons":"seasons"
+,
+"voices":"voices"
+,
+
+
+"played times":"played times",
+"This meditation started at:":"This meditation started at:",
+"and should be taken for :":"and should be taken for :",
+"days":"days",
+
+"Other details/ instructions:":"Other details/ instructions:",
+
+"Mom Details":"Mom Details",
+
+"click to see mom's details":"click to see mom's details",
+
+"Food Allergies from":"Food Allergies from",
+
+"My Details":"My Details",
+
+"My Children":"My Children",
+
+"Monthly Reports":"Monthly Reports",
+
+"Games & Quizzes":"Games & Quizzes",
+
+"Choose whom to see their report":"Choose whom to see their report",
+
+"whom child is playing?":"whom child is playing?",
+
+"Report":"Report",
+
+"Child Name:":"Child Name:",
+
+"Report of month Month:":"Report of Month:",
+
+"Consumed Quantityies of Meals":"Consumed Quantityies of Meals",
+
+"Repeated times":"Repeated times",
+
+"Quantity":"Quantity",
+
+"َNaps":"َNaps",
+"Total Hours of naps slept:":"Total Hours of naps slept:",
+
+"hours and ":"hours and ",
+"minuites":"minuites",
+"Average slept Hours of naps per day:":"Average slept Hours of naps per day:",
+
+"Number of days child attended this month:":"Number of days child attended this month:",
+"Number of days child was absent this month:":"Number of days child was absent this month:",
+"Teacher Notes:":"Teacher Notes:",
+"Nothing":"Nothing",
+"Quarter":"Quarter",
+"Half":"Half",
+"Full":"Full",
+"":"",
+"":"",
+"":"",
+"":"",
+"":""
+
+
 
 
 } 

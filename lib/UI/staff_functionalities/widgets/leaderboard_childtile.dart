@@ -1,12 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gp/core/Colors/colors.dart';
 import 'package:gp/core/Texts/text.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ChildTileLeaderboard extends StatelessWidget {
   String name;
-  String image;
+  Uint8List? image;
   int index;
   int points;
 
@@ -37,21 +39,14 @@ class ChildTileLeaderboard extends StatelessWidget {
             children: [
               Center(
                 child: CircleAvatar(
-                  child: ClipOval(
-                      child:
-                          // Image.network(
-                          //   image,
-                          //   width: 100,
-                          //   height: 100,
-                          //   fit: BoxFit.fill,
-                          // ),
-                          Container(
-                    decoration: BoxDecoration(color: MyColors.color4),
-                  )),
+                  backgroundImage:
+                      MemoryImage(Uint8List.fromList((image!).cast<int>())),
                   backgroundColor: Colors.transparent,
                 ),
               ),
-
+              SizedBox(
+                width: 10,
+              ),
               Text(
                 name,
                 style: TextStyle(
@@ -60,7 +55,7 @@ class ChildTileLeaderboard extends StatelessWidget {
                     fontSize: 16),
               ),
               SizedBox(
-                width: 100,
+                width: 80,
               ),
               // Checkbox(
               //   value: false,
@@ -68,7 +63,7 @@ class ChildTileLeaderboard extends StatelessWidget {
               // )
             ],
           ),
-          boldPinkText("${this.points.toString()} Points")
+          boldPinkText("${this.points.toString()} " + "Points".tr())
         ],
       ),
     );

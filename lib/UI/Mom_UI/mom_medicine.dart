@@ -171,7 +171,7 @@ class _MedicineDetailsState extends State<MedicineDetails> {
                   itemBuilder: (context, index) {
                     final medicine = medicines[index];
                     final childName =
-                        'Fathi Mohammad'; // Provide the actual child name
+                        'Yara Jabr'; // Provide the actual child name
                     final medName = medicine[
                         'medicineName']; // Assuming 'medicineName' is the key for the medicine name
                     final details = medicine[

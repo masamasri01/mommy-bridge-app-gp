@@ -156,7 +156,7 @@ class cc extends StatelessWidget {
         //           displayColor: Colors.black,
         //         ))
       ),
-      home: SignInPage1(),
+      home: IntroScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

@@ -9,9 +9,10 @@ import 'package:gp/UI/Mom_UI/MomProfile.dart';
 import 'package:gp/chat/chat_home_page.dart';
 import 'package:gp/core/Colors/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class MomHomePage extends StatefulWidget {
-  final token;
+  String token;
   MomHomePage({super.key, required this.token});
 
   @override
@@ -20,6 +21,7 @@ class MomHomePage extends StatefulWidget {
 
 class _MomHomePage extends State<MomHomePage> {
   int _currentIndex = 1;
+
   final List<Widget> _views = [
     Feed(),
     ActivitiesFeed(),

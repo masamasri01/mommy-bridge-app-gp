@@ -80,7 +80,9 @@ class MomProfileView extends StatelessWidget {
               subtitle: "Check if there's an important announcement".tr(),
               icon: Icon(Icons.announcement),
               color: MyColors.color2,
-              onPressed: (() {
+              onPressed: (() async {
+                await Provider.of<MomProvider>(context, listen: false)
+                    .fetchAnnouncements();
                 AppRouter.appRouter.goToWidget(AnnouncementView());
               }),
             ),

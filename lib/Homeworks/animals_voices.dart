@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gp/UI/widgets/custom_appBar.dart';
 import './playSound.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AnimalsVoices extends StatelessWidget {
   final List<String> animals = [
@@ -17,7 +18,7 @@ class AnimalsVoices extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ab(
-        ('Click on animal to hear sound'),
+        ('an'.tr()),
       ),
       body: GridView.count(
         crossAxisCount: 2,

@@ -28,8 +28,8 @@ class QuizGridTile extends StatelessWidget {
       child: Stack(children: [
         Container(
             margin: EdgeInsets.all(2),
-            padding: EdgeInsets.all(10),
-            height: 210,
+            padding: EdgeInsets.all(1),
+            height: 260,
             width: MediaQuery.of(context).size.width / 2,
             decoration: BoxDecoration(
                 border: Border.all(
@@ -46,7 +46,7 @@ class QuizGridTile extends StatelessWidget {
               children: [
                 GridTile(
                     child: Container(
-                  height: 50,
+                  height: 70,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(360),

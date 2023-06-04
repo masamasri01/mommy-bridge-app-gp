@@ -90,6 +90,7 @@
   "Check if there's an important announcement":"افحص ان كان هناك اعلانات جديدة ",
   "Add medicine details for your children":"أضف تفاصيل أدوية أطفالك",
   "Accident type:":"نوع الحادث:",
+  
   "Accident/Incident":"حاث",
   "Meal type:":"نوع الوجبة:",
   "Meal name:":"اسم الوجبة:",
@@ -117,9 +118,107 @@
   "No conversion found":"لا يوجد محادثات",
   "Enter Message":"أدخل رسالة",
   "Sign In":"تسجيل الدّخول",
+  "Games":"الألعاب",
+  "Material":"مواد اثرائية",
+  "Analysis":"تحليلات",
+  "Q&A":"اسئلة وأجوبة",
+  "Habitats":"مسكن الحيوانات",
+ "Animals voices":"أصوات الحيوانات",
+ "Drawing":"رسم",
+ "Seasons":"الفصول",
+ "Animals":"الحيوانات",
+ "Shapes":"الأشكال",
+ "Colors":"الألوان",
 
   "My Children2":"اختر أحد أطفالك لتعديل البيانات الخاصة به/ا" 
+  ,
+  "Right  Answer :)":"جواب صحيح :)",
+  "Wrong  Answer :(":"حاول مرة أخرى:(",
+  "Your Score =":"نقاطك: ",
+  "What Animal is this?":"ما اسم هذا الحيون",
+  "Cheat Answer":"اسمع الجواب",
+  "Next Question=>":"تخظّى",
+  "What Shape is this?":"ما هذا الشّكل؟",
+  "What color is this?":"ما هذا اللون؟",
+  "Quizzes & Games":"العاب واختبارات",
+  
+"please inter proper data":"الرجاء ادخال بيانات صحيحة",
+"Password":"كلمة السّر",
+
+"Shapes Quiz":"اختبار الأشكال",
+"Colors Quiz":"اختبار الألوان",
+"Animals Quiz":"اختبار الحيوانات",
+"Language: ":"اللغة: ",
+"Click on animal to hear sound":"اضغط لسماع الصوت",
+"Matching Game":"مسكن الحيوانات",
+"Get Answer":"احصل على الاجابة",
+"Start Speaking":"ابدأ الكلام",
+"Stop Speaking":"انهي الكلام الكلام",
+"Answer -play sound":"اسمع الجواب",
+"Questions & Answers":"أسئلة وأجوبة"
+,
+"colors":"ألوان",
+"shapes":"أشكال",
+"animals":"حيوانات",
+"seasons":"فصول"
+,
+"voices":"أصوات"
+,"Points":"النقاط",
+"Played Times / Game":"مرات اللعب لكل لعبة",
+"Leaderboard":"النتائج",
 
 
+"played times":"مرات اللعب",
+"This meditation started at:":"هذا العلاج بدأ بتاريخ :",
+"and should be taken for :":"ويجب أخذه لمدّة: ",
+"days":"",
+
+"Other details/ instructions:":"توجيهات اضافية:",
+
+"Mom Details":"معلومات الأم",
+
+"click to see mom's details":"اضغط لرؤية معلومات أم هذا الطفل",
+
+"Food Allergies from":"يملك حساسية من:",
+
+"My Details":"معلوماتي",
+
+"My Children":"أطفالي",
+
+"Monthly Reports":"تقارير شهرية",
+
+"Games & Quizzes":"العاب واختبارات",
+
+"Choose whom to see their report":"اختر طفل لرؤية تقريره",
+
+"whom child is playing?":"من الطفل الذي يلعب؟",
+
+"Report":"التقرير",
+
+"Child Name:":"اسم الطفل",
+
+"Report of month Month:":"تقرير شهر:",
+
+"Consumed Quantityies of Meals":"المية المستهلكة من الوجبات",
+
+"Repeated times":"التّكرار",
+
+"Quantity":"الكمية",
+
+"َNaps":"َالغفوات",
+"Total Hours of naps slept:":"مجموع ساعات النّوم",
+
+"hours and ":"ساعات و",
+"minuites":"دقائق",
+"Average slept Hours of naps per day:":"معدّل ساعات النوم في اليوم",
+
+"Number of days child attended this month:":"عدد أيّام الحضور",
+"Number of days child was absent this month:":"عدد أيام الغياب",
+"Teacher Notes:":"ملاحظات المربية:",
+"Nothing":"لا شيء",
+"Quarter":"ربع",
+"Half":"نصف",
+"Full":"كامل",
+"amount:":"الكمية"
 
 } 

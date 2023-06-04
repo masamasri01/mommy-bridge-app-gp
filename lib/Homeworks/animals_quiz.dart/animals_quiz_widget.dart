@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:easy_localization/easy_localization.dart';
 
 import 'dart:math';
 
@@ -30,7 +31,7 @@ class AnimalsQuizState extends State<AnimalsQuiz> {
   ];
   Random _random = new Random();
   Map<String, dynamic> _animal = {};
-  String _question = "What Animal is this?";
+  String _question = "What Animal is this?".tr();
   bool _showAnswer = false;
   Locale? currentLocale;
   @override
@@ -57,7 +58,7 @@ class AnimalsQuizState extends State<AnimalsQuiz> {
       _animal = _animals[_random.nextInt(_animals.length)];
       Provider.of<QuizProvider>(context, listen: false)
           .setCurrentAnimal(_animal);
-      _question = "What Animal is this?";
+      _question = "What Animal is this?".tr();
       _showAnswer = false;
 
       playSpecificSound((currentLocale == Locale('en'))
@@ -85,7 +86,7 @@ class AnimalsQuizState extends State<AnimalsQuiz> {
               style: TextStyle(fontSize: 24.0),
             ),
             Container(
-                height: 210,
+                height: 200,
                 child: Image.asset(
                     'assets/images/animalsGame/${_animal['name']}.png')),
             SizedBox(height: 2.0),
@@ -108,7 +109,7 @@ class AnimalsQuizState extends State<AnimalsQuiz> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    child: Text('Cheat Answer'),
+                    child: Text('Cheat Answer'.tr()),
                     onPressed: () {
                       setState(() {
                         _playSound();
@@ -121,7 +122,7 @@ class AnimalsQuizState extends State<AnimalsQuiz> {
                   ),
                   SizedBox(height: 2.0),
                   ElevatedButton(
-                    child: Text('Next Question=>'),
+                    child: Text('Next Question=>'.tr()),
                     onPressed: () => generateQuestion(),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF9AA7FF)),
@@ -138,7 +139,8 @@ class AnimalsQuizState extends State<AnimalsQuiz> {
 
 isTrueAnswerr(String recognized, String animal) {
   if (recognized.toLowerCase().contains(animal.toLowerCase()) ||
-      toArablic(animal).contains(recognized)) return true;
+      recognized.contains(toArablic(animal.toLowerCase())) ||
+      toArablic(animal.toLowerCase()).contains(recognized)) return true;
 
   int diffs = 0;
   for (int i = 0; i < animal.length; i++) {
@@ -152,19 +154,20 @@ isTrueAnswerr(String recognized, String animal) {
   return diffs > 2;
 }
 
-toArablic(animal) {
+String toArablic(animal) {
   switch (animal) {
     case 'bird':
-      return "  عصفوره عصفور";
+      return "عصفوره عصفور";
     case 'turtle':
       return "سلحفاه";
     case 'horse':
       return "حصان";
     case 'cat':
-      return "قطه قط";
+      return "قط";
     case 'dog':
       return "كلب";
     case 'fish':
       return "سمكة سمك";
   }
+  return '';
 }

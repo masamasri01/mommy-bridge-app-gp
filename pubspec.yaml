@@ -59,6 +59,7 @@ dependencies:
   charts_flutter: ^0.12.0
   http: ^0.13.5
   jwt_decoder: ^2.0.1
+  text_to_speech: ^0.2.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -87,6 +88,7 @@ flutter:
     - assets/images/colorsGame/
     - assets/images/animalsGame/
     - assets/images/dragDrop/
+    - assets/images/dragDrop2/
     - assets/
     
   # To add assets to your application, add an assets section, like this:
