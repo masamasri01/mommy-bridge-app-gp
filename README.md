@@ -74,3 +74,92 @@ calculated for the
 teacher.
 ![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/0798945f-6432-4197-9465-7b2e1f8d4d32)
 .
+● Posting an activity to be viewed with a date picker on Feed.
+![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/81087609-8935-4a25-a52f-bf4bf250a215)
+.
+● every teacher would need to look at their class
+children’s details and their mom’s information, which is
+provided at mom’s section:.
+![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/d72cf392-8d83-4879-988d-b2802c4bffb3)
+.
+2- Logging in as Mom
+the bottom navbar navigates to four different pages
+● the Feed page where a mom sees her children’s activities on
+any specific day.
+● a section to view naps,accidents and meals token.
+● a chat section
+● A page for multiple functionalities as editing personal
+information of her and her children, adding medicine, viewing
+announcements.
+![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/c95ba5c1-70cf-4972-8da8-c661de8aefe5)
+.
+what is even more important, is to add her children’s details,
+hobbies and preferences and allergies, to ensure that the nursery
+staff have comprehensive information about each child. This
+information helps the staff in creating a safe and personalized
+environment for the child, understanding their interests and
+preferences, and taking necessary precautions regarding allergies or
+sensitivities.
+![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/f5d8c25f-95ad-4662-b81f-38cbc113a243)
+.
+● Adding Medicine prescription:
+can add medicine as two types, if its a daily medicine then the (for how
+many days) disappears,
+else it requires the number of days this medicine should be tokenized, and
+the app automatically would store the starting date and calculate days
+left to take this medicine for the teacher.
+![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/4147ebda-803c-409c-a565-c3b5821cce74)
+.
+● Monthly Reports for Mom:
+![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/fcab20f7-a40b-42b8-874d-459c72719391)
+.
+● Games & Quizzes Section:
+Colors, Shapes and animals quizzes require initializing
+the microphone and speaking, the app recognizes the
+spoken words and compares them to the right answer,
+then it plays sound “wrong answer” or “good Job”, if the
+answer was true, “good Job” sound will be played and
+the other quiz will appear , also the points will increase,
+otherwise “Wrong Answer” sound will be played and
+the same quiz will be replayed for a child to try again,
+also the points/score will decrease by one.
+There's also the cheat answer button which plays the
+right answer for the child to learn.
+1- Colors Quiz.
+
+![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/6c2c6dce-ec53-4f5c-b128-9d0da8100561)
+.
+2- Animals Quiz
+![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/ddc3b9fb-9c1b-4514-a89a-58faf655d36b)
+.
+3- Shapes Quiz:
+.
+![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/6bc35451-b8af-4751-bcba-6480c064eff2)
+.
+4- Drag & Drop
+*seasons-Clothes Matching Quiz
+*Animals Habitats Matching Quiz
+![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/f27f1be5-7f04-42a6-bfd4-0c738c171b03)
+.
+5- Drawing Game:
+The child can draw with any color they like and also can
+clear the drawing and take a shot at it, and the drawing will
+be saved as photos.
+![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/e9d1a2ab-ab58-460c-962b-259b42dc171b)
+.
+6- Animals voices
+the app will play the sound of the animal clicked on.
+![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/1d313a58-9ca2-4184-b872-e9a3064405de)
+.
+7- Whats is and Who is
+Since children have literally unlimited questions, this section
+helps them to ask by voice recognition, and answers them
+in voice such as if they’re talking.
+we used DuckDuckGo external api with options of souce
+wikipedia for safe answers.
+![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/91bf3cd9-65e7-4c00-9ed9-289adc123600)
+● Analysis of Games
+Here we can see analysis to know which games do kids play more, to
+analyze their progress, and to enhance the spirit of competition among
+children through the leaderboard. so they can play more and learn more.
+![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/ade157a2-b959-428f-8593-cdc78f07a13b)
