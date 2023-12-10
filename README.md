@@ -36,3 +36,41 @@ personal details and profile photo,
 ● commands to add and share activities.
 ![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/6238e3ed-9857-4586-8bd7-d5401a5a0f7d)
 .
+
+ The chat section
+provides a chat search to reach any user at the
+platform easily, last seen time and shows recent users
+that you’re most likely to talk to.
+![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/9eea5404-27da-4e99-b073-42340540c2c8)
+.
+● Recording meals,naps and accidents.
+![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/4d5dd2f0-f504-41eb-b012-877728f93b80)
+.
+●After posting them, a notification to mom will
+be sent to mothers of children chosen.
+![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/695e2655-767b-4aba-9c2e-65d69cd8325b)
+.
+●Announcing, recording attendance
+.
+![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/79edc47f-e8b5-404b-908b-c5cb2a1b3c27)
+.
+●Viewing class
+children’s medicine
+details, which added
+by their moms.
+Some medicine types are
+daily, others are for a
+specific number of days.
+Mom enters the number
+of days that should this
+medicine be token, and
+the starting date is stored
+automatically as the date
+the details are entered at,
+by then, number of days
+left to take this medicine
+is automatically
+calculated for the
+teacher.
+![image](https://github.com/masamasri01/mommy-bridge-app-gp/assets/93089580/0798945f-6432-4197-9465-7b2e1f8d4d32)
+.
