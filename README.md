@@ -3,7 +3,7 @@
 
  The Backend of this project https://github.com/masamasri01/mommyBridge-BE/tree/main.
  The demo of the mobile app and games on this link https://drive.google.com/drive/u/1/folders/1kMut-e6HFk4yQxIxK-oz39ZNIZBXDwHE
- <br />This project introduces an app designed to enhance
+This project introduces an app designed to enhance
 communication and connection between nursery schools,
 parents, and teachers. The app provides real-time updates and
 secure messaging, allowing parents to stay informed about their
