@@ -1,8 +1,8 @@
 #   n u r s e r y - s c h o o l - g p <br />
 
 
- The Backend of this project https://github.com/masamasri01/mommyBridge-BE/tree/main.
- The demo of the mobile app and games on this link https://drive.google.com/drive/u/1/folders/1kMut-e6HFk4yQxIxK-oz39ZNIZBXDwHE
+ The Backend of this project https://github.com/masamasri01/mommyBridge-BE/tree/main.<br />
+ The demo of the mobile app and games on this link https://drive.google.com/drive/u/1/folders/1kMut-e6HFk4yQxIxK-oz39ZNIZBXDwHE<br />
  This project introduces an app designed to enhance
 communication and connection between nursery schools,
 parents, and teachers. The app provides real-time updates and
@@ -14,7 +14,7 @@ children to engage in friendly competition. The aim is to improve
 parental involvement, streamline administrative tasks, and foster
 smoother communication between parents and teachers.
 <br />
-![Screenshot 2023-12-10 222048](https://github.com/masamasri01/mommy-bridge-app-gp/blob/main/assets/93089580/fc73fb11-018e-4773-974a-acee10c30b2f.png)
+
 <br />
 First,and for the first time running this app, it starts with
 beautiful and colorful photos of happy kids photos at the
